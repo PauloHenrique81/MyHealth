@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'SignInOne.dart';
-
 class PreLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class PreLogin extends StatelessWidget {
                 padding: EdgeInsets.only(top: 20),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('LoginMedico');
+                    Navigator.of(context).pushNamed('LoginPaciente');
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

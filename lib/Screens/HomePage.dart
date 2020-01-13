@@ -1,7 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealth/class/UserDetails.dart';
 
 class HomePage extends StatelessWidget {
+  final UserDetails detailsUser;
+
+  HomePage({Key key, @required this.detailsUser}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,12 +15,14 @@ class HomePage extends StatelessWidget {
           primaryColor: defaultTargetPlatform == TargetPlatform.iOS
               ? Colors.grey[50]
               : null),
-      home: new _HomePage(),
+      home: new _HomePage(detailsUser: detailsUser),
     );
   }
 }
 
 class _HomePage extends StatelessWidget {
+  final UserDetails detailsUser;
+  _HomePage({Key key, @required this.detailsUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
