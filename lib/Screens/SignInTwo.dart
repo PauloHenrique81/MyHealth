@@ -12,7 +12,6 @@ class SignInTwo extends StatelessWidget {
   Future<FirebaseUser> _signIn(BuildContext context) async {
     GoogleSignInAccount _user = _googleSignIn.currentUser;
     FirebaseUser _userDetails;
-    //if (_user == null) _user = await _googleSignIn.signInSilently();
     if (_user == null) _user = await _googleSignIn.signIn();
 
     if (await _firebaseAuth.currentUser() == null) {
@@ -37,9 +36,11 @@ class SignInTwo extends StatelessWidget {
     UserDetails details = new UserDetails(
         _userDetails.providerId,
         _userDetails.displayName,
-        _userDetails.photoUrl,
         _userDetails.email,
+        _userDetails.photoUrl,
         providerData);
+
+    print(details);
 
     Navigator.of(context).pushNamed('HomePage', arguments: details);
 

@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealth/Screens/SignInTwo.dart';
 import 'package:myhealth/class/UserDetails.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatelessWidget {
   final UserDetails detailsUser;
@@ -23,22 +26,34 @@ class HomePage extends StatelessWidget {
 class _HomePage extends StatelessWidget {
   final UserDetails detailsUser;
   _HomePage({Key key, @required this.detailsUser}) : super(key: key);
+  final GoogleSignIn _gSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         title: new Text("MyHelth"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
+            color: Colors.white,
+            onPressed: () {
+              _gSignIn.signOut();
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new SignInTwo()));
+            },
+          ),
+        ],
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
       drawer: new Drawer(
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text("Usuario"),
-              accountEmail: new Text("usuario@gmail.com"),
+              accountName: new Text(detailsUser.userName),
+              accountEmail: new Text(detailsUser.userEmail),
               currentAccountPicture: new CircleAvatar(
-                backgroundColor: Colors.white,
-                child: new Text("P"),
+                backgroundImage: NetworkImage(detailsUser.photoUrl),
               ),
             ),
             new ListTile(
