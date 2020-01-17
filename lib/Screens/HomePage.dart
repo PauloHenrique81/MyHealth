@@ -4,6 +4,7 @@ import 'package:myhealth/Screens/SignInTwo.dart';
 import 'package:myhealth/class/UserDetails.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myhealth/route_genarator.dart';
 
 class HomePage extends StatelessWidget {
   final UserDetails detailsUser;
@@ -19,6 +20,7 @@ class HomePage extends StatelessWidget {
               ? Colors.grey[50]
               : null),
       home: new _HomePage(detailsUser: detailsUser),
+      onGenerateRoute: RouteGenarator.genareteRoute,
     );
   }
 }
@@ -63,6 +65,8 @@ class _HomePage extends StatelessWidget {
             new ListTile(
               title: new Text("Consultas"),
               trailing: new Icon(Icons.receipt),
+              onTap: () =>
+                  Navigator.of(context).pushNamed('ListagemDeConsultas'),
             ),
             new ListTile(
               title: new Text("teste2"),
