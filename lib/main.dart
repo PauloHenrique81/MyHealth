@@ -8,8 +8,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyHealth',
-      initialRoute: 'PreLogin',
+      initialRoute: 'EdicaoDeConsulta',
       onGenerateRoute: RouteGenarator.genareteRoute,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

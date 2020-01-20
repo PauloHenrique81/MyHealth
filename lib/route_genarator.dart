@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
 import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
 import 'package:myhealth/Screens/HomePage.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
@@ -21,6 +22,8 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => PreLogin());
       case 'ListagemDeConsultas':
         return MaterialPageRoute(builder: (_) => ListagemDeConsultas());
+      case 'EdicaoDeConsulta':
+        return MaterialPageRoute(builder: (_) => EdicaoDeConsulta());
       case 'HomePage':
         //Validation of correct data type
         if (args is UserDetails) {
