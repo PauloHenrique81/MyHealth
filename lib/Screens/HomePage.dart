@@ -65,8 +65,7 @@ class _HomePage extends StatelessWidget {
             new ListTile(
               title: new Text("Consultas"),
               trailing: new Icon(Icons.receipt),
-              onTap: () =>
-                  Navigator.of(context).pushNamed('ListagemDeConsultas'),
+              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultas'),
             ),
             new ListTile(
               title: new Text("teste2"),

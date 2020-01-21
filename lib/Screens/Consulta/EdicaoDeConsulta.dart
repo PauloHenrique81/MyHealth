@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:myhealth/class/Consulta.dart';
+import 'package:myhealth/class/database.dart';
 
 class EdicaoDeConsulta extends StatefulWidget {
   final Consulta consulta;
@@ -15,6 +16,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   Consulta _consultaEdicao;
   bool _userEdited = false;
   bool _novaConsulta = false;
+
+  DatabaseService conectionDB = new DatabaseService();
 
   final _nomeMedicoController = TextEditingController();
   final _especialidadeController = TextEditingController();
@@ -36,6 +39,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
       _novaConsulta = true;
     } else {
       _consultaEdicao = widget.consulta;
+
       _nomeMedicoController.text = _consultaEdicao.nomeDoMedico;
       _especialidadeController.text = _consultaEdicao.especialidade;
       _dataController.text = _consultaEdicao.data;
@@ -58,7 +62,14 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          conectionDB.cadastraConsulta(
+              '112',
+              _nomeMedicoController.text,
+              _dataController.text,
+              _horaController.text,
+              _localController.text);
+        },
         child: Icon(Icons.save),
         backgroundColor: Colors.deepPurple,
       ),

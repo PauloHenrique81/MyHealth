@@ -9,7 +9,7 @@ class DatabaseService {
       Firestore.instance.collection("consultas");
 
   // RETORNA UMA LISTA DE CONSULTAS
-  List<Consulta> _consultaListFromSnapshot(QuerySnapshot snapshot) {
+  List<Consulta> consultaListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return Consulta(
         idUser: doc.data['idUser'] ?? '',
@@ -28,27 +28,63 @@ class DatabaseService {
     }).toList();
   }
 
+  Future listaDeConsultas() async {
+    Consulta consulta = new Consulta();
+    List<Consulta> consultas = new List<Consulta>();
 
-  void _cadastraConsulta(String idUser, String nomeDoMedico, String data, String horario, String local, {String especialidade} ){
-    consultaCollection.document().setData((){
-        'idUser': idUser ,
-        'nomeDoMedico'
-        'especialidade'
-        'data'
-        'horario'
-        'local'
-        'diagnostico'
-        'exames'
-        'medicamentos'
-        'formaDePagamento'
-        'valor'
-        'status'
+    var snapshots = await consultaCollection.getDocuments();
+    snapshots.documents.forEach((d) {
+      consulta = new Consulta(
+          idUser: d.data['idUser'],
+          nomeDoMedico: d.data['nomeDoMedico'],
+          especialidade: d.data['especialidade'] ?? '',
+          data: d.data['data'],
+          horario: d.data['horario'],
+          local: d.data['local'],
+          diagnostico: d.data['diagnostico'] ?? '',
+          exames: d.data['exames'] ?? '',
+          medicamentos: d.data['medicamentos'] ?? '',
+          formaDePagamento: d.data['formaDePagamento'] ?? '',
+          //valor: d.data['valor'] ?? 0.0,
+          status: d.data['status'] ?? '');
+      consultas.add(consulta);
     });
+
+    return consultas;
   }
 
+  Future cadastraConsulta(String idUser, String nomeDoMedico, String data,
+      String horario, String local,
+      {String especialidade,
+      String diagnostico,
+      String exames,
+      String medicamentos,
+      String formaDePagamento,
+      double valor,
+      String status}) {
+    try {
+      consultaCollection.document().setData({
+        'idUser': idUser,
+        'nomeDoMedico': nomeDoMedico,
+        'especialidade': especialidade ?? '',
+        'data': data,
+        'horario': horario,
+        'local': local,
+        'diagnostico': diagnostico ?? '',
+        'exames': exames ?? '',
+        'medicamentos': medicamentos ?? '',
+        'formaDePagamento': formaDePagamento ?? '',
+        'valor': valor ?? (0).toDouble(),
+        'status': status ?? ''
+      });
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
-
-  Stream<List<Consulta>> get consultas {
-    return consultaCollection.snapshots().map(_consultaListFromSnapshot);
+  Stream<List<Consulta>> get allConsultas {
+    print(consultaCollection.snapshots().map(consultaListFromSnapshot));
+    return consultaCollection.snapshots().map(consultaListFromSnapshot);
   }
 }

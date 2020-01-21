@@ -6,6 +6,7 @@ import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/SignInOne.dart';
 import 'package:myhealth/Screens/SignInTwo.dart';
 
+import 'class/Consulta.dart';
 import 'class/UserDetails.dart';
 
 class RouteGenarator {
@@ -23,13 +24,15 @@ class RouteGenarator {
       case 'ListagemDeConsultas':
         return MaterialPageRoute(builder: (_) => ListagemDeConsultas());
       case 'EdicaoDeConsulta':
-        return MaterialPageRoute(builder: (_) => EdicaoDeConsulta());
+        if (args is Consulta) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeConsulta(consulta: args));
+        }
+        return _errorRoute();
       case 'HomePage':
-        //Validation of correct data type
         if (args is UserDetails) {
           return MaterialPageRoute(builder: (_) => HomePage(detailsUser: args));
         }
-
         return _errorRoute();
 
       default:
