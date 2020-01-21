@@ -1,7 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myhealth/class/ProviderDetails.dart';
+import 'package:myhealth/class/UserDetails.dart';
 
 class SignInTwo extends StatelessWidget {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = new GoogleSignIn();
+
+  Future<FirebaseUser> _signIn(BuildContext context) async {
+    GoogleSignInAccount _user = _googleSignIn.currentUser;
+    FirebaseUser _userDetails;
+    if (_user == null) _user = await _googleSignIn.signIn();
+
+    if (await _firebaseAuth.currentUser() == null) {
+      GoogleSignInAuthentication credentials =
+          await _googleSignIn.currentUser.authentication;
+
+      AuthResult _authResult = await _firebaseAuth.signInWithCredential(
+          GoogleAuthProvider.getCredential(
+              idToken: credentials.idToken,
+              accessToken: credentials.accessToken));
+
+      _userDetails = _authResult.user;
+    } else {
+      _userDetails = await _firebaseAuth.currentUser();
+    }
+
+    ProviderDetails providerInfo = new ProviderDetails(_userDetails.providerId);
+
+    List<ProviderDetails> providerData = new List<ProviderDetails>();
+    providerData.add(providerInfo);
+
+    UserDetails details = new UserDetails(
+        _userDetails.providerId,
+        _userDetails.displayName,
+        _userDetails.email,
+        _userDetails.photoUrl,
+        providerData);
+
+    print(details);
+
+    Navigator.of(context).pushNamed('HomePage', arguments: details);
+
+    return _userDetails;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,7 +137,11 @@ class SignInTwo extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _signIn(context)
+                          .then((FirebaseUser user) => print(user))
+                          .catchError((e) => print(e));
+                    },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
+import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
 import 'package:myhealth/Screens/HomePage.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/SignInOne.dart';
 import 'package:myhealth/Screens/SignInTwo.dart';
 
+import 'class/Consulta.dart';
+import 'class/UserDetails.dart';
+
 class RouteGenarator {
   static Route<dynamic> genareteRoute(RouteSettings settings) {
 //Getting arguments passed in while calling Navigator.pushNamed
-    //final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       case 'LoginMedico':
@@ -16,15 +21,19 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => SignInTwo());
       case 'PreLogin':
         return MaterialPageRoute(builder: (_) => PreLogin());
+      case 'ListagemDeConsultas':
+        return MaterialPageRoute(builder: (_) => ListagemDeConsultas());
+      case 'EdicaoDeConsulta':
+        if (args is Consulta) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeConsulta(consulta: args));
+        }
+        return _errorRoute();
       case 'HomePage':
-        return MaterialPageRoute(builder: (_) => HomePage());
-      // case '':
-      //   //Validation of correct data type
-      //   if (args is String) {
-      //     return MaterialPageRoute(builder: (_) => page(data: args));
-      //   }
-
-      //return _errorRoute();
+        if (args is UserDetails) {
+          return MaterialPageRoute(builder: (_) => HomePage(detailsUser: args));
+        }
+        return _errorRoute();
 
       default:
         return _errorRoute();

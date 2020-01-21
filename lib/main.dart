@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
       title: 'MyHealth',
       initialRoute: 'PreLogin',
       onGenerateRoute: RouteGenarator.genareteRoute,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
