@@ -1,51 +1,23 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:myhealth/class/ProviderDetails.dart';
-import 'package:myhealth/class/UserDetails.dart';
+import 'package:myhealth/Service/auth.dart';
 
-class SignInTwo extends StatelessWidget {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = new GoogleSignIn();
+class LoginPaciente extends StatefulWidget {
+  @override
+  _LoginPacienteState createState() => _LoginPacienteState();
+}
 
-  Future<FirebaseUser> _signIn(BuildContext context) async {
-    GoogleSignInAccount _user = _googleSignIn.currentUser;
-    FirebaseUser _userDetails;
-    if (_user == null) _user = await _googleSignIn.signIn();
+class _LoginPacienteState extends State<LoginPaciente> {
+  final AuthService _auth = AuthService();
 
-    if (await _firebaseAuth.currentUser() == null) {
-      GoogleSignInAuthentication credentials =
-          await _googleSignIn.currentUser.authentication;
+  final _formKey = GlobalKey<FormState>();
 
-      AuthResult _authResult = await _firebaseAuth.signInWithCredential(
-          GoogleAuthProvider.getCredential(
-              idToken: credentials.idToken,
-              accessToken: credentials.accessToken));
+  String email = '';
 
-      _userDetails = _authResult.user;
-    } else {
-      _userDetails = await _firebaseAuth.currentUser();
-    }
+  String senha = '';
 
-    ProviderDetails providerInfo = new ProviderDetails(_userDetails.providerId);
-
-    List<ProviderDetails> providerData = new List<ProviderDetails>();
-    providerData.add(providerInfo);
-
-    UserDetails details = new UserDetails(
-        _userDetails.providerId,
-        _userDetails.displayName,
-        _userDetails.email,
-        _userDetails.photoUrl,
-        providerData);
-
-    print(details);
-
-    Navigator.of(context).pushNamed('HomePage', arguments: details);
-
-    return _userDetails;
-  }
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -71,23 +43,38 @@ class SignInTwo extends StatelessWidget {
                   height: 200,
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                         child: TextFormField(
+                          validator: (val) =>
+                              val.isEmpty ? 'Digite seu email' : null,
+                          onChanged: (val) {
+                            setState(() {
+                              email = val;
+                            });
+                          },
                           style: TextStyle(
                             color: Colors.white,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Username',
+                              labelText: 'Email',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
                       ),
                       TextFormField(
+                        validator: (val) =>
+                            val.isEmpty ? 'Digite sua senha' : null,
+                        onChanged: (val) {
+                          setState(() {
+                            senha = val;
+                          });
+                        },
                         obscureText: true,
                         style: TextStyle(
                           color: Colors.white,
@@ -95,7 +82,7 @@ class SignInTwo extends StatelessWidget {
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black)),
-                            labelText: 'Password',
+                            labelText: 'Senha',
                             labelStyle:
                                 TextStyle(fontSize: 15, color: Colors.black)),
                       )
@@ -105,7 +92,7 @@ class SignInTwo extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 20, bottom: 5),
                   child: Text(
-                    'Forgot your password?',
+                    'Esqueceu sua senha?',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'SFUIDisplay',
@@ -117,9 +104,20 @@ class SignInTwo extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        dynamic result =
+                            await _auth.logarComEmailESenha(email, senha);
+                        if (result == null) {
+                          setState(() => error = 'Email ou senha incorretos.');
+                        } else {
+                          Navigator.pushNamed(context, 'HomePage',
+                              arguments: result);
+                        }
+                      }
+                    },
                     child: Text(
-                      'SIGN IN',
+                      'Entrar',
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'SFUIDisplay',
@@ -134,13 +132,23 @@ class SignInTwo extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50)),
                   ),
                 ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                Center(
+                  child: Text(error,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0)),
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
-                    onPressed: () {
-                      _signIn(context)
-                          .then((FirebaseUser user) => print(user))
-                          .catchError((e) => print(e));
+                    onPressed: () async {
+                      await _auth.signInWithGmail().then((user) {
+                        if (user != null) {
+                          Navigator.pushNamed(context, 'HomePage',
+                              arguments: user);
+                        }
+                      });
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -170,19 +178,23 @@ class SignInTwo extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "Don't have an account?",
-                            style: TextStyle(
-                              fontFamily: 'SFUIDisplay',
-                              color: Colors.white,
-                              fontSize: 15,
-                            )),
+                          text: "Ainda não tem uma conta?",
+                          style: TextStyle(
+                            fontFamily: 'SFUIDisplay',
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
                         TextSpan(
-                            text: "sign up",
+                            text: "Criar conta",
                             style: TextStyle(
                               fontFamily: 'SFUIDisplay',
                               color: Color(0xffff2d55),
                               fontSize: 15,
-                            ))
+                            ),
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () => Navigator.of(context)
+                                  .pushNamed('CadastroDePaciente'))
                       ]),
                     ),
                   ),

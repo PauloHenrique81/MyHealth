@@ -1,15 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:myhealth/Screens/SignInTwo.dart';
-import 'package:myhealth/class/UserDetails.dart';
+import 'package:myhealth/Service/auth.dart';
+import 'package:myhealth/class/User.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myhealth/route_genarator.dart';
 
 class HomePage extends StatelessWidget {
-  final UserDetails detailsUser;
-
-  HomePage({Key key, @required this.detailsUser}) : super(key: key);
+  User user;
+  HomePage({this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +17,19 @@ class HomePage extends StatelessWidget {
           primaryColor: defaultTargetPlatform == TargetPlatform.iOS
               ? Colors.grey[50]
               : null),
-      home: new _HomePage(detailsUser: detailsUser),
+      home: new _HomePage(
+        user: user,
+      ),
       onGenerateRoute: RouteGenarator.genareteRoute,
     );
   }
 }
 
 class _HomePage extends StatelessWidget {
-  final UserDetails detailsUser;
-  _HomePage({Key key, @required this.detailsUser}) : super(key: key);
-  final GoogleSignIn _gSignIn = GoogleSignIn();
+  final User user;
+
+  _HomePage({this.user});
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,8 @@ class _HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
             color: Colors.white,
-            onPressed: () {
-              _gSignIn.signOut();
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new SignInTwo()));
+            onPressed: () async {
+              await _auth.signOut();
             },
           ),
         ],
@@ -52,10 +51,10 @@ class _HomePage extends StatelessWidget {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text(detailsUser.userName),
-              accountEmail: new Text(detailsUser.userEmail),
+              accountName: new Text(user.userName),
+              accountEmail: new Text(user.userEmail),
               currentAccountPicture: new CircleAvatar(
-                backgroundImage: NetworkImage(detailsUser.photoUrl),
+                backgroundImage: NetworkImage(user.photoUrl),
               ),
             ),
             new ListTile(

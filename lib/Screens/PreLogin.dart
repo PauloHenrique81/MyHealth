@@ -51,7 +51,7 @@ class PreLogin extends StatelessWidget {
                 padding: EdgeInsets.only(top: 20),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('HomePage');
+                    Navigator.of(context).pushNamed('LoginPaciente');
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
