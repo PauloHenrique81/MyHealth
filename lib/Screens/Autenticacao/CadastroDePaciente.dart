@@ -159,8 +159,11 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
-                          validator: (val) =>
-                              val.isEmpty ? 'Digite sua senha' : null,
+                          validator: (val) {
+                              if(val.isEmpty ) return 'Digite sua senha';
+                              if (val.length < 6) return 'Senha de no minimo 6 digitos';
+                              return null;
+                          },
                           onChanged: (val) {
                             setState(() {
                               senha = val;
@@ -184,6 +187,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           validator: (val) {
                             if (val != senhaC) return 'Senhas diferentes ';
                             if (val.isEmpty) return 'Digite sua senha';
+                            if (val.length < 6) return 'Senha de no minimo 6 digitos';
                             return null;
                           },
                           onChanged: (val) {

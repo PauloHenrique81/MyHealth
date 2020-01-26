@@ -51,10 +51,10 @@ class _HomePage extends StatelessWidget {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text(user.userName),
-              accountEmail: new Text(user.userEmail),
+              accountName: new Text(user.userName ?? "Paciente"),
+              accountEmail: new Text(user.userEmail ),
               currentAccountPicture: new CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
+                backgroundImage: NetworkImage(user.photoUrl ?? "") ,
               ),
             ),
             new ListTile(

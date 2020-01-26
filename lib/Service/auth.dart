@@ -89,6 +89,8 @@ class AuthService {
           'senha': senha,
           'dataDeCadastro': DateTime.now().toString(),
         });
+
+        return user;
       }
     } catch (e) {
       print(e.toString());
