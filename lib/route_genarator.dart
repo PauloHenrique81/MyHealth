@@ -5,9 +5,9 @@ import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
 import 'package:myhealth/Screens/HomePage.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/Login.dart';
+import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
-import 'class/Consulta.dart';
-import 'class/User.dart';
+import 'class/user.dart';
 
 class RouteGenarator {
   static Route<dynamic> genareteRoute(RouteSettings settings) {
@@ -24,11 +24,24 @@ class RouteGenarator {
       case 'PreLogin':
         return MaterialPageRoute(builder: (_) => PreLogin());
       case 'ListagemDeConsultas':
-        return MaterialPageRoute(builder: (_) => ListagemDeConsultas());
-      case 'EdicaoDeConsulta':
-        if (args is Consulta) {
+        if (args is User) {
           return MaterialPageRoute(
-              builder: (_) => EdicaoDeConsulta(consulta: args));
+              builder: (_) => ListagemDeConsultas(user: args));
+        }
+        return _errorRoute();
+      case 'EdicaoDeConsulta':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeConsulta(
+                    user: args.user,
+                    consulta: args.consulta,
+                  ));
+        }
+        return _errorRoute();
+      case 'NovaConsulta':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeConsulta(user: args.user));
         }
         return _errorRoute();
       case 'HomePage':

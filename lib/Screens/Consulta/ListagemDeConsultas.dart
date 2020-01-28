@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Screens/Loading.dart';
+import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Consulta.dart';
 import 'package:myhealth/class/database.dart';
-import 'package:provider/provider.dart';
+import 'package:myhealth/class/user.dart';
 
 class ListagemDeConsultas extends StatefulWidget {
+  User user;
+  ListagemDeConsultas({this.user});
+
   @override
   _ListagemDeConsultasState createState() => _ListagemDeConsultasState();
 }
@@ -23,7 +27,9 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
         ),
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            _novaConsulta(widget.user);
+          },
           child: Icon(Icons.add),
           backgroundColor: Colors.deepPurple,
         ),
@@ -70,9 +76,10 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                             ),
                           ),
                         ),
-                        // onTap: () {
-                        //   _mostrarDetalhesDaConsulta(consulta: consulta);
-                        // },
+                        onTap: () {
+                          _mostrarDetalhesDaConsulta(
+                              consulta: consultas[index], user: widget.user);
+                        },
                       );
                     });
               }
@@ -84,8 +91,17 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
     return consultas;
   }
 
-  void _mostrarDetalhesDaConsulta({Consulta consulta}) {
-    Navigator.of(context).pushNamed('EdicaoDeConsulta', arguments: consulta);
+  void _mostrarDetalhesDaConsulta({Consulta consulta, User user}) {
+    ScreeanArguments screeanArguments =
+        new ScreeanArguments(user: user, consulta: consulta);
+    Navigator.of(context)
+        .pushNamed('EdicaoDeConsulta', arguments: screeanArguments);
+  }
+
+  void _novaConsulta(User user) {
+    ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
+    Navigator.of(context)
+        .pushNamed('NovaConsulta', arguments: screeanArguments);
   }
 }
 

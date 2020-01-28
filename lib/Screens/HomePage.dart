@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealth/Service/auth.dart';
-import 'package:myhealth/class/User.dart';
+import 'package:myhealth/class/user.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myhealth/route_genarator.dart';
 
@@ -52,9 +52,9 @@ class _HomePage extends StatelessWidget {
           children: <Widget>[
             new UserAccountsDrawerHeader(
               accountName: new Text(user.userName ?? "Paciente"),
-              accountEmail: new Text(user.userEmail ),
+              accountEmail: new Text(user.userEmail),
               currentAccountPicture: new CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl ?? "") ,
+                backgroundImage: NetworkImage(user.photoUrl ?? ""),
               ),
             ),
             new ListTile(
@@ -64,7 +64,8 @@ class _HomePage extends StatelessWidget {
             new ListTile(
               title: new Text("Consultas"),
               trailing: new Icon(Icons.receipt),
-              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultas'),
+              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultas',
+                  arguments: user),
             ),
             new ListTile(
               title: new Text("teste2"),
