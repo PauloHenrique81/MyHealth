@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealth/class/Consulta.dart';
 import 'package:myhealth/class/database.dart';
 import 'package:myhealth/class/user.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class EdicaoDeConsulta extends StatefulWidget {
   final Consulta consulta;
@@ -28,9 +28,9 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
         firstDate: new DateTime(2020),
         lastDate: new DateTime(2023));
 
-    if (picked != null && picked != _date) {
+    if (picked != null) {
       setState(() {
-        _dataController.text = picked.toString();
+        _dataController.text = new DateFormat("dd-MM-yyyy").format(picked);
       });
     }
   }
@@ -38,11 +38,18 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked =
         await showTimePicker(context: context, initialTime: _time);
-    if (picked != null && picked != _time) {
+    if (picked != null) {
       setState(() {
-        _horaController.text = picked.toString();
+        _horaController.text = formatTimeOfDay(picked);
       });
     }
+  }
+
+  String formatTimeOfDay(TimeOfDay tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat.jm();
+    return format.format(dt);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -50,7 +57,6 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   DatabaseService conectionDB = new DatabaseService();
 
   final _nomeMedicoController = TextEditingController();
-  final _nomeMedicoFocus = FocusNode();
 
   final _especialidadeController = TextEditingController();
   final _dataController = TextEditingController();
@@ -81,7 +87,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
       _examesController.text = _consultaEdicao.exames;
       _medicamentosController.text = _consultaEdicao.medicamentos;
       _formaDePagamentoController.text = _consultaEdicao.formaDePagamento;
-      _valorController.text = _consultaEdicao.valor.toString();
+      _valorController.text = _consultaEdicao.valor;
     }
   }
 
@@ -94,18 +100,32 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_consultaEdicao.nomeDoMedico.isNotEmpty) {
-            conectionDB.cadastraConsulta(
-                widget.user.uid,
-                _nomeMedicoController.text,
-                _dataController.text,
-                _horaController.text,
-                _localController.text);
-            Navigator.pushNamed(context, 'ListagemDeConsultas',
-                arguments: widget.user);
-          } else {
-            FocusScope.of(context).requestFocus(_nomeMedicoFocus);
+        onPressed: () async {
+          if (_formKey.currentState.validate()) {
+            if (_novaConsulta == true) {
+              await conectionDB.cadastraConsulta(
+                  widget.user.uid,
+                  _nomeMedicoController.text,
+                  _dataController.text,
+                  _horaController.text,
+                  _localController.text);
+            } else {
+              await conectionDB.atualizarConsulta(
+                  widget.user.uid,
+                  _consultaEdicao.idConsulta,
+                  _nomeMedicoController.text,
+                  _dataController.text,
+                  _horaController.text,
+                  _localController.text,
+                  especialidade: _especialidadeController.text,
+                  diagnostico: _diagnosticoController.text,
+                  exames: _examesController.text,
+                  medicamentos: _medicamentosController.text,
+                  formaDePagamento: _formaDePagamentoController.text,
+                  valor: _valorController.text);
+            }
+
+            Navigator.pop(context);
           }
         },
         child: Icon(Icons.save),
@@ -117,10 +137,11 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                TextField(
+                TextFormField(
                   controller: _nomeMedicoController,
-                  focusNode: _nomeMedicoFocus,
                   decoration: InputDecoration(labelText: "Nome do Médico:"),
+                  validator: (val) =>
+                      val.isEmpty ? 'Digite o nome do Médico' : null,
                   onChanged: (text) {
                     _userEdited = true;
                     setState(() {
@@ -137,9 +158,10 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     _consultaEdicao.especialidade = text;
                   },
                 ),
-                TextField(
+                TextFormField(
                   controller: _dataController,
                   decoration: InputDecoration(labelText: "Data:"),
+                  validator: (val) => val.isEmpty ? 'Digite a data' : null,
                   onChanged: (text) {
                     _userEdited = true;
                     _consultaEdicao.data = text;
@@ -147,9 +169,10 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                   onTap: () => _selectDate(context),
                   keyboardType: TextInputType.datetime,
                 ),
-                TextField(
+                TextFormField(
                   controller: _horaController,
                   decoration: InputDecoration(labelText: "Horário:"),
+                  validator: (val) => val.isEmpty ? 'Digite o horário' : null,
                   onChanged: (text) {
                     _userEdited = true;
                     _consultaEdicao.horario = text;
@@ -157,9 +180,10 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                   onTap: () => _selectTime(context),
                   keyboardType: TextInputType.datetime,
                 ),
-                TextField(
+                TextFormField(
                   controller: _localController,
                   decoration: InputDecoration(labelText: "Local:"),
+                  validator: (val) => val.isEmpty ? 'Digite o local' : null,
                   onChanged: (text) {
                     _userEdited = true;
                     _consultaEdicao.local = text;
@@ -172,7 +196,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     style: TextStyle(fontSize: 22.0),
                   ),
                 ),
-                TextField(
+                TextFormField(
                   controller: _diagnosticoController,
                   decoration: InputDecoration(labelText: "Diagnóstico dado:"),
                   onChanged: (text) {
@@ -180,7 +204,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     _consultaEdicao.diagnostico = text;
                   },
                 ),
-                TextField(
+                TextFormField(
                   controller: _examesController,
                   decoration: InputDecoration(labelText: "Exames solicitados:"),
                   onChanged: (text) {
@@ -188,7 +212,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     _consultaEdicao.exames = text;
                   },
                 ),
-                TextField(
+                TextFormField(
                   controller: _medicamentosController,
                   decoration:
                       InputDecoration(labelText: "Medicamentos receitados:"),
@@ -197,7 +221,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     _consultaEdicao.medicamentos = text;
                   },
                 ),
-                TextField(
+                TextFormField(
                   controller: _formaDePagamentoController,
                   decoration: InputDecoration(labelText: "Forma de pagamento:"),
                   onChanged: (text) {
@@ -205,12 +229,12 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     _consultaEdicao.formaDePagamento = text;
                   },
                 ),
-                TextField(
+                TextFormField(
                   controller: _valorController,
                   decoration: InputDecoration(labelText: "Valor:"),
                   onChanged: (text) {
                     _userEdited = true;
-                    _consultaEdicao.valor = double.parse(text);
+                    _consultaEdicao.valor = text;
                   },
                   keyboardType: TextInputType.number,
                 ),

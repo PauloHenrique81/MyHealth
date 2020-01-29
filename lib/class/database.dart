@@ -36,6 +36,7 @@ class DatabaseService {
     snapshots.documents.forEach((d) {
       consulta = new Consulta(
           idUser: d.data['idUser'],
+          idConsulta: d.documentID,
           nomeDoMedico: d.data['nomeDoMedico'],
           especialidade: d.data['especialidade'] ?? '',
           data: d.data['data'],
@@ -45,7 +46,7 @@ class DatabaseService {
           exames: d.data['exames'] ?? '',
           medicamentos: d.data['medicamentos'] ?? '',
           formaDePagamento: d.data['formaDePagamento'] ?? '',
-          //valor: d.data['valor'] ?? 0.0,
+          valor: d.data['valor'] ?? '',
           status: d.data['status'] ?? '');
       consultas.add(consulta);
     });
@@ -74,7 +75,37 @@ class DatabaseService {
         'exames': exames ?? '',
         'medicamentos': medicamentos ?? '',
         'formaDePagamento': formaDePagamento ?? '',
-        'valor': valor ?? (0).toDouble(),
+        'valor': valor ?? '',
+        'status': status ?? ''
+      });
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future atualizarConsulta(String idUser, String idConsulta,
+      String nomeDoMedico, String data, String horario, String local,
+      {String especialidade,
+      String diagnostico,
+      String exames,
+      String medicamentos,
+      String formaDePagamento,
+      String valor,
+      String status}) {
+    try {
+      consultaCollection.document(idConsulta).updateData({
+        'idUser': idUser,
+        'nomeDoMedico': nomeDoMedico,
+        'especialidade': especialidade ?? '',
+        'data': data,
+        'horario': horario,
+        'local': local,
+        'diagnostico': diagnostico ?? '',
+        'exames': exames ?? '',
+        'medicamentos': medicamentos ?? '',
+        'formaDePagamento': formaDePagamento ?? '',
+        'valor': valor ?? '',
         'status': status ?? ''
       });
     } catch (e) {
@@ -84,7 +115,6 @@ class DatabaseService {
   }
 
   Stream<List<Consulta>> get allConsultas {
-    print(consultaCollection.snapshots().map(consultaListFromSnapshot));
     return consultaCollection.snapshots().map(consultaListFromSnapshot);
   }
 }

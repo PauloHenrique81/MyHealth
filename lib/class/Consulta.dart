@@ -1,5 +1,6 @@
 class Consulta {
   String idUser;
+  String idConsulta;
   String nomeDoMedico;
   String especialidade;
   String data;
@@ -9,11 +10,12 @@ class Consulta {
   String exames;
   String medicamentos;
   String formaDePagamento;
-  double valor;
+  String valor;
   String status;
 
   Consulta(
       {this.idUser,
+      this.idConsulta,
       this.nomeDoMedico,
       this.especialidade,
       this.data,

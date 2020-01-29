@@ -111,7 +111,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                         if (result == null) {
                           setState(() => error = 'Email ou senha incorretos.');
                         } else {
-                          Navigator.pushNamed(context, 'HomePage',
+                          Navigator.pushReplacementNamed(context, 'HomePage',
                               arguments: result);
                         }
                       }

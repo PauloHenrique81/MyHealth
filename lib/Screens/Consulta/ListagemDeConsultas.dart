@@ -6,7 +6,7 @@ import 'package:myhealth/class/database.dart';
 import 'package:myhealth/class/user.dart';
 
 class ListagemDeConsultas extends StatefulWidget {
-  User user;
+  final User user;
   ListagemDeConsultas({this.user});
 
   @override
@@ -104,60 +104,3 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
         .pushNamed('NovaConsulta', arguments: screeanArguments);
   }
 }
-
-// class ListConsultas extends StatefulWidget {
-//   final consultas;
-//   ListConsultas({this.consultas});
-//   @override
-//   _ListConsultasState createState() => _ListConsultasState();
-// }
-
-// class _ListConsultasState extends State<ListConsultas> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       padding: EdgeInsets.all(10.0),
-//       itemCount: widget.consultas.length,
-//       itemBuilder: (context, index) {
-//         return CardConsulta(
-//           consulta: widget.consultas[index],
-//         );
-//       },
-//     );
-//   }
-// }
-
-// class CardConsulta extends StatelessWidget {
-//   final Consulta consulta;
-//   CardConsulta({this.consulta});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       child: Card(
-//         child: Padding(
-//           padding: EdgeInsets.all(10.0),
-//           child: Row(
-//             children: <Widget>[
-//               Column(
-//                 children: <Widget>[
-//                   Text(consulta.nomeDoMedico ?? "",
-//                       style: TextStyle(
-//                           fontSize: 22.0, fontWeight: FontWeight.bold)),
-//                   Text(consulta.especialidade ?? "",
-//                       style: TextStyle(fontSize: 18.0)),
-//                   Text(consulta.local ?? "", style: TextStyle(fontSize: 18.0)),
-//                   Text(consulta.data ?? "", style: TextStyle(fontSize: 18.0)),
-//                   Text(consulta.horario ?? "", style: TextStyle(fontSize: 18.0))
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//       // onTap: () {
-//       //   _mostrarDetalhesDaConsulta(consulta: consulta);
-//       // },
-//     );
-//   }
-// }
