@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealth/Persistencia/P_Consulta.dart';
-import 'package:myhealth/class/Consulta.dart';
+import 'package:myhealth/Persistencia/P_Cirurgia.dart';
+import 'package:myhealth/class/Cirurgia.dart';
 import 'package:myhealth/class/user.dart';
 
-class EdicaoDeConsulta extends StatefulWidget {
-  final Consulta consulta;
+class EdicaoDeCirurgia extends StatefulWidget {
+  final Cirurgia consulta;
   final User user;
-  EdicaoDeConsulta({this.user, this.consulta});
+  EdicaoDeCirurgia({this.user, this.consulta});
 
   @override
-  _EdicaoDeConsultaState createState() => _EdicaoDeConsultaState();
+  _EdicaoDeCirurgiaState createState() => _EdicaoDeCirurgiaState();
 }
 
-class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
-  Consulta _consultaEdicao;
+class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
+  Cirurgia _cirurgiaEdicao;
   bool _userEdited = false;
   bool _novaConsulta = false;
 
@@ -54,16 +54,16 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
 
   final _formKey = GlobalKey<FormState>();
 
-  DatabaseService conectionDB = new DatabaseService();
+  P_Cirurgia conectionDB = new P_Cirurgia();
 
   final _nomeMedicoController = TextEditingController();
-
   final _especialidadeController = TextEditingController();
+  final _tipoDeCirurgiaController = TextEditingController();
   final _dataController = TextEditingController();
   final _horaController = TextEditingController();
   final _localController = TextEditingController();
-  final _diagnosticoController = TextEditingController();
-  final _examesController = TextEditingController();
+  final _recomendacaoMedicaPosCirurgicoController = TextEditingController();
+  final _medicacaoPosCirurgicoController = TextEditingController();
   final _medicamentosController = TextEditingController();
   final _formaDePagamentoController = TextEditingController();
   final _valorController = TextEditingController();
@@ -73,21 +73,24 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
     super.initState();
 
     if (widget.consulta == null) {
-      _consultaEdicao = Consulta();
+      _cirurgiaEdicao = Cirurgia();
       _novaConsulta = true;
     } else {
-      _consultaEdicao = widget.consulta;
+      _cirurgiaEdicao = widget.consulta;
 
-      _nomeMedicoController.text = _consultaEdicao.nomeDoMedico;
-      _especialidadeController.text = _consultaEdicao.especialidade;
-      _dataController.text = _consultaEdicao.data;
-      _horaController.text = _consultaEdicao.horario;
-      _localController.text = _consultaEdicao.local;
-      _diagnosticoController.text = _consultaEdicao.diagnostico;
-      _examesController.text = _consultaEdicao.exames;
-      _medicamentosController.text = _consultaEdicao.medicamentos;
-      _formaDePagamentoController.text = _consultaEdicao.formaDePagamento;
-      _valorController.text = _consultaEdicao.valor;
+      _nomeMedicoController.text = _cirurgiaEdicao.nomeDoMedico;
+      _especialidadeController.text = _cirurgiaEdicao.especialidade;
+      _tipoDeCirurgiaController.text = _cirurgiaEdicao.tipoDeCirurgia;
+      _dataController.text = _cirurgiaEdicao.data;
+      _horaController.text = _cirurgiaEdicao.horario;
+      _localController.text = _cirurgiaEdicao.local;
+      
+      _recomendacaoMedicaPosCirurgicoController.text = _cirurgiaEdicao.recomendacaoMedicaPosCirurgico;
+      _medicacaoPosCirurgicoController.text = _cirurgiaEdicao.medicacaoPosCirurgico;
+      _medicamentosController.text = _cirurgiaEdicao.medicacaoPosCirurgico;
+      _medicamentosController.text = _cirurgiaEdicao.dataRetorno;
+      _formaDePagamentoController.text = _cirurgiaEdicao.formaDePagamento;
+      _valorController.text = _cirurgiaEdicao.valor;
     }
   }
 
@@ -98,32 +101,34 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.deepPurple,
-            title: Text(_consultaEdicao.nomeDoMedico ?? "Nova Consulta"),
+            title: Text(_cirurgiaEdicao.tipoDeCirurgia ?? "Nova Cirurgia"),
             centerTitle: true,
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 if (_novaConsulta == true) {
-                  await conectionDB.cadastraConsulta(
+                  await conectionDB.cadastraCirurgia(
                       widget.user.uid,
                       _nomeMedicoController.text,
+                      _especialidadeController.text,
+                      _tipoDeCirurgiaController.text,
                       _dataController.text,
                       _horaController.text,
-                      _localController.text,
-                      especialidade: _especialidadeController.text);
+                      _localController.text,);
                 } else {
                   await conectionDB.atualizarConsulta(
                       widget.user.uid,
-                      _consultaEdicao.idConsulta,
+                      _cirurgiaEdicao.idCirurgia,
                       _nomeMedicoController.text,
+                      _especialidadeController.text,
+                      _tipoDeCirurgiaController.text,
                       _dataController.text,
                       _horaController.text,
                       _localController.text,
-                      especialidade: _especialidadeController.text,
-                      diagnostico: _diagnosticoController.text,
-                      exames: _examesController.text,
-                      medicamentos: _medicamentosController.text,
+                      recomendacaoMedicaPosCirurgico: _diagnosticoController.text,
+                      medicacaoPosCirurgica: _examesController.text,
+                      dataRetorno: _medicamentosController.text,
                       formaDePagamento: _formaDePagamentoController.text,
                       valor: _valorController.text);
                 }
@@ -150,7 +155,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       onChanged: (text) {
                         _userEdited = true;
                         setState(() {
-                          _consultaEdicao.nomeDoMedico = text;
+                          _cirurgiaEdicao.nomeDoMedico = text;
                         });
                       },
                     ),
@@ -160,7 +165,16 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           labelText: "Especialidade do Médico:"),
                       onChanged: (text) {
                         _userEdited = true;
-                        _consultaEdicao.especialidade = text;
+                        _cirurgiaEdicao.especialidade = text;
+                      },
+                    ),
+                    TextField(
+                      controller: _tipoDeCirurgiaController,
+                      decoration: InputDecoration(
+                          labelText: "Tipo de cirurgia:"),
+                      onChanged: (text) {
+                        _userEdited = true;
+                        _cirurgiaEdicao.tipoDeCirurgia = text;
                       },
                     ),
                     TextFormField(
@@ -169,7 +183,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       validator: (val) => val.isEmpty ? 'Digite a data' : null,
                       onChanged: (text) {
                         _userEdited = true;
-                        _consultaEdicao.data = text;
+                        _cirurgiaEdicao.data = text;
                       },
                       onTap: () => _selectDate(context),
                       keyboardType: TextInputType.datetime,
@@ -181,7 +195,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           val.isEmpty ? 'Digite o horário' : null,
                       onChanged: (text) {
                         _userEdited = true;
-                        _consultaEdicao.horario = text;
+                        _cirurgiaEdicao.horario = text;
                       },
                       onTap: () => _selectTime(context),
                       keyboardType: TextInputType.datetime,
@@ -192,7 +206,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       validator: (val) => val.isEmpty ? 'Digite o local' : null,
                       onChanged: (text) {
                         _userEdited = true;
-                        _consultaEdicao.local = text;
+                        _cirurgiaEdicao.local = text;
                       },
                     ),
                     Padding(

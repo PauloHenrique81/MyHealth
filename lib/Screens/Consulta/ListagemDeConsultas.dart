@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myhealth/Persistencia/P_Consulta.dart';
 import 'package:myhealth/Screens/Loading.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Consulta.dart';
-import 'package:myhealth/class/database.dart';
 import 'package:myhealth/class/user.dart';
 
 class ListagemDeConsultas extends StatefulWidget {
@@ -34,7 +34,7 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
           backgroundColor: Colors.deepPurple,
         ),
         body: FutureBuilder(
-            future: buscaConsultas(),
+            future: buscaConsultas(widget.user.uid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return Container(
@@ -51,29 +51,36 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                         child: Card(
                           child: Padding(
                             padding: EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Column(
+                              child: Container(
+                                child: Column(
                                   children: <Widget>[
-                                    Text(
-                                        snapshot.data[index].nomeDoMedico ?? "",
-                                        style: TextStyle(
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                        snapshot.data[index].especialidade ??
-                                            "",
-                                        style: TextStyle(fontSize: 18.0)),
-                                    Text(snapshot.data[index].local ?? "",
-                                        style: TextStyle(fontSize: 18.0)),
-                                    Text(snapshot.data[index].data ?? "",
-                                        style: TextStyle(fontSize: 18.0)),
-                                    Text(snapshot.data[index].horario ?? "",
-                                        style: TextStyle(fontSize: 18.0))
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(snapshot.data[index].nomeDoMedico ?? "",
+                                               style: TextStyle(
+                                               fontSize: 22.0,
+                                               fontWeight: FontWeight.bold)),
+                                        Text(snapshot.data[index].especialidade ?? "", style: TextStyle(fontSize: 18.0)),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:  MainAxisAlignment.start,
+                                      children: <Widget>[
+                                         Text(snapshot.data[index].local ?? "",style: TextStyle(fontSize: 18.0)),
+                                      ],
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:  MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Text(snapshot.data[index].data ?? "", style: TextStyle(fontSize: 18.0)),
+                                          Text("    ", style: TextStyle(fontSize: 18.0)),
+                                          Text(snapshot.data[index].horario ?? "",style: TextStyle(fontSize: 18.0))
+                                        ],
+                                    )
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
                           ),
                         ),
                         onTap: () {
@@ -86,8 +93,8 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
             }));
   }
 
-  Future buscaConsultas() async {
-    consultas = await bd.listaDeConsultas();
+  Future buscaConsultas(String idUser) async {
+    consultas = await bd.listaDeConsultas(idUser);
     return consultas;
   }
 
