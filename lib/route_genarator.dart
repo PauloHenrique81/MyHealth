@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Screens/Autenticacao/wrapper.dart';
+import 'package:myhealth/Screens/Cirurgias/EdicaoCirurgia.dart';
+import 'package:myhealth/Screens/Cirurgias/ListagemDeCirurgias.dart';
 import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
 import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
 import 'package:myhealth/Screens/HomePage.dart';
@@ -42,6 +44,27 @@ class RouteGenarator {
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => EdicaoDeConsulta(user: args.user));
+        }
+        return _errorRoute();
+      case 'EdicaoDeCirurgia':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeCirurgia(
+                    user: args.user,
+                    consulta: args.cirurgia,
+                  ));
+        }
+        return _errorRoute();
+      case 'ListagemDeCirurgias':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeCirurgias(user: args));
+        }
+        return _errorRoute();
+      case 'NovaCirurgia':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeCirurgia(user: args.user));
         }
         return _errorRoute();
       case 'HomePage':
