@@ -1,7 +1,8 @@
 class Exame {
   String idUser;
-  String idConsulta;
+  String idExame;
   String nomeDoMedico;
+  String tipoExame;
   String data;
   String horario;
   String local;
@@ -12,8 +13,9 @@ class Exame {
 
   Exame(
       {this.idUser,
-      this.idConsulta,
+      this.idExame,
       this.nomeDoMedico,
+      this.tipoExame,
       this.data,
       this.horario,
       this.local,

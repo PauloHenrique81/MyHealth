@@ -4,11 +4,13 @@ import 'package:myhealth/Screens/Cirurgias/EdicaoCirurgia.dart';
 import 'package:myhealth/Screens/Cirurgias/ListagemDeCirurgias.dart';
 import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
 import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
+import 'package:myhealth/Screens/Exames/EdicaoDeExame.dart';
 import 'package:myhealth/Screens/HomePage.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/Login.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
+import 'Screens/Exames/ListagemDeExames.dart';
 import 'class/user.dart';
 
 class RouteGenarator {
@@ -65,6 +67,27 @@ class RouteGenarator {
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => EdicaoDeCirurgia(user: args.user));
+        }
+        return _errorRoute();
+      case 'EdicaoDeExame':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeExame(
+                    user: args.user,
+                    exame: args.exame,
+                  ));
+        }
+        return _errorRoute();
+      case 'ListagemDeExames':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeExames(user: args));
+        }
+        return _errorRoute();
+      case 'NovoExame':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeExame(user: args.user));
         }
         return _errorRoute();
       case 'HomePage':
