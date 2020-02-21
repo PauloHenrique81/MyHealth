@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:myhealth/Persistencia/P_Exame.dart';
+import 'package:myhealth/Persistencia/P_Profissional.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
-import 'package:myhealth/class/Exame.dart';
+import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/user.dart';
 
 import '../Loading.dart';
 
-class ListagemDeExames extends StatefulWidget {
+class ListagemDeProfissionais extends StatefulWidget {
   final User user;
-  ListagemDeExames({this.user});
+  ListagemDeProfissionais({this.user});
 
   @override
-  _ListagemDeExamesState createState() => _ListagemDeExamesState();
+  _ListagemDeProfissionaisState createState() =>
+      _ListagemDeProfissionaisState();
 }
 
-class _ListagemDeExamesState extends State<ListagemDeExames> {
-  P_Exame bd = new P_Exame();
-  List<Exame> exames = new List<Exame>();
+class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
+  P_Profissional bd = new P_Profissional();
+  List<Profissional> profissionais = new List<Profissional>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Exames"),
+          title: Text("Profissionais"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
         ),
@@ -94,7 +95,8 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
                         ),
                         onTap: () {
                           _mostrarDetalhesDaConsulta(
-                              exame: exames[index], user: widget.user);
+                              profissional: profissionais[index],
+                              user: widget.user);
                         },
                       );
                     });
@@ -103,19 +105,20 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
   }
 
   Future buscaCirurgias(String idUser) async {
-    exames = await bd.listaDeExames(idUser);
-    return exames;
+    profissionais = await bd.listaDeProfissionais(idUser);
+    return profissionais;
   }
 
-  void _mostrarDetalhesDaConsulta({Exame exame, User user}) {
+  void _mostrarDetalhesDaConsulta({Profissional profissional, User user}) {
     ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, exame: exame);
+        new ScreeanArguments(user: user, profissional: profissional);
     Navigator.of(context)
-        .pushNamed('EdicaoDeExame', arguments: screeanArguments);
+        .pushNamed('EdicaoDeProfissional', arguments: screeanArguments);
   }
 
   void _novaConsulta(User user) {
     ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
-    Navigator.of(context).pushNamed('NovoExame', arguments: screeanArguments);
+    Navigator.of(context)
+        .pushNamed('NovoProfissioanl', arguments: screeanArguments);
   }
 }

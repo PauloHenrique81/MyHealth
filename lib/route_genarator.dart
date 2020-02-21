@@ -8,6 +8,8 @@ import 'package:myhealth/Screens/Exames/EdicaoDeExame.dart';
 import 'package:myhealth/Screens/HomePage.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/Login.dart';
+import 'package:myhealth/Screens/Profissional/EdicaoDoProfissional.dart';
+import 'package:myhealth/Screens/Profissional/ListagemDeProfissional.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
@@ -55,6 +57,18 @@ class RouteGenarator {
                     user: args.user,
                     consulta: args.cirurgia,
                   ));
+        }
+        return _errorRoute();
+      case 'ListagemDeProfissionais':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeProfissionais(user: args));
+        }
+        return _errorRoute();
+      case 'NovoProfissional':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeProfissional(user: args.user));
         }
         return _errorRoute();
       case 'ListagemDeCirurgias':
