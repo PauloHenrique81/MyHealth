@@ -14,6 +14,7 @@ import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
 import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/class/Imagem.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
 import 'class/user.dart';
@@ -26,8 +27,6 @@ class RouteGenarator {
     switch (settings.name) {
       case 'Wrapper':
         return MaterialPageRoute(builder: (_) => Wrapper());
-     case 'ImageCapture':
-        return MaterialPageRoute(builder: (_) => ImageCapture());
       case 'LoginPaciente':
         return MaterialPageRoute(builder: (_) => LoginPaciente());
       case 'CadastroDePaciente':
@@ -64,7 +63,7 @@ class RouteGenarator {
                   ));
         }
         return _errorRoute();
-       case 'EdicaoDeProfissional':
+      case 'EdicaoDeProfissional':
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => EdicaoDeProfissional(
@@ -98,7 +97,7 @@ class RouteGenarator {
         }
         return _errorRoute();
 
-       case 'EdicaoDeReceita':
+      case 'EdicaoDeReceita':
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => EdicaoDeReceita(
@@ -146,7 +145,11 @@ class RouteGenarator {
           return MaterialPageRoute(builder: (_) => HomePage(user: args));
         }
         return _errorRoute();
-
+      case 'ImageCapture':
+        if (args is Imagem) {
+          return MaterialPageRoute(builder: (_) => ImageCapture(imagem: args));
+        }
+        return _errorRoute();
       default:
         return _errorRoute();
     }

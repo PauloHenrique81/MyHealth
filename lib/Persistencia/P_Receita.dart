@@ -11,11 +11,10 @@ class P_Receita {
   List<Receita> receitaListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return Receita(
-        idUser: doc.data['idUser'] ?? '',
-        medico: doc.data['medico'] ?? '',
-        data: doc.data['data'] ,
-        descricao: doc.data['descricao'] ?? ''
-      );
+          idUser: doc.data['idUser'] ?? '',
+          medico: doc.data['medico'] ?? '',
+          data: doc.data['data'],
+          descricao: doc.data['descricao'] ?? '');
     }).toList();
   }
 
@@ -23,8 +22,9 @@ class P_Receita {
     Receita receita = new Receita();
     List<Receita> receitas = new List<Receita>();
 
-    var snapshots =
-        await receitaCollection.where("idUser", isEqualTo: idUser).getDocuments();
+    var snapshots = await receitaCollection
+        .where("idUser", isEqualTo: idUser)
+        .getDocuments();
     snapshots.documents.forEach((d) {
       receita = new Receita(
           idUser: d.data['idUser'],
@@ -41,20 +41,22 @@ class P_Receita {
   Future cadastraReceita(String idUser, String medico, String data,
       {String descricao}) {
     try {
-      receitaCollection.document().setData({
+      var idReceita = receitaCollection.add({
         'idUser': idUser,
         'medico': medico,
         'descricao': descricao ?? '',
         'data': data
       });
+
+      return idReceita;
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
-  Future atualizarReceita(String idUser, String idReceita, String medico,
-      String data,
+  Future atualizarReceita(
+      String idUser, String idReceita, String medico, String data,
       {String descricao}) {
     try {
       receitaCollection.document(idReceita).updateData({

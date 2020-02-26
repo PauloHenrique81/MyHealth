@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealth/Persistencia/P_Receita.dart';
+import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -18,7 +19,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
   bool _userEdited = false;
   bool _novaReceita = false;
 
-   DateTime _date = new DateTime.now();
+  DateTime _date = new DateTime.now();
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -55,7 +56,6 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
       _medicoController.text = _receitaEdicao.medico;
       _dataController.text = _receitaEdicao.data;
       _descricaoController.text = _receitaEdicao.descricao;
-
     }
   }
 
@@ -73,20 +73,16 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 if (_novaReceita == true) {
-                  await conectionDB.cadastraReceita(
-                      widget.user.uid,
-                      _medicoController.text,
-                      _dataController.text,
-                      descricao: _descricaoController.text
-                    );
+                  await conectionDB.cadastraReceita(widget.user.uid,
+                      _medicoController.text, _dataController.text,
+                      descricao: _descricaoController.text);
                 } else {
                   await conectionDB.atualizarReceita(
                       widget.user.uid,
                       _receitaEdicao.idReceita,
                       _medicoController.text,
                       _dataController.text,
-                      descricao : _descricaoController.text
-                    );
+                      descricao: _descricaoController.text);
                 }
 
                 Navigator.pop(context);
@@ -101,18 +97,18 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-          
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: _medicoController,
                       decoration: InputDecoration(labelText: "Médico"),
-                      validator: (val) => val.isEmpty ? 'Digite o nome do Médico' : null,
+                      validator: (val) =>
+                          val.isEmpty ? 'Digite o nome do Médico' : null,
                       onChanged: (text) {
                         _userEdited = true;
                         _receitaEdicao.medico = text;
                       },
                     ),
-                     TextFormField(
+                    TextFormField(
                       controller: _dataController,
                       decoration: InputDecoration(labelText: "Data:"),
                       validator: (val) => val.isEmpty ? 'Digite a data' : null,
@@ -123,11 +119,10 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                       onTap: () => _selectDate(context),
                       keyboardType: TextInputType.datetime,
                     ),
-                     TextFormField(
-                       keyboardType: TextInputType.text,
+                    TextFormField(
+                        keyboardType: TextInputType.text,
                         controller: _descricaoController,
-                        decoration:
-                            InputDecoration(labelText: "Descrição:"),
+                        decoration: InputDecoration(labelText: "Descrição:"),
                         onChanged: (text) {
                           _userEdited = true;
                           _receitaEdicao.descricao = text;
@@ -137,70 +132,40 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(
-                          Icons.add_a_photo
-                        ), 
-                        splashColor: Colors.cyan,
-                        iconSize: 40.0,
-                        tooltip: "Adicionar foto",
-                        onPressed: ()async{
-
-                          if (_formKey.currentState.validate()) {
-                            if (_novaReceita == true) {
-                              await conectionDB.cadastraReceita(
-                                  widget.user.uid,
-                                  _medicoController.text,
-                                  _dataController.text,
-                                  descricao: _descricaoController.text
-                                );
-                            } else {
-                              await conectionDB.atualizarReceita(
-                                  widget.user.uid,
-                                  _receitaEdicao.idReceita,
-                                  _medicoController.text,
-                                  _dataController.text,
-                                  descricao : _descricaoController.text
-                                );
-                            }
-
-                            Navigator.pushNamed(context, 'ImageCapture');
-                          }
-                        }
-                        )
+                            icon: Icon(Icons.add_a_photo),
+                            splashColor: Colors.cyan,
+                            iconSize: 40.0,
+                            tooltip: "Adicionar foto",
+                            onPressed: () async {
+                              var idReceita;
+                              if (_formKey.currentState.validate()) {
+                                if (_novaReceita == true) {
+                                  idReceita = await conectionDB.cadastraReceita(
+                                      widget.user.uid,
+                                      _medicoController.text,
+                                      _dataController.text,
+                                      descricao: _descricaoController.text);
+                                } else {
+                                  await conectionDB.atualizarReceita(
+                                      widget.user.uid,
+                                      _receitaEdicao.idReceita,
+                                      _medicoController.text,
+                                      _dataController.text,
+                                      descricao: _descricaoController.text);
+                                  idReceita = _receitaEdicao.idReceita;
+                                }
+                                Imagem img = new Imagem(
+                                    idUser: widget.user.uid,
+                                    modulo: "Receitas",
+                                    idItem: idReceita);
+                                Navigator.pushNamed(context, 'ImageCapture',
+                                    arguments: img);
+                              }
+                            })
                       ],
                     ),
-                    // FutureBuilder(
-                    //   future: buscaConsultas(widget.user.uid),
-                    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    //     if (snapshot.data == null) {
-                    //       return Container(
-                    //         child: Center(
-                    //           child: Icon(Icons.photo)
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       return ListView.builder(
-                    //           padding: EdgeInsets.all(10.0),
-                    //           itemCount: snapshot.data.length,
-                    //           itemBuilder: (BuildContext context, int index) {
-                    //             return GestureDetector(
-                    //               child: Card(
-                    //                 child: Padding(
-                    //                   padding: EdgeInsets.all(10.0),
-                    //                     child: Container(
-                    //                       child: Image
-                    //                     ),
-                    //                 ),
-                    //               )
-                                  
-                    //             );
-                    //           });
-                    //     }
-                    //   }) 
-                     
                   ],
                 ),
-                
               )),
         ));
   }

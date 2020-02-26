@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myhealth/Persistencia/P_Imagem.dart';
+import 'package:myhealth/class/Imagem.dart';
 
 /// Widget to capture and crop the image
 class ImageCapture extends StatefulWidget {
   createState() => _ImageCaptureState();
-  String modulo;
-  String usuario;
-  String idItem;
+  Imagem imagem;
 
-  ImageCapture({this.modulo, this.usuario, this.idItem});
+  ImageCapture({this.imagem});
 }
 
 class _ImageCaptureState extends State<ImageCapture> {
@@ -72,9 +72,7 @@ class _ImageCaptureState extends State<ImageCapture> {
               padding: const EdgeInsets.all(32),
               child: Uploader(
                 file: _imageFile,
-                modulo: widget.modulo,
-                usuario: widget.usuario,
-                idItem: widget.idItem,
+                imagem: widget.imagem,
               ),
             )
           ]
@@ -86,11 +84,8 @@ class _ImageCaptureState extends State<ImageCapture> {
 
 class Uploader extends StatefulWidget {
   final File file;
-  String modulo;
-  String usuario;
-  String idItem;
-  Uploader({Key key, this.file, this.modulo, this.usuario, this.idItem})
-      : super(key: key);
+  Imagem imagem;
+  Uploader({Key key, this.file, this.imagem}) : super(key: key);
 
   createState() => _UploaderState();
 }
@@ -101,13 +96,20 @@ class _UploaderState extends State<Uploader> {
 
   StorageUploadTask _uploadTask;
 
-  _startUpload() {
-    String filePath = 'images/${DateTime.now()}.png';
+  P_Imagem bd = new P_Imagem();
 
-    setState(() {
+  _startUpload() {
+    String filePath = 'imagens/${DateTime.now()}.png';
+
+    setState(() async {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
 
-      //var teste = _storage.ref().child('images').getData(9999999999999999);
+      var dowurl = await (await _uploadTask.onComplete).ref.getDownloadURL();
+      var url = dowurl.toString();
+
+      if (url != null)
+        bd.cadastraImagem(widget.imagem.idUser, widget.imagem.modulo,
+            widget.imagem.idItem, url);
     });
   }
 
