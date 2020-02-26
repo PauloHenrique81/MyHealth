@@ -24,7 +24,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
     "Fisioterapeuta",
     "Psicólogo",
     "Nutricionista",
-    "Dentista,"
+    "Dentista"
   ];
   final _formKey = GlobalKey<FormState>();
 
@@ -35,6 +35,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
   final _especialidadeController = TextEditingController();
   final _identificacaoController = TextEditingController();
   final _localDeAtendimentoController = TextEditingController();
+  final _telefoneController = TextEditingController();
   final _statusController = TextEditingController();
 
   @override
@@ -53,7 +54,10 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
       _identificacaoController.text = _profissionalEdicao.identificacao;
       _localDeAtendimentoController.text =
           _profissionalEdicao.localDeAtendimento;
+      _telefoneController.text = _profissionalEdicao.telefone;
       _statusController.text = _profissionalEdicao.status;
+
+      profissao = _profissionalEdicao.profissao;
     }
   }
 
@@ -78,6 +82,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                       _localDeAtendimentoController.text,
                       especialidade: _especialidadeController.text,
                       identificacao: _identificacaoController.text,
+                      telefone: _telefoneController.text,
                       status: _statusController.text);
                 } else {
                   await conectionDB.atualizarProfissional(
@@ -88,6 +93,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                       _profissaoController.text,
                       especialidade: _especialidadeController.text,
                       identificacao: _identificacaoController.text,
+                      telefone: _telefoneController.text,
                       status: _statusController.text);
                 }
 
@@ -105,8 +111,8 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Text("Profissão"),
-                        DropdownButton(
+                        Text("Profissão : "),
+                        Expanded(child: DropdownButton(
                           hint: Text(profissao),
                           items: profissionais.map((String progissaoEscolhida) {
                             return DropdownMenuItem<String>(
@@ -117,15 +123,18 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           onChanged: (text) {
                             _userEdited = true;
                             _profissionalEdicao.profissao = text;
+                            _profissaoController.text = text;
 
                             setState(() {
                               profissao = text;
                             });
                           },
-                        ),
+                          isExpanded: true,
+                        ),)
                       ],
                     ),
                     TextField(
+                      keyboardType: TextInputType.text,
                       controller: _especialidadeController,
                       decoration: InputDecoration(labelText: "Especialidade:"),
                       onChanged: (text) {
@@ -134,6 +143,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                       },
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.text,
                       controller: _nomeController,
                       decoration: InputDecoration(labelText: "Nome:"),
                       validator: (val) => val.isEmpty ? 'Digite o Nome' : null,
@@ -143,12 +153,31 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                       },
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.text,
                         controller: _identificacaoController,
                         decoration:
                             InputDecoration(labelText: "Identificação:"),
                         onChanged: (text) {
                           _userEdited = true;
                           _profissionalEdicao.identificacao = text;
+                        }),
+                     TextFormField(
+                       keyboardType: TextInputType.text,
+                        controller: _localDeAtendimentoController,
+                        decoration:
+                            InputDecoration(labelText: "Local de atendimento:"),
+                        onChanged: (text) {
+                          _userEdited = true;
+                          _profissionalEdicao.localDeAtendimento = text;
+                        }),
+                     TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: _telefoneController,
+                        decoration:
+                            InputDecoration(labelText: "Telefone:"),
+                        onChanged: (text) {
+                          _userEdited = true;
+                          _profissionalEdicao.telefone= text;
                         })
                   ],
                 ),

@@ -6,6 +6,7 @@ class Profissional {
   String nome;
   String identificacao;
   String localDeAtendimento;
+  String telefone;
   String status;
 
   Profissional({
@@ -16,6 +17,7 @@ class Profissional {
     this.nome,
     this.identificacao,
     this.localDeAtendimento,
-    this.status,
+    this.telefone,
+    this.status
   });
 }

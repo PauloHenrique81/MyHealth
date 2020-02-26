@@ -35,7 +35,7 @@ class _HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("MyHelth"),
+        title: new Text("MyHealth"),
         actions: <Widget>[
           IconButton(
             icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
@@ -85,6 +85,13 @@ class _HomePage extends StatelessWidget {
               trailing: new Icon(Icons.receipt),
               onTap: () => Navigator.pushNamed(
                   context, 'ListagemDeProfissionais',
+                  arguments: user),
+            ),
+            new ListTile(
+              title: new Text("Receitas"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(
+                  context, 'ListagemDeReceitas',
                   arguments: user),
             ),
             new ListTile(

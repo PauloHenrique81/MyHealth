@@ -1,42 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:myhealth/Persistencia/P_Profissional.dart';
+import 'package:myhealth/Persistencia/P_Receita.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
-import 'package:myhealth/class/Profissional.dart';
+import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
 
 import '../Loading.dart';
 
-class ListagemDeProfissionais extends StatefulWidget {
+class ListagemDeReceitas extends StatefulWidget {
   final User user;
-  ListagemDeProfissionais({this.user});
+  ListagemDeReceitas({this.user});
 
   @override
-  _ListagemDeProfissionaisState createState() =>
-      _ListagemDeProfissionaisState();
+  _ListagemDeReceitasState createState() =>
+      _ListagemDeReceitasState();
 }
 
-class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
-  P_Profissional bd = new P_Profissional();
-  List<Profissional> profissionais = new List<Profissional>();
+class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
+  P_Receita bd = new P_Receita();
+  List<Receita> receitas = new List<Receita>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Profissionais"),
+          title: Text("Receitas"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
         ),
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _novoProfissional(widget.user);
+            _novaReceita(widget.user);
           },
           child: Icon(Icons.add),
           backgroundColor: Colors.deepPurple,
         ),
         body: FutureBuilder(
-            future: buscaProfissionais(widget.user.uid),
+            future: buscaReceitas(widget.user.uid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return Container(
@@ -60,12 +60,12 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].profissao ?? "",
+                                      Text(snapshot.data[index].medico ?? "",
                                           style: TextStyle(
                                               fontSize: 22.0,
                                               fontWeight: FontWeight.bold)),
                                       Text(
-                                          snapshot.data[index].nome ??
+                                          snapshot.data[index].data ??
                                               "",
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
@@ -73,29 +73,18 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].localDeAtendimento ?? "",
+                                      Text(snapshot.data[index].descricao ?? "",
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     Text(snapshot.data[index].data ?? "",
-                                  //         style: TextStyle(fontSize: 18.0)),
-                                  //     Text("    ",
-                                  //         style: TextStyle(fontSize: 18.0)),
-                                  //     Text(snapshot.data[index].horario ?? "",
-                                  //         style: TextStyle(fontSize: 18.0))
-                                  //   ],
-                                  // )
                                 ],
                               ),
                             ),
                           ),
                         ),
                         onTap: () {
-                          _mostrarDetalhesDoProfissional(
-                              profissional: profissionais[index],
+                          _mostrarDetalhesDaReceita(
+                              receita: receitas[index],
                               user: widget.user);
                         },
                       );
@@ -104,21 +93,21 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
             }));
   }
 
-  Future buscaProfissionais(String idUser) async {
-    profissionais = await bd.listaDeProfissionais(idUser);
-    return profissionais;
+  Future buscaReceitas(String idUser) async {
+    receitas = await bd.listaDeReceitas(idUser);
+    return receitas;
   }
 
-  void _mostrarDetalhesDoProfissional({Profissional profissional, User user}) {
+  void _mostrarDetalhesDaReceita({Receita receita, User user}) {
     ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, profissional: profissional);
+        new ScreeanArguments(user: user, receita: receita);
     Navigator.of(context)
-        .pushNamed('EdicaoDeProfissional', arguments: screeanArguments);
+        .pushNamed('EdicaoDeReceita', arguments: screeanArguments);
   }
 
-  void _novoProfissional(User user) {
+  void _novaReceita(User user) {
     ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
     Navigator.of(context)
-        .pushNamed('NovoProfissional', arguments: screeanArguments);
+        .pushNamed('NovaReceita', arguments: screeanArguments);
   }
 }

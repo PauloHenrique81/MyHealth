@@ -38,6 +38,7 @@ class P_Profissional {
           nome: d.data['nome'],
           identificacao: d.data['identificacao'],
           localDeAtendimento: d.data['localDeAtendimento'],
+          telefone: d.data['telefone'],
           status: d.data['status'] ?? '');
       profissionais.add(profissional);
     });
@@ -47,7 +48,7 @@ class P_Profissional {
 
   Future cadastraProfissional(
       String idUser, String profissao, String nome, String localDeAtendimento,
-      {String especialidade, String identificacao, String status}) {
+      {String especialidade, String identificacao, String telefone, String status}) {
     try {
       profissionalCollection.document().setData({
         'idUser': idUser,
@@ -56,6 +57,7 @@ class P_Profissional {
         'localDeAtendimento': localDeAtendimento,
         'especialidade': especialidade ?? '',
         'identificacao': identificacao ?? '',
+        'telefone' : telefone ?? '',
         'status': status ?? '',
       });
     } catch (e) {
@@ -66,7 +68,7 @@ class P_Profissional {
 
   Future atualizarProfissional(String idUser, String idProfissional,
       String nome, String localDeAtendimento, String profissao,
-      {String especialidade, String identificacao, String status}) {
+      {String especialidade, String identificacao, String telefone, String status}) {
     try {
       profissionalCollection.document(idProfissional).updateData({
         'idUser': idUser,
@@ -75,6 +77,7 @@ class P_Profissional {
         'localDeAtendimento': localDeAtendimento,
         'especialidade': especialidade ?? '',
         'identificacao': identificacao ?? '',
+        'telefone' : telefone ?? '',
         'status': status ?? ''
       });
     } catch (e) {

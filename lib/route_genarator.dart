@@ -10,6 +10,9 @@ import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/Login.dart';
 import 'package:myhealth/Screens/Profissional/EdicaoDoProfissional.dart';
 import 'package:myhealth/Screens/Profissional/ListagemDeProfissional.dart';
+import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
+import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
+import 'package:myhealth/Service/ImageCapture.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
@@ -23,6 +26,8 @@ class RouteGenarator {
     switch (settings.name) {
       case 'Wrapper':
         return MaterialPageRoute(builder: (_) => Wrapper());
+     case 'ImageCapture':
+        return MaterialPageRoute(builder: (_) => ImageCapture());
       case 'LoginPaciente':
         return MaterialPageRoute(builder: (_) => LoginPaciente());
       case 'CadastroDePaciente':
@@ -59,6 +64,15 @@ class RouteGenarator {
                   ));
         }
         return _errorRoute();
+       case 'EdicaoDeProfissional':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeProfissional(
+                    user: args.user,
+                    profissional: args.profissional,
+                  ));
+        }
+        return _errorRoute();
       case 'ListagemDeProfissionais':
         if (args is User) {
           return MaterialPageRoute(
@@ -83,6 +97,29 @@ class RouteGenarator {
               builder: (_) => EdicaoDeCirurgia(user: args.user));
         }
         return _errorRoute();
+
+       case 'EdicaoDeReceita':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeReceita(
+                    user: args.user,
+                    receita: args.receita,
+                  ));
+        }
+        return _errorRoute();
+      case 'ListagemDeReceitas':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeReceitas(user: args));
+        }
+        return _errorRoute();
+      case 'NovaReceita':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeReceita(user: args.user));
+        }
+        return _errorRoute();
+
       case 'EdicaoDeExame':
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
