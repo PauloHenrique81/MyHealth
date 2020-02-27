@@ -97,19 +97,19 @@ class _UploaderState extends State<Uploader> {
   StorageUploadTask _uploadTask;
 
   P_Imagem bd = new P_Imagem();
+  var url;
 
   _startUpload() {
     String filePath = 'imagens/${DateTime.now()}.png';
 
-    setState(() async {
+    setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
 
-      var dowurl = await (await _uploadTask.onComplete).ref.getDownloadURL();
-      var url = dowurl.toString();
-
-      if (url != null)
+      if (_uploadTask.isComplete) {
+        url = _storage.ref().child(filePath).getDownloadURL();
         bd.cadastraImagem(widget.imagem.idUser, widget.imagem.modulo,
             widget.imagem.idItem, url);
+      }
     });
   }
 
@@ -148,7 +148,7 @@ class _UploaderState extends State<Uploader> {
                   LinearProgressIndicator(value: progressPercent),
                   Text(
                     '${(progressPercent * 100).toStringAsFixed(2)} % ',
-                    style: TextStyle(fontSize: 50),
+                    style: TextStyle(fontSize: 20),
                   ),
                 ]);
           });

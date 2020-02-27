@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealth/Persistencia/P_Imagem.dart';
 import 'package:myhealth/Persistencia/P_Receita.dart';
+import 'package:myhealth/Screens/Loading.dart';
 import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
@@ -39,9 +41,13 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
 
   P_Receita conectionDB = new P_Receita();
 
+  List<Imagem> imagens = new List<Imagem>();
+  P_Imagem conectionDB_imagem = new P_Imagem();
+
   final _medicoController = TextEditingController();
   final _dataController = TextEditingController();
   final _descricaoController = TextEditingController();
+  var idReceita;
 
   @override
   void initState() {
@@ -56,6 +62,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
       _medicoController.text = _receitaEdicao.medico;
       _dataController.text = _receitaEdicao.data;
       _descricaoController.text = _receitaEdicao.descricao;
+      idReceita = _receitaEdicao.idReceita;
     }
   }
 
@@ -83,6 +90,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                       _medicoController.text,
                       _dataController.text,
                       descricao: _descricaoController.text);
+                  idReceita = _receitaEdicao.idReceita;
                 }
 
                 Navigator.pop(context);
@@ -137,7 +145,6 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                             iconSize: 40.0,
                             tooltip: "Adicionar foto",
                             onPressed: () async {
-                              var idReceita;
                               if (_formKey.currentState.validate()) {
                                 if (_novaReceita == true) {
                                   idReceita = await conectionDB.cadastraReceita(
@@ -164,6 +171,44 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                             })
                       ],
                     ),
+                    Column(
+                      children: <Widget>[
+                        FutureBuilder(
+                            future: buscaImagens(widget.user.uid, idReceita),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.data == null) {
+                                return Container(
+                                  child: Center(
+                                    child: LoadingAnimation(),
+                                  ),
+                                );
+                              } else {
+                                return ListView.builder(
+                                    padding: EdgeInsets.all(10.0),
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return snapshot.data.length == 0
+                                          ? null
+                                          : GestureDetector(
+                                              child: Card(
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Container(
+                                                    child: Image.network(
+                                                        snapshot
+                                                            .data[index].url),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {},
+                                            );
+                                    });
+                              }
+                            }),
+                      ],
+                    )
                   ],
                 ),
               )),
@@ -199,5 +244,13 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
     } else {
       return Future.value(true);
     }
+  }
+
+  Future buscaImagens(String idUser, String idItem) async {
+    if (idItem != null) {
+      imagens = await conectionDB_imagem.listaDeImagens(idUser, idItem);
+    }
+    imagens = await conectionDB_imagem.listaDeImagens(idUser, idItem);
+    return imagens;
   }
 }

@@ -13,23 +13,25 @@ class P_Imagem {
       return Imagem(
           idUser: doc.data['idUser'],
           modulo: doc.data['modulo'],
-          idItem: doc.data['tipoExame'],
-          url: doc.data['data']);
+          idItem: doc.data['idItem'],
+          url: doc.data['url']);
     }).toList();
   }
 
-  Future listaDeImagens(String idUser) async {
+  Future listaDeImagens(String idUser, String idItem) async {
     Imagem imagem = new Imagem();
     List<Imagem> imagens = new List<Imagem>();
 
-    var snapshots =
-        await exameCollection.where("idUser", isEqualTo: idUser).getDocuments();
+    var snapshots = await exameCollection
+        .where("idUser", isEqualTo: idUser)
+        .where("idItem", isEqualTo: idItem)
+        .getDocuments();
     snapshots.documents.forEach((d) {
       imagem = new Imagem(
           idUser: d.data['idUser'],
           idImagem: d.documentID,
-          modulo: d.data['nomeDoMedico'],
-          idItem: d.data['tipoExame'],
+          modulo: d.data['modulo'],
+          idItem: d.data['idItem'],
           url: d.data['data']);
       imagens.add(imagem);
     });
