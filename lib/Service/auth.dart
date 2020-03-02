@@ -7,7 +7,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
 
-  final CollectionReference consultaCollection =
+  final CollectionReference pacienteCollection =
       Firestore.instance.collection("pacientes");
 
   User _userFromFirebaseUser(FirebaseUser user) {
@@ -80,7 +80,7 @@ class AuthService {
     try {
       User user = await _registrarEmailESenha(email, senha);
       if (user != null) {
-        consultaCollection.document().setData({
+        pacienteCollection.document().setData({
           'uid': user.uid,
           'nome': nome,
           'idade': idade ?? '',
