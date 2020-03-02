@@ -18,6 +18,10 @@ class _ImageCaptureState extends State<ImageCapture> {
   /// Active image file
   File _imageFile;
 
+  StorageUploadTask _uploadTask;
+
+  P_Imagem bd = new P_Imagem();
+
   /// Select an image via gallery or camera
   Future<void> _pickImage(ImageSource source) async {
     File selected = await ImagePicker.pickImage(source: source);
@@ -25,6 +29,14 @@ class _ImageCaptureState extends State<ImageCapture> {
     setState(() {
       _imageFile = selected;
     });
+  }
+
+  salvarDadosDaImagem() async {
+    var url =
+        await Uploader.storage.ref().child(Uploader.filePath).getDownloadURL();
+    if (url != null)
+      bd.cadastraImagem(widget.imagem.idUser, widget.imagem.modulo,
+          widget.imagem.idItem, url);
   }
 
   @override
@@ -57,7 +69,10 @@ class _ImageCaptureState extends State<ImageCapture> {
                 color: Colors.green,
                 size: 30,
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                salvarDadosDaImagem();
+                Navigator.pop(context);
+              },
               color: Colors.pink,
             ),
           ],
@@ -84,6 +99,11 @@ class _ImageCaptureState extends State<ImageCapture> {
 
 class Uploader extends StatefulWidget {
   final File file;
+  static var imgDetail;
+  static String filePath;
+  static final FirebaseStorage storage =
+      FirebaseStorage(storageBucket: 'gs://flutter-78e41.appspot.com');
+
   Imagem imagem;
   Uploader({Key key, this.file, this.imagem}) : super(key: key);
 
@@ -91,25 +111,14 @@ class Uploader extends StatefulWidget {
 }
 
 class _UploaderState extends State<Uploader> {
-  final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: 'gs://flutter-78e41.appspot.com');
-
   StorageUploadTask _uploadTask;
 
-  P_Imagem bd = new P_Imagem();
-  var url;
-
   _startUpload() {
-    String filePath = 'imagens/${DateTime.now()}.png';
+    Uploader.filePath = 'imagens/${DateTime.now()}.png';
 
     setState(() {
-      _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
-
-      if (_uploadTask.isComplete) {
-        url = _storage.ref().child(filePath).getDownloadURL();
-        bd.cadastraImagem(widget.imagem.idUser, widget.imagem.modulo,
-            widget.imagem.idItem, url);
-      }
+      Uploader.imgDetail = _uploadTask =
+          Uploader.storage.ref().child(Uploader.filePath).putFile(widget.file);
     });
   }
 
@@ -155,7 +164,7 @@ class _UploaderState extends State<Uploader> {
     } else {
       return FlatButton.icon(
           color: Colors.blue,
-          label: Text('Upload to Firebase'),
+          label: Text('Salvar imagem'),
           icon: Icon(Icons.cloud_upload),
           onPressed: _startUpload);
     }

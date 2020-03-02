@@ -32,7 +32,7 @@ class P_Imagem {
           idImagem: d.documentID,
           modulo: d.data['modulo'],
           idItem: d.data['idItem'],
-          url: d.data['data']);
+          url: d.data['url']);
       imagens.add(imagem);
     });
 

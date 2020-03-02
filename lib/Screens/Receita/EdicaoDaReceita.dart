@@ -171,42 +171,47 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                             })
                       ],
                     ),
-                    Column(
+                    Row(
                       children: <Widget>[
-                        FutureBuilder(
-                            future: buscaImagens(widget.user.uid, idReceita),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.data == null) {
-                                return Container(
-                                  child: Center(
-                                    child: LoadingAnimation(),
-                                  ),
-                                );
-                              } else {
-                                return ListView.builder(
-                                    padding: EdgeInsets.all(10.0),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return snapshot.data.length == 0
-                                          ? null
-                                          : GestureDetector(
-                                              child: Card(
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(10.0),
-                                                  child: Container(
-                                                    child: Image.network(
-                                                        snapshot
-                                                            .data[index].url),
+                        Expanded(
+                            child: SizedBox(
+                          height: 300.0,
+                          child: FutureBuilder(
+                              future: buscaImagens(widget.user.uid, idReceita),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.data == null) {
+                                  return Container(
+                                    child: Center(
+                                      child: LoadingAnimation(),
+                                    ),
+                                  );
+                                } else {
+                                  return ListView.builder(
+                                      padding: EdgeInsets.all(10.0),
+                                      itemCount: snapshot.data.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return snapshot.data.length == 0
+                                            ? null
+                                            : GestureDetector(
+                                                child: Card(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10.0),
+                                                    child: Container(
+                                                      child: Image.network(
+                                                          snapshot
+                                                              .data[index].url),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              onTap: () {},
-                                            );
-                                    });
-                              }
-                            }),
+                                                onTap: () {},
+                                              );
+                                      });
+                                }
+                              }),
+                        ))
                       ],
                     )
                   ],
