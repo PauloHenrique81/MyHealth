@@ -6,6 +6,7 @@ import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
 import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
 import 'package:myhealth/Screens/Exames/EdicaoDeExame.dart';
 import 'package:myhealth/Screens/HomePage.dart';
+import 'package:myhealth/Screens/Perfil.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
 import 'package:myhealth/Screens/Login.dart';
 import 'package:myhealth/Screens/Profissional/EdicaoDoProfissional.dart';
@@ -148,6 +149,11 @@ class RouteGenarator {
       case 'ImageCapture':
         if (args is Imagem) {
           return MaterialPageRoute(builder: (_) => ImageCapture(imagem: args));
+        }
+        return _errorRoute();
+      case 'Perfil':
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => Perfil(uid: args));
         }
         return _errorRoute();
       default:

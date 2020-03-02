@@ -41,7 +41,8 @@ class _PerfilState extends State<Perfil> {
   }
 
   buscaPaciente(String uid) async {
-    return await conectionDB.listaDePacientes(uid);
+    var teste = await conectionDB.listaDePacientes(uid);
+    return teste;
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -61,8 +62,8 @@ class _PerfilState extends State<Perfil> {
   void initState() {
     super.initState();
 
-    var aux = buscaPaciente(widget.uid);
-    _paciente = aux[0];
+    // var aux = buscaPaciente(widget.uid);
+    // _paciente = aux[0];
 
     _nomeController.text = _paciente.nome;
     _dataDeNascimentoController.text = _paciente.dataDeNascimento;

@@ -131,8 +131,6 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                 Navigator.pop(context);
               }
             },
-
-            
             child: Icon(Icons.save),
             backgroundColor: Colors.deepPurple,
           ),
@@ -271,7 +269,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                     Navigator.pushNamed(context, 'ListagemDeConsultas', arguments: widget.user);
+                    Navigator.pushNamed(context, 'ListagemDeConsultas',
+                        arguments: widget.user);
                   },
                 )
               ],
