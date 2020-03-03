@@ -22,17 +22,49 @@ class P_Paciente {
         medicamentosAlergicos: doc.data['medicamentosAlergicos'] ?? '',
         alimentosAlergicos: doc.data['alimentosAlergicos'] ?? '',
         intolerancia: doc.data['intolerancia'] ?? '',
+        imagemUrl: doc.data['imagemUrl'] ?? '',
         senha: doc.data['senha'] ?? '',
       );
     }).toList();
   }
 
-  Future listaDePacientes(String idUser) async {
+  Future existePaciente(String idUser) async {
+    var snapshots =
+        await pacienteCollection.where("uid", isEqualTo: idUser).getDocuments();
+    return snapshots.documents.isNotEmpty;
+  }
+
+  Future cadastraPaciente(String uid, String nome, String email,
+      {String imagemUrl,
+      String dataDeNascimento,
+      String cpf,
+      String telefone,
+      String cidade,
+      String tipoSanguineo,
+      String medicamentosAlergicos,
+      String alimentosAlergicos,
+      String intolerancia}) {
+    pacienteCollection.document().setData({
+      'uid': uid,
+      'nome': nome,
+      'email': email,
+      'cpf': cpf,
+      'dataDeNascimento': dataDeNascimento,
+      'telefone': telefone,
+      'cidade': cidade,
+      'tipoSanguineo': tipoSanguineo,
+      'medicamentosAlergicos': medicamentosAlergicos,
+      'alimentosAlergicos': alimentosAlergicos,
+      'intolerancia': intolerancia,
+      'dataDeCadastro': DateTime.now().toString(),
+    });
+  }
+
+  Future listaDePacientes() async {
     Paciente paciente = new Paciente();
     List<Paciente> pacientes = new List<Paciente>();
 
-    var snapshots =
-        await pacienteCollection.where("uid", isEqualTo: uid).getDocuments();
+    var snapshots = await pacienteCollection.getDocuments();
     snapshots.documents.forEach((d) {
       paciente = new Paciente(
           uid: d.data['uid'] ?? '',
@@ -46,11 +78,35 @@ class P_Paciente {
           medicamentosAlergicos: d.data['medicamentosAlergicos'] ?? '',
           alimentosAlergicos: d.data['alimentosAlergicos'] ?? '',
           intolerancia: d.data['intolerancia'] ?? '',
+          imagemUrl: d.data['imagemUrl'] ?? '',
           senha: d.data['senha'] ?? '');
       pacientes.add(paciente);
     });
 
     return pacientes;
+  }
+
+  Future getPaciente(String idUser) async {
+    Paciente paciente = new Paciente();
+
+    var snapshots =
+        await pacienteCollection.where("uid", isEqualTo: uid).getDocuments();
+    var d = snapshots.documents.first;
+    paciente = new Paciente(
+        uid: d.data['uid'] ?? '',
+        nome: d.data['nome'] ?? '',
+        dataDeNascimento: d.data['dataDeNascimento'] ?? '',
+        cpf: d.data['cpf'] ?? '',
+        email: d.data['email'] ?? '',
+        telefone: d.data['telefone'] ?? '',
+        cidade: d.data['cidade'] ?? '',
+        tipoSanguineo: d.data['tipoSanguineo'] ?? '',
+        medicamentosAlergicos: d.data['medicamentosAlergicos'] ?? '',
+        alimentosAlergicos: d.data['alimentosAlergicos'] ?? '',
+        intolerancia: d.data['intolerancia'] ?? '',
+        imagemUrl: d.data['imagemUrl'] ?? '',
+        senha: d.data['senha'] ?? '');
+    return paciente;
   }
 
   Future atualizarPaciente(String uid, String nome, String cpf,
@@ -61,7 +117,8 @@ class P_Paciente {
       String tipoSanguineo,
       String medicamentosAlergicos,
       String alimentosAlergicos,
-      String intolerancia}) {
+      String intolerancia,
+      String imagemUrl}) {
     try {
       pacienteCollection.document(uid).updateData({
         'nome': nome ?? '',
@@ -73,6 +130,7 @@ class P_Paciente {
         'tipoSanguineo': tipoSanguineo ?? '',
         'medicamentosAlergicos': medicamentosAlergicos ?? '',
         'alimentosAlergicos': alimentosAlergicos ?? '',
+        'imagemUrl': imagemUrl ?? '',
         'intolerancia': intolerancia ?? ''
       });
     } catch (e) {

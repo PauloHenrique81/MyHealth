@@ -41,8 +41,7 @@ class _PerfilState extends State<Perfil> {
   }
 
   buscaPaciente(String uid) async {
-    var teste = await conectionDB.listaDePacientes(uid);
-    return teste;
+    return await conectionDB.getPaciente(uid);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -62,8 +61,11 @@ class _PerfilState extends State<Perfil> {
   void initState() {
     super.initState();
 
-    // var aux = buscaPaciente(widget.uid);
-    // _paciente = aux[0];
+    _carregaPaciente();
+  }
+
+  _carregaPaciente() async {
+    _paciente = await buscaPaciente(widget.uid);
 
     _nomeController.text = _paciente.nome;
     _dataDeNascimentoController.text = _paciente.dataDeNascimento;
@@ -110,104 +112,124 @@ class _PerfilState extends State<Perfil> {
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: _nomeController,
-                      decoration: InputDecoration(labelText: "Nome:"),
-                      validator: (val) =>
-                          val.isEmpty ? 'Digite seu nome' : null,
-                      onChanged: (text) {
-                        setState(() {
-                          _userEdited = true;
-                          _paciente.nome = text;
-                        });
-                      },
+              child: Column(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Container(
+                      width: 140.0,
+                      height: 140.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: _paciente.imagemUrl != null
+                                  ? Image.network(_paciente.imagemUrl)
+                                  : Colors.cyan,
+                              fit: BoxFit.cover)),
                     ),
-                    TextField(
-                      controller: _cpfController,
-                      decoration: InputDecoration(labelText: "CPF:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.cpf = text;
-                      },
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          controller: _nomeController,
+                          decoration: InputDecoration(labelText: "Nome:"),
+                          validator: (val) =>
+                              val.isEmpty ? 'Digite seu nome' : null,
+                          onChanged: (text) {
+                            setState(() {
+                              _userEdited = true;
+                              _paciente.nome = text;
+                            });
+                          },
+                        ),
+                        TextField(
+                          controller: _cpfController,
+                          decoration: InputDecoration(labelText: "CPF:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.cpf = text;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _dataDeNascimentoController,
+                          decoration:
+                              InputDecoration(labelText: "Data de nascimento:"),
+                          validator: (val) =>
+                              val.isEmpty ? 'Digite a data' : null,
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.dataDeNascimento = text;
+                          },
+                          onTap: () => _selectDate(context),
+                          keyboardType: TextInputType.datetime,
+                        ),
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(labelText: "email:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.email = text;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _telefoneController,
+                          decoration: InputDecoration(labelText: "Telefone:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.telefone = text;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _cidadeController,
+                          decoration: InputDecoration(labelText: "Cidade:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.cidade = text;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _tipoSanguineoController,
+                          decoration:
+                              InputDecoration(labelText: "Tipo sanquineo:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.tipoSanguineo = text;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _medicamentosAlergicosController,
+                          decoration: InputDecoration(
+                              labelText: "Medicamentos Alérgicos:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.medicamentosAlergicos = text;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _alimentosAlergicosController,
+                          decoration: InputDecoration(
+                              labelText: "Alimentos Alérgicos:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.alimentosAlergicos = text;
+                          },
+                          keyboardType: TextInputType.number,
+                        ),
+                        TextFormField(
+                          controller: _intoleranciaController,
+                          decoration:
+                              InputDecoration(labelText: "Intolerância:"),
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _paciente.intolerancia = text;
+                          },
+                          keyboardType: TextInputType.number,
+                        )
+                      ],
                     ),
-                    TextFormField(
-                      controller: _dataDeNascimentoController,
-                      decoration:
-                          InputDecoration(labelText: "Data de nascimento:"),
-                      validator: (val) => val.isEmpty ? 'Digite a data' : null,
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.dataDeNascimento = text;
-                      },
-                      onTap: () => _selectDate(context),
-                      keyboardType: TextInputType.datetime,
-                    ),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(labelText: "email:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.email = text;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _telefoneController,
-                      decoration: InputDecoration(labelText: "Telefone:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.telefone = text;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _cidadeController,
-                      decoration: InputDecoration(labelText: "Cidade:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.cidade = text;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _tipoSanguineoController,
-                      decoration: InputDecoration(labelText: "Tipo sanquineo:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.tipoSanguineo = text;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _medicamentosAlergicosController,
-                      decoration:
-                          InputDecoration(labelText: "Medicamentos Alérgicos:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.medicamentosAlergicos = text;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _alimentosAlergicosController,
-                      decoration:
-                          InputDecoration(labelText: "Alimentos Alérgicos:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.alimentosAlergicos = text;
-                      },
-                      keyboardType: TextInputType.number,
-                    ),
-                    TextFormField(
-                      controller: _intoleranciaController,
-                      decoration: InputDecoration(labelText: "Intolerância:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _paciente.intolerancia = text;
-                      },
-                      keyboardType: TextInputType.number,
-                    )
-                  ],
-                ),
+                  ),
+                ],
               )),
         ));
   }

@@ -11,6 +11,7 @@ class Paciente {
   String alimentosAlergicos;
   String intolerancia;
   String dataDeCadastro;
+  String imagemUrl;
   String senha;
 
   Paciente(
@@ -25,5 +26,6 @@ class Paciente {
       this.medicamentosAlergicos,
       this.alimentosAlergicos,
       this.intolerancia,
+      this.imagemUrl,
       this.senha});
 }

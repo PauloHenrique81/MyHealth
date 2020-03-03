@@ -218,7 +218,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         dynamic result = await _auth.registrarPaciente(
-                            nome, idade, cpf, email, senha);
+                            nome, cpf, email, senha,
+                            idade: idade);
                         if (result == null) {
                           setState(
                               () => error = 'Erro ao realizar o cadastro.');

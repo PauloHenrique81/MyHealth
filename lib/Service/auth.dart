@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myhealth/Persistencia/P_Paciente.dart';
 import 'package:myhealth/class/user.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
+  P_Paciente pacienteBD = new P_Paciente();
 
   final CollectionReference pacienteCollection =
       Firestore.instance.collection("pacientes");
@@ -59,7 +61,15 @@ class AuthService {
         _userDetails = await _auth.currentUser();
       }
 
-      return _userFromFirebaseUser(_userDetails);
+      var userX = _userFromFirebaseUser(_userDetails);
+
+      var usuarioJaCadastrado = await pacienteBD.existePaciente(userX.uid);
+
+      if (!usuarioJaCadastrado)
+        pacienteBD.cadastraPaciente(userX.uid, userX.userName, userX.userEmail,
+            imagemUrl: userX.photoUrl);
+
+      return userX;
     } catch (e) {
       print(e.toString());
       return null;
@@ -75,8 +85,8 @@ class AuthService {
     }
   }
 
-  Future registrarPaciente(
-      String nome, String idade, String cpf, String email, String senha) async {
+  Future registrarPaciente(String nome, String cpf, String email, String senha,
+      {String idade}) async {
     try {
       User user = await _registrarEmailESenha(email, senha);
       if (user != null) {
