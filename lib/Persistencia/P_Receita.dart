@@ -38,17 +38,33 @@ class P_Receita {
     return receitas;
   }
 
+  Future getReceita(String idReceita) async {
+    Receita receita = new Receita();
+
+    var snapshots = await receitaCollection.document(idReceita).get();
+    var d = snapshots;
+
+    receita = new Receita(
+        idUser: d.data['idUser'] ?? '',
+        idReceita: d.data['idReceita'] ?? '',
+        medico: d.data['medico'] ?? '',
+        data: d.data['cpf'] ?? '',
+        descricao: d.data['descricao'] ?? '');
+
+    return receita;
+  }
+
   Future cadastraReceita(String idUser, String medico, String data,
-      {String descricao}) {
+      {String descricao}) async {
     try {
-      var idReceita = receitaCollection.add({
+      var idReceita = await receitaCollection.add({
         'idUser': idUser,
         'medico': medico,
         'descricao': descricao ?? '',
         'data': data
       });
 
-      return idReceita;
+      return idReceita.documentID;
     } catch (e) {
       print(e.toString());
       return null;

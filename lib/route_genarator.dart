@@ -147,8 +147,12 @@ class RouteGenarator {
         }
         return _errorRoute();
       case 'ImageCapture':
-        if (args is Imagem) {
-          return MaterialPageRoute(builder: (_) => ImageCapture(imagem: args));
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => ImageCapture(
+                    user: args.user,
+                    imagem: args.imagem,
+                  ));
         }
         return _errorRoute();
       case 'Perfil':

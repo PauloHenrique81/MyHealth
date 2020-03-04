@@ -22,9 +22,9 @@ class _Wrapper extends State<Wrapper> {
         _result = result;
 
         if (_result == "") {
-          Navigator.pushNamed(context, 'PreLogin');
+          Navigator.pushReplacementNamed(context, 'PreLogin');
         } else {
-          Navigator.pushNamed(context, 'HomePage', arguments: user);
+          Navigator.pushReplacementNamed(context, 'HomePage', arguments: user);
         }
       });
     });

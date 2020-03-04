@@ -114,19 +114,6 @@ class _PerfilState extends State<Perfil> {
               padding: EdgeInsets.all(10.0),
               child: Column(
                 children: <Widget>[
-                  GestureDetector(
-                    child: Container(
-                      width: 140.0,
-                      height: 140.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: _paciente.imagemUrl != null
-                                  ? Image.network(_paciente.imagemUrl)
-                                  : Colors.cyan,
-                              fit: BoxFit.cover)),
-                    ),
-                  ),
                   Form(
                     key: _formKey,
                     child: Column(

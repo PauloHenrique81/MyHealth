@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealth/Persistencia/P_Imagem.dart';
 import 'package:myhealth/Persistencia/P_Receita.dart';
 import 'package:myhealth/Screens/Loading.dart';
+import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
@@ -75,6 +76,17 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
             backgroundColor: Colors.deepPurple,
             title: Text("Nova Receita"),
             centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  setState(() {});
+                },
+              )
+            ],
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
@@ -152,6 +164,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                                       _medicoController.text,
                                       _dataController.text,
                                       descricao: _descricaoController.text);
+                                  _novaReceita = false;
                                 } else {
                                   await conectionDB.atualizarReceita(
                                       widget.user.uid,
@@ -161,12 +174,12 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                                       descricao: _descricaoController.text);
                                   idReceita = _receitaEdicao.idReceita;
                                 }
+
                                 Imagem img = new Imagem(
                                     idUser: widget.user.uid,
                                     modulo: "Receitas",
                                     idItem: idReceita);
-                                Navigator.pushNamed(context, 'ImageCapture',
-                                    arguments: img);
+                                _inserirImagem(user: widget.user, imagem: img);
                               }
                             })
                       ],
@@ -251,11 +264,17 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
     }
   }
 
+  void _inserirImagem({User user, Imagem imagem}) {
+    ScreeanArguments screeanArguments =
+        new ScreeanArguments(user: user, imagem: imagem);
+    Navigator.of(context)
+        .pushNamed('ImageCapture', arguments: screeanArguments);
+  }
+
   Future buscaImagens(String idUser, String idItem) async {
     if (idItem != null) {
       imagens = await conectionDB_imagem.listaDeImagens(idUser, idItem);
     }
-    imagens = await conectionDB_imagem.listaDeImagens(idUser, idItem);
     return imagens;
   }
 }

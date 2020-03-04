@@ -145,7 +145,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                     onPressed: () async {
                       await _auth.signInWithGmail().then((user) {
                         if (user != null) {
-                          Navigator.pushNamed(context, 'HomePage',
+                          Navigator.pushReplacementNamed(context, 'HomePage',
                               arguments: user);
                         }
                       });

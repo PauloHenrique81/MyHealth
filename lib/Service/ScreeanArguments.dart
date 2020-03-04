@@ -1,6 +1,7 @@
 import 'package:myhealth/class/Cirurgia.dart';
 import 'package:myhealth/class/Consulta.dart';
 import 'package:myhealth/class/Exame.dart';
+import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
@@ -12,6 +13,7 @@ class ScreeanArguments {
   Exame exame;
   Profissional profissional;
   Receita receita;
+  Imagem imagem;
 
   ScreeanArguments(
       {this.user,
@@ -19,5 +21,6 @@ class ScreeanArguments {
       this.cirurgia,
       this.exame,
       this.profissional,
-      this.receita});
+      this.receita,
+      this.imagem});
 }

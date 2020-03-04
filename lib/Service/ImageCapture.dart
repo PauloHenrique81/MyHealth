@@ -4,14 +4,19 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myhealth/Persistencia/P_Imagem.dart';
+import 'package:myhealth/Persistencia/P_Receita.dart';
+import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Imagem.dart';
+import 'package:myhealth/class/Receita.dart';
+import 'package:myhealth/class/user.dart';
 
 /// Widget to capture and crop the image
 class ImageCapture extends StatefulWidget {
   createState() => _ImageCaptureState();
   Imagem imagem;
+  User user;
 
-  ImageCapture({this.imagem});
+  ImageCapture({this.imagem, this.user});
 }
 
 class _ImageCaptureState extends State<ImageCapture> {
@@ -21,6 +26,7 @@ class _ImageCaptureState extends State<ImageCapture> {
   StorageUploadTask _uploadTask;
 
   P_Imagem bd = new P_Imagem();
+  P_Receita receitaBD = new P_Receita();
 
   /// Select an image via gallery or camera
   Future<void> _pickImage(ImageSource source) async {
@@ -69,7 +75,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                 color: Colors.green,
                 size: 30,
               ),
-              onPressed: () {
+              onPressed: () async {
                 salvarDadosDaImagem();
                 Navigator.pop(context);
               },
@@ -94,6 +100,13 @@ class _ImageCaptureState extends State<ImageCapture> {
         ],
       ),
     );
+  }
+
+  void _mostrarDetalhesDaReceita({Receita receita, User user}) {
+    ScreeanArguments screeanArguments =
+        new ScreeanArguments(user: user, receita: receita);
+    Navigator.of(context)
+        .pushReplacementNamed('EdicaoDeReceita', arguments: screeanArguments);
   }
 }
 
