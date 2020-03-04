@@ -112,25 +112,28 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                     Row(
                       children: <Widget>[
                         Text("Profissão : "),
-                        Expanded(child: DropdownButton(
-                          hint: Text(profissao),
-                          items: profissionais.map((String progissaoEscolhida) {
-                            return DropdownMenuItem<String>(
-                              value: progissaoEscolhida,
-                              child: Text(progissaoEscolhida),
-                            );
-                          }).toList(),
-                          onChanged: (text) {
-                            _userEdited = true;
-                            _profissionalEdicao.profissao = text;
-                            _profissaoController.text = text;
+                        Expanded(
+                          child: DropdownButton(
+                            hint: Text(profissao),
+                            items:
+                                profissionais.map((String progissaoEscolhida) {
+                              return DropdownMenuItem<String>(
+                                value: progissaoEscolhida,
+                                child: Text(progissaoEscolhida),
+                              );
+                            }).toList(),
+                            onChanged: (text) {
+                              _userEdited = true;
+                              _profissionalEdicao.profissao = text;
+                              _profissaoController.text = text;
 
-                            setState(() {
-                              profissao = text;
-                            });
-                          },
-                          isExpanded: true,
-                        ),)
+                              setState(() {
+                                profissao = text;
+                              });
+                            },
+                            isExpanded: true,
+                          ),
+                        )
                       ],
                     ),
                     TextField(
@@ -153,7 +156,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                       },
                     ),
                     TextFormField(
-                      keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.text,
                         controller: _identificacaoController,
                         decoration:
                             InputDecoration(labelText: "Identificação:"),
@@ -161,8 +164,8 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           _userEdited = true;
                           _profissionalEdicao.identificacao = text;
                         }),
-                     TextFormField(
-                       keyboardType: TextInputType.text,
+                    TextFormField(
+                        keyboardType: TextInputType.text,
                         controller: _localDeAtendimentoController,
                         decoration:
                             InputDecoration(labelText: "Local de atendimento:"),
@@ -170,14 +173,13 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           _userEdited = true;
                           _profissionalEdicao.localDeAtendimento = text;
                         }),
-                     TextFormField(
+                    TextFormField(
                         keyboardType: TextInputType.phone,
                         controller: _telefoneController,
-                        decoration:
-                            InputDecoration(labelText: "Telefone:"),
+                        decoration: InputDecoration(labelText: "Telefone:"),
                         onChanged: (text) {
                           _userEdited = true;
-                          _profissionalEdicao.telefone= text;
+                          _profissionalEdicao.telefone = text;
                         })
                   ],
                 ),
@@ -203,7 +205,8 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'ListagemDeProfissionais',
+                    Navigator.popAndPushNamed(
+                        context, 'ListagemDeProfissionais',
                         arguments: widget.user);
                   },
                 )
