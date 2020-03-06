@@ -24,6 +24,17 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
           title: Text("Consultas"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'HomePage',
+                      arguments: widget.user);
+                },
+              );
+            },
+          ),
         ),
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
@@ -51,36 +62,46 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                         child: Card(
                           child: Padding(
                             padding: EdgeInsets.all(10.0),
-                              child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(snapshot.data[index].nomeDoMedico ?? "",
-                                               style: TextStyle(
-                                               fontSize: 22.0,
-                                               fontWeight: FontWeight.bold)),
-                                        Text(snapshot.data[index].especialidade ?? "", style: TextStyle(fontSize: 18.0)),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:  MainAxisAlignment.start,
-                                      children: <Widget>[
-                                         Text(snapshot.data[index].local ?? "",style: TextStyle(fontSize: 18.0)),
-                                      ],
-                                    ),
-                                    Row(
-                                        mainAxisAlignment:  MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Text(snapshot.data[index].data ?? "", style: TextStyle(fontSize: 18.0)),
-                                          Text("    ", style: TextStyle(fontSize: 18.0)),
-                                          Text(snapshot.data[index].horario ?? "",style: TextStyle(fontSize: 18.0))
-                                        ],
-                                    )
-                                  ],
-                                ),
+                            child: Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                          snapshot.data[index].nomeDoMedico ??
+                                              "",
+                                          style: TextStyle(
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.bold)),
+                                      Text(
+                                          snapshot.data[index].especialidade ??
+                                              "",
+                                          style: TextStyle(fontSize: 18.0)),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(snapshot.data[index].local ?? "",
+                                          style: TextStyle(fontSize: 18.0)),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text(snapshot.data[index].data ?? "",
+                                          style: TextStyle(fontSize: 18.0)),
+                                      Text("    ",
+                                          style: TextStyle(fontSize: 18.0)),
+                                      Text(snapshot.data[index].horario ?? "",
+                                          style: TextStyle(fontSize: 18.0))
+                                    ],
+                                  )
+                                ],
                               ),
+                            ),
                           ),
                         ),
                         onTap: () {

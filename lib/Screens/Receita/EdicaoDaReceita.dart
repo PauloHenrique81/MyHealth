@@ -251,7 +251,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'ListagemDeProfissionais',
+                    Navigator.pushNamed(context, 'ListagemDeReceitas',
                         arguments: widget.user);
                   },
                 )

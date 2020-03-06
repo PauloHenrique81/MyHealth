@@ -11,8 +11,7 @@ class ListagemDeReceitas extends StatefulWidget {
   ListagemDeReceitas({this.user});
 
   @override
-  _ListagemDeReceitasState createState() =>
-      _ListagemDeReceitasState();
+  _ListagemDeReceitasState createState() => _ListagemDeReceitasState();
 }
 
 class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
@@ -26,6 +25,17 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
           title: Text("Receitas"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'HomePage',
+                      arguments: widget.user);
+                },
+              );
+            },
+          ),
         ),
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
@@ -64,9 +74,7 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
                                           style: TextStyle(
                                               fontSize: 22.0,
                                               fontWeight: FontWeight.bold)),
-                                      Text(
-                                          snapshot.data[index].data ??
-                                              "",
+                                      Text(snapshot.data[index].data ?? "",
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
@@ -84,8 +92,7 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
                         ),
                         onTap: () {
                           _mostrarDetalhesDaReceita(
-                              receita: receitas[index],
-                              user: widget.user);
+                              receita: receitas[index], user: widget.user);
                         },
                       );
                     });
@@ -107,7 +114,6 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
 
   void _novaReceita(User user) {
     ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
-    Navigator.of(context)
-        .pushNamed('NovaReceita', arguments: screeanArguments);
+    Navigator.of(context).pushNamed('NovaReceita', arguments: screeanArguments);
   }
 }

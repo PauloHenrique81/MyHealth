@@ -26,6 +26,17 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
           title: Text("Profissionais"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'HomePage',
+                      arguments: widget.user);
+                },
+              );
+            },
+          ),
         ),
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
@@ -64,16 +75,17 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
                                           style: TextStyle(
                                               fontSize: 22.0,
                                               fontWeight: FontWeight.bold)),
-                                      Text(
-                                          snapshot.data[index].nome ??
-                                              "",
+                                      Text(snapshot.data[index].nome ?? "",
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].localDeAtendimento ?? "",
+                                      Text(
+                                          snapshot.data[index]
+                                                  .localDeAtendimento ??
+                                              "",
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),

@@ -25,6 +25,17 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
           title: Text("Exames"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'HomePage',
+                      arguments: widget.user);
+                },
+              );
+            },
+          ),
         ),
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
