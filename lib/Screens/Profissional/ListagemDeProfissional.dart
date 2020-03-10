@@ -89,17 +89,6 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     Text(snapshot.data[index].data ?? "",
-                                  //         style: TextStyle(fontSize: 18.0)),
-                                  //     Text("    ",
-                                  //         style: TextStyle(fontSize: 18.0)),
-                                  //     Text(snapshot.data[index].horario ?? "",
-                                  //         style: TextStyle(fontSize: 18.0))
-                                  //   ],
-                                  // )
                                 ],
                               ),
                             ),

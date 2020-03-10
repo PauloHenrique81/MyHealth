@@ -62,6 +62,14 @@ flutter:
    - Assets/login3.jpg
    - Assets/login4.jpg
    - Assets/login5.jpg
+   - Assets/bebe.jpg
+   - Assets/adulto.jpg
+   - Assets/idoso.jpg
+   - Assets/gestante.jpg
+   - Assets/adolescente.jpg
+   - Assets/vacina.jpg
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

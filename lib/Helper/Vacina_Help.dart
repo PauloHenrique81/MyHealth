@@ -1,9 +1,11 @@
 class Vacina_Help {
-  static Vacina crianca;
-  static Vacina adolescente;
-  static Vacina adulto;
-  static Vacina gestante;
-  static Vacina idoso;
+  Vacina crianca;
+  Vacina adolescente;
+  Vacina adulto;
+  Vacina gestante;
+  Vacina idoso;
+
+  List<VacinaAux> vacinas = new List<VacinaAux>();
 
   Vacina_Help() {
     crianca = populaCrianca();
@@ -11,6 +13,25 @@ class Vacina_Help {
     adulto = populaCrianca();
     idoso = populaIdoso();
     gestante = populaGestante();
+    populaVacinaAux();
+  }
+
+  void populaVacinaAux() {
+    var crianca =
+        new VacinaAux("Criança", "Entre 0 e 10 anos", "Assets/bebe.jpg");
+    var adolescente = new VacinaAux(
+        "Adolescente", "Entre 11 e 19 anos", "Assets/adolescente.jpg");
+    var adulto =
+        new VacinaAux("Adulto", "Entre 20 e 59 anos", "Assets/adulto.jpg");
+    var idoso = new VacinaAux("Idoso", "60 + anos", "Assets/idoso.jpg");
+    var gestante =
+        new VacinaAux("Gestante", "Período gestacional", "Assets/gestante.jpg");
+
+    vacinas.add(crianca);
+    vacinas.add(adolescente);
+    vacinas.add(adulto);
+    vacinas.add(idoso);
+    vacinas.add(gestante);
   }
 
   Vacina populaGestante() {
@@ -36,7 +57,10 @@ class Vacina_Help {
     listaVacinaGestante.add(v44);
     listaVacinaGestante.add(v45);
 
-    return new Vacina("Gestante", "Período gestacional", listaVacinaGestante);
+    return new Vacina(
+        nome: "Gestante",
+        idade: "Período gestacional",
+        listaVacinas: listaVacinaGestante);
   }
 
   Vacina populaIdoso() {
@@ -69,7 +93,8 @@ class Vacina_Help {
     listaVacinaIdoso.add(v40);
     listaVacinaIdoso.add(v41);
 
-    return new Vacina("Idoso", "60 + anos", listaVacinaIdoso);
+    return new Vacina(
+        nome: "Idoso", idade: "60 + anos", listaVacinas: listaVacinaIdoso);
   }
 
   Vacina populaAdulto() {
@@ -104,7 +129,10 @@ class Vacina_Help {
     listaVacinaAdulto.add(v35);
     listaVacinaAdulto.add(v36);
 
-    return new Vacina("Adulto", "Entre 20 e 59 anos", listaVacinaAdulto);
+    return new Vacina(
+        nome: "Adulto",
+        idade: "Entre 20 e 59 anos",
+        listaVacinas: listaVacinaAdulto);
   }
 
   Vacina populaAdolescente() {
@@ -148,7 +176,9 @@ class Vacina_Help {
     listaVacinaAdolescente.add(v31);
 
     return new Vacina(
-        "Adolescente", "Entre 11 e 19 anos", listaVacinaAdolescente);
+        nome: "Adolescente",
+        idade: "Entre 11 e 19 anos",
+        listaVacinas: listaVacinaAdolescente);
   }
 
   Vacina populaCrianca() {
@@ -251,7 +281,10 @@ class Vacina_Help {
     listaVacinaCrianca.add(v23);
     listaVacinaCrianca.add(v24);
 
-    return new Vacina("Crianca", "Entre 0 e 10 anos", listaVacinaCrianca);
+    return new Vacina(
+        nome: "Criança",
+        idade: "Entre 0 e 10 anos",
+        listaVacinas: listaVacinaCrianca);
   }
 }
 
@@ -260,7 +293,7 @@ class Vacina {
   String idade;
   List<TiposDeVacinas> listaVacinas = List<TiposDeVacinas>();
 
-  Vacina(this.nome, this.idade, this.listaVacinas);
+  Vacina({this.nome, this.idade, this.listaVacinas});
 }
 
 class TiposDeVacinas {
@@ -272,4 +305,12 @@ class TiposDeVacinas {
 
   TiposDeVacinas(this.codigo, this.tipo, this.descricao, this.doses,
       {this.status});
+}
+
+class VacinaAux {
+  String nome;
+  String periodo;
+  String img;
+
+  VacinaAux(this.nome, this.periodo, this.img);
 }

@@ -1,3 +1,4 @@
+import 'package:myhealth/Helper/Vacina_Help.dart';
 import 'package:myhealth/class/Cirurgia.dart';
 import 'package:myhealth/class/Consulta.dart';
 import 'package:myhealth/class/Exame.dart';
@@ -14,6 +15,7 @@ class ScreeanArguments {
   Profissional profissional;
   Receita receita;
   Imagem imagem;
+  Vacina vacina;
 
   ScreeanArguments(
       {this.user,
@@ -22,5 +24,6 @@ class ScreeanArguments {
       this.exame,
       this.profissional,
       this.receita,
-      this.imagem});
+      this.imagem,
+      this.vacina});
 }
