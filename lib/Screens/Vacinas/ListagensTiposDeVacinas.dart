@@ -12,6 +12,11 @@ class ListagemTiposDeVacinas extends StatefulWidget {
 }
 
 class _ListagemTiposDeVacinasState extends State<ListagemTiposDeVacinas> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Vacina_Help vacinas = Vacina_Help();
   @override
   Widget build(BuildContext context) {

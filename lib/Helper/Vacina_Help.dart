@@ -302,9 +302,11 @@ class TiposDeVacinas {
   String descricao;
   String doses;
   bool status = false;
+  String uid;
+  String data;
 
   TiposDeVacinas(this.codigo, this.tipo, this.descricao, this.doses,
-      {this.status});
+      {this.status, uid, data});
 }
 
 class VacinaAux {
