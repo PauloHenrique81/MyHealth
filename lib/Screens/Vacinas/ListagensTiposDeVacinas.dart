@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Helper/Vacina_Help.dart';
+import 'package:myhealth/Persistencia/P_Vacina_x_User.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/class/Vacina_x_User.dart';
 import 'package:myhealth/class/user.dart';
 
 class ListagemTiposDeVacinas extends StatefulWidget {
@@ -12,9 +14,18 @@ class ListagemTiposDeVacinas extends StatefulWidget {
 }
 
 class _ListagemTiposDeVacinasState extends State<ListagemTiposDeVacinas> {
+  List<VacinaUser> listVacinaUser;
+
+  P_Vacina_x_User bd = new P_Vacina_x_User();
+
   @override
   void initState() {
     super.initState();
+    buscaVacinaUser();
+  }
+
+  void buscaVacinaUser() async {
+    listVacinaUser = await bd.listaDeVacinaUser(widget.user.uid);
   }
 
   Vacina_Help vacinas = Vacina_Help();
@@ -112,36 +123,36 @@ class _ListagemTiposDeVacinasState extends State<ListagemTiposDeVacinas> {
   }
 
   void _mostrarDetalhesCrianca({Vacina vacina, User user}) {
-    ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, vacina: vacina);
+    ScreeanArguments screeanArguments = new ScreeanArguments(
+        user: user, vacina: vacina, listVacinaUser: listVacinaUser);
     Navigator.of(context)
         .pushNamed('ListagemVacinasCrianca', arguments: screeanArguments);
   }
 
   void _mostrarDetalheAdolescente({Vacina vacina, User user}) {
-    ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, vacina: vacina);
+    ScreeanArguments screeanArguments = new ScreeanArguments(
+        user: user, vacina: vacina, listVacinaUser: listVacinaUser);
     Navigator.of(context)
         .pushNamed('ListagemVacinasAdolescente', arguments: screeanArguments);
   }
 
   void _mostrarDetalheAdulto({Vacina vacina, User user}) {
-    ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, vacina: vacina);
+    ScreeanArguments screeanArguments = new ScreeanArguments(
+        user: user, vacina: vacina, listVacinaUser: listVacinaUser);
     Navigator.of(context)
         .pushNamed('ListagemVacinasAdulto', arguments: screeanArguments);
   }
 
   void _mostrarDetalheIdoso({Vacina vacina, User user}) {
-    ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, vacina: vacina);
+    ScreeanArguments screeanArguments = new ScreeanArguments(
+        user: user, vacina: vacina, listVacinaUser: listVacinaUser);
     Navigator.of(context)
         .pushNamed('ListagemVacinasIdoso', arguments: screeanArguments);
   }
 
   void _mostrarDetalheGestante({Vacina vacina, User user}) {
-    ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, vacina: vacina);
+    ScreeanArguments screeanArguments = new ScreeanArguments(
+        user: user, vacina: vacina, listVacinaUser: listVacinaUser);
     Navigator.of(context)
         .pushNamed('ListagemVacinasGestante', arguments: screeanArguments);
   }

@@ -27,11 +27,14 @@ class P_Vacina_x_User {
         {'codigoDaVacina': codigoDaVacina, 'userID': userID, 'data': data});
   }
 
-  Future listaDeVacinaUser() async {
+  Future listaDeVacinaUser(String userID) async {
     VacinaUser vacina_x_user;
     List<VacinaUser> vacinas_x_users = new List<VacinaUser>();
 
-    var snapshots = await vacinaCollection.getDocuments();
+    var snapshots = await vacinaCollection
+        .where("userID", isEqualTo: userID)
+        .getDocuments();
+
     snapshots.documents.forEach((d) {
       vacina_x_user = new VacinaUser(
           d.data['codigoDaVacina'], d.data['userID'], d.data['data']);
@@ -41,24 +44,12 @@ class P_Vacina_x_User {
     return vacinas_x_users;
   }
 
-  Future getVacinaUser(String idUser) async {
-    VacinaUser vacina_x_user;
-
-    var snapshots =
-        await vacinaCollection.where("uid", isEqualTo: uid).getDocuments();
-    var d = snapshots.documents.first;
-    vacina_x_user = new VacinaUser(
-        d.data['codigoDaVacina'], d.data['userID'], d.data['data']);
-    return vacina_x_user;
-  }
-
   Future atualizarVacinaUser(
       String codigoDaVacina, String userID, String data) {
     try {
-      vacinaCollection.document(uid).updateData({
-        'codigoDaVacina': codigoDaVacina,
-        'data': data,
-      });
+      vacinaCollection
+          .document(userID)
+          .updateData({'codigoDaVacina': codigoDaVacina, 'data': data});
     } catch (e) {
       print(e.toString());
       return null;

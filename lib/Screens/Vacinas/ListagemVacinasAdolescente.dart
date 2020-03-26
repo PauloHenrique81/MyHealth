@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Helper/Vacina_Help.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/class/Vacina_x_User.dart';
 import 'package:myhealth/class/user.dart';
 
 class ListagemVacinasAdolescente extends StatefulWidget {
   final User user;
   Vacina vacinas = Vacina();
-  ListagemVacinasAdolescente({this.user, this.vacinas});
+  List<VacinaUser> listVacinaUser;
+  ListagemVacinasAdolescente({this.user, this.vacinas, this.listVacinaUser});
 
   @override
   _ListagemVacinasCriancaState createState() => _ListagemVacinasCriancaState();

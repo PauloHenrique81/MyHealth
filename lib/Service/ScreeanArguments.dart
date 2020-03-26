@@ -5,6 +5,7 @@ import 'package:myhealth/class/Exame.dart';
 import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/Receita.dart';
+import 'package:myhealth/class/Vacina_x_User.dart';
 import 'package:myhealth/class/user.dart';
 
 class ScreeanArguments {
@@ -16,14 +17,17 @@ class ScreeanArguments {
   Receita receita;
   Imagem imagem;
   Vacina vacina;
+  List<VacinaUser> listVacinaUser;
 
-  ScreeanArguments(
-      {this.user,
-      this.consulta,
-      this.cirurgia,
-      this.exame,
-      this.profissional,
-      this.receita,
-      this.imagem,
-      this.vacina});
+  ScreeanArguments({
+    this.user,
+    this.consulta,
+    this.cirurgia,
+    this.exame,
+    this.profissional,
+    this.receita,
+    this.imagem,
+    this.vacina,
+    this.listVacinaUser,
+  });
 }

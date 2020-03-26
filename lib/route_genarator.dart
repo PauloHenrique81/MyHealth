@@ -164,6 +164,7 @@ class RouteGenarator {
               builder: (_) => ListagemVacinasCrianca(
                     user: args.user,
                     vacinas: args.vacina,
+                    listVacinaUser: args.listVacinaUser,
                   ));
         }
         return _errorRoute();
@@ -173,6 +174,7 @@ class RouteGenarator {
               builder: (_) => ListagemVacinasAdolescente(
                     user: args.user,
                     vacinas: args.vacina,
+                    listVacinaUser: args.listVacinaUser,
                   ));
         }
         return _errorRoute();
@@ -182,6 +184,7 @@ class RouteGenarator {
               builder: (_) => ListagemVacinasAdulto(
                     user: args.user,
                     vacinas: args.vacina,
+                    listVacinaUser: args.listVacinaUser,
                   ));
         }
         return _errorRoute();
@@ -191,6 +194,7 @@ class RouteGenarator {
               builder: (_) => ListagemVacinasIdoso(
                     user: args.user,
                     vacinas: args.vacina,
+                    listVacinaUser: args.listVacinaUser,
                   ));
         }
         return _errorRoute();
@@ -200,6 +204,7 @@ class RouteGenarator {
               builder: (_) => ListagemVacinasGestante(
                     user: args.user,
                     vacinas: args.vacina,
+                    listVacinaUser: args.listVacinaUser,
                   ));
         }
         return _errorRoute();

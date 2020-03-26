@@ -39,16 +39,20 @@ class Vacina_Help {
         "v42",
         "Hepatite B",
         "Previne a hepatite do tipo B",
-        "3 doses, de acordo com a situação vacinal");
+        "3 doses, de acordo com a situação vacinal",
+        status: false);
     var v43 = new TiposDeVacinas("v43", "Dupla adulto (dT)",
-        "Previne difteria e tétano", "Reforço a cada 10 anos");
+        "Previne difteria e tétano", "Reforço a cada 10 anos",
+        status: false);
     var v44 = new TiposDeVacinas(
         "v44",
         "dTpa  (Tríplice bacteriana acelular do tipo adulto) ",
         "(previne difteria, tétano e coqueluche",
-        "Uma dose a cada gestação a partir da 20ª semana de gestação ou no puerpério (até 45 dias após o parto).");
+        "Uma dose a cada gestação a partir da 20ª semana de gestação ou no puerpério (até 45 dias após o parto).",
+        status: false);
     var v45 = new TiposDeVacinas("v45", "Influenza",
-        "Contra os vírus que causam a grip", "Uma dose (anual)");
+        "Contra os vírus que causam a grip", "Uma dose (anual)",
+        status: false);
 
     var listaVacinaGestante = new List<TiposDeVacinas>();
 
@@ -68,22 +72,27 @@ class Vacina_Help {
         "v37",
         "Hepatite B",
         "Previne a hepatite do tipo B",
-        "3 doses, de acordo com a situação vacinal");
+        "3 doses, de acordo com a situação vacinal",
+        status: false);
     var v38 = new TiposDeVacinas(
         "v38",
         "Febre Amarela",
         "Previne a febre amarela",
-        "1 dose (a depender da situação vacinal anterior)");
+        "1 dose (a depender da situação vacinal anterior)",
+        status: false);
     var v39 = new TiposDeVacinas("v39", "Dupla adulto (dT)",
-        "Previne difteria e tétano", "Reforço a cada 10 anos");
+        "Previne difteria e tétano", "Reforço a cada 10 anos",
+        status: false);
     var v40 = new TiposDeVacinas(
         "v40",
         "Pneumocócica  23 Valente",
         "previne pneumonia, otite, meningite e outras doenças causadas pelo Pneumococo",
-        "1 dose (Está indicada para população indígena e grupos-alvo específicos)");
+        "1 dose (Está indicada para população indígena e grupos-alvo específicos)",
+        status: false);
 
     var v41 = new TiposDeVacinas("v41", "Influenza",
-        "Contra os vírus que causam a grip", "Uma dose (anual)");
+        "Contra os vírus que causam a grip", "Uma dose (anual)",
+        status: false);
 
     var listaVacinaIdoso = new List<TiposDeVacinas>();
 
@@ -140,31 +149,38 @@ class Vacina_Help {
         "v25",
         "HPV",
         "Previne o papiloma, virús humano que causa câncere e verrugas genitais,",
-        "Duas doses com seis meses de intervalo");
+        "Duas doses com seis meses de intervalo",
+        status: false);
     var v26 = TiposDeVacinas(
         "v26",
         "Meninqocócica C",
         "Doença invasiva causada por Neisseria meningitidis do sorogrupo CDose ",
-        "Única ou");
+        "Única",
+        status: false);
     var v27 = TiposDeVacinas(
         "v27",
         "Hepatite B",
         "Previne a hepatite do tipo B",
-        "3 doses, de acordo com a situação vacinal");
+        "3 doses, de acordo com a situação vacinal",
+        status: false);
     var v28 = TiposDeVacinas("v28", "Febre Amarela", "Previne a febre amarela",
-        "1 dose (a depender da situação vacinal anterior)");
+        "1 dose (a depender da situação vacinal anterior)",
+        status: false);
     var v29 = TiposDeVacinas("v29", "Dupla Adulto", "Previne difteria e tétano",
-        "Reforço a cada 10 anos");
+        "Reforço a cada 10 anos",
+        status: false);
     var v30 = TiposDeVacinas(
         "v30",
         "Tríplice viral",
         "Previne sarampo, caxumba e rubéola",
-        "2 doses (de acordo com a situação vacinal anterior)");
+        "2 doses (de acordo com a situação vacinal anterior)",
+        status: false);
     var v31 = TiposDeVacinas(
         "v31",
         "Pneumocócica 23 Valente",
         "Previne pneumonia, otite, meningite e outras doenças causadas pelo Pneumococo",
-        " 1 dose (a depender da situação vacinal anterior)");
+        " 1 dose (a depender da situação vacinal anterior)",
+        status: false);
     var listaVacinaAdolescente = new List<TiposDeVacinas>();
 
     listaVacinaAdolescente.add(v25);
@@ -186,74 +202,98 @@ class Vacina_Help {
         "v1",
         "BCG(Bacilo Calmette-Guerin)",
         "Previne as formas graves de turbeculose, principalmente miliare meningea.",
-        "Dose única");
+        "Dose única",
+        status: false);
     var v2 = new TiposDeVacinas(
-        "v2", "Hepatite B", "Previne a hepatite do tipo B", "Dose única");
+        "v2", "Hepatite B", "Previne a hepatite do tipo B", "Dose única",
+        status: false);
     var v3 = new TiposDeVacinas(
         "v3",
         "Pentavalente (DTP/HB/Hib)",
         "Previne diferia, tétano, coqueluche, hepatite B e meningite e infecções por HiB",
-        "1º dose");
+        "1º dose",
+        status: false);
     var v4 = new TiposDeVacinas("v4", "VIP (Poliomielite inativada)",
-        "Previne Poliomielite ou paralisia infantil", "1º dose");
+        "Previne Poliomielite ou paralisia infantil", "1º dose",
+        status: false);
     var v5 = new TiposDeVacinas(
         "v5",
         "Pneumocócica 10V",
         "Previne pneumonia, otite, meningite e outras doenças causadas pelo Pneumococo",
-        "1º dose");
+        "1º dose",
+        status: false);
     var v6 = new TiposDeVacinas("v6", "Vacina rotavírus humano G1P1",
-        "Previne diarreia por rotavírus", "1º dose");
+        "Previne diarreia por rotavírus", "1º dose",
+        status: false);
     var v7 = new TiposDeVacinas("v7", "Meninqocócica C conjugada",
-        "Previne a doença meningocócica C", "1º dose");
+        "Previne a doença meningocócica C", "1º dose",
+        status: false);
     var v8 = new TiposDeVacinas(
         "v8",
         "Pentavalente (DTP/HB/Hib)",
         "Previne diferia, tétano, coqueluche, hepatite B e meningite e infecções por HiB",
-        "2º dose");
+        "2º dose",
+        status: false);
     var v9 = new TiposDeVacinas("v9", "VIP (Poliomielite inativada)",
-        "Previne Poliomielite ou paralisia infantil", "2º dose");
+        "Previne Poliomielite ou paralisia infantil", "2º dose",
+        status: false);
     var v10 = new TiposDeVacinas(
         "v10",
         "Pneumocócica 10V",
         "Previne pneumonia, otite, meningite e outras doenças causadas pelo Pneumococo",
-        "2º dose");
+        "2º dose",
+        status: false);
     var v11 = new TiposDeVacinas("v11", "Vacina rotavírus humano G1P1",
-        "Previne diarreia por rotavírus", "2º dose");
+        "Previne diarreia por rotavírus", "2º dose",
+        status: false);
     var v12 = new TiposDeVacinas("v12", "Meninqocócica C conjugada",
-        "Previne a doença meningocócica C", "2º dose");
+        "Previne a doença meningocócica C", "2º dose",
+        status: false);
     var v13 = new TiposDeVacinas(
         "v13",
         "Pentavalente (DTP/HB/Hib)",
         "Previne diferia, tétano, coqueluche, hepatite B e meningite e infecções por HiB",
-        "3º dose");
+        "3º dose",
+        status: false);
     var v14 = new TiposDeVacinas("v14", "VIP (Poliomielite inativada)",
-        "Previne Poliomielite ou paralisia infantil", "3º dose");
+        "Previne Poliomielite ou paralisia infantil", "3º dose",
+        status: false);
     var v15 = new TiposDeVacinas(
-        "v15", "Febre amarela", "Previne a febre amarela", "Uma dose");
+        "v15", "Febre amarela", "Previne a febre amarela", "Uma dose",
+        status: false);
     var v16 = new TiposDeVacinas(
         "v16",
         "Pneumocócica 10 Valente",
         "Previne pneumonia, otite, meningite e outras doenças causadas pelo Pneumococo",
-        "Reforço");
+        "Reforço",
+        status: false);
     var v17 = new TiposDeVacinas("v17", "Tríplice Viral",
-        "Previne sarampo, caxumba e rubéola", "1º dose");
+        "Previne sarampo, caxumba e rubéola", "1º dose",
+        status: false);
     var v18 = new TiposDeVacinas(
-        "v18", "Hepatite A", "Previne a hepatite do tipo A", "Dose única");
+        "v18", "Hepatite A", "Previne a hepatite do tipo A", "Dose única",
+        status: false);
     var v19 = new TiposDeVacinas("v19", "Poliomielite oral VOP",
-        "Previne poliomielite ou parasita infantil", "1º reforço");
+        "Previne poliomielite ou parasita infantil", "1º reforço",
+        status: false);
     var v20 = new TiposDeVacinas(
-        "v20", "DTP", "Difteria, tétano e coqueluche", "1º reforço");
+        "v20", "DTP", "Difteria, tétano e coqueluche", "1º reforço",
+        status: false);
     var v21 = new TiposDeVacinas(
         "v21",
         "Tetra viral ou triplice viral + varicela",
         "Previne sarampo, rubéola, caxumba e varicela/catapora",
-        "Uma dose");
+        "Uma dose",
+        status: false);
     var v22 = new TiposDeVacinas(
-        "v22", "DTP", "Difteria, tétano e coqueluche", "2º reforço");
+        "v22", "DTP", "Difteria, tétano e coqueluche", "2º reforço",
+        status: false);
     var v23 = new TiposDeVacinas("v23", "Poliomielite oral VOP",
-        "Previne poliomielite ou parasita infantil", "2º reforço");
+        "Previne poliomielite ou parasita infantil", "2º reforço",
+        status: false);
     var v24 = new TiposDeVacinas(
-        "v24", "Varicela atenuada", "Previne varicela/catapora", "Dose única");
+        "v24", "Varicela atenuada", "Previne varicela/catapora", "Dose única",
+        status: false);
 
     var listaVacinaCrianca = new List<TiposDeVacinas>();
     listaVacinaCrianca.add(v1);
@@ -301,7 +341,7 @@ class TiposDeVacinas {
   String tipo;
   String descricao;
   String doses;
-  bool status = false;
+  bool status;
   String uid;
   String data;
 
