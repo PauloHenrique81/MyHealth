@@ -13,6 +13,7 @@ import 'package:myhealth/Screens/Profissional/EdicaoDoProfissional.dart';
 import 'package:myhealth/Screens/Profissional/ListagemDeProfissional.dart';
 import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
 import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
+import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
 import 'package:myhealth/Screens/Vacinas/ListagemVacinasAdolescente.dart';
 import 'package:myhealth/Screens/Vacinas/ListagemVacinasAdulto.dart';
 import 'package:myhealth/Screens/Vacinas/ListagemVacinasGestante.dart';
@@ -205,6 +206,16 @@ class RouteGenarator {
                     user: args.user,
                     vacinas: args.vacina,
                     listVacinaUser: args.listVacinaUser,
+                  ));
+        }
+        return _errorRoute();
+      case 'EdicaoDeVacina':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeVacina(
+                    user: args.user,
+                    tipoDeVacina: args.tipoDeVacina,
+                    vacinaUser: args.vacinaUser,
                   ));
         }
         return _errorRoute();

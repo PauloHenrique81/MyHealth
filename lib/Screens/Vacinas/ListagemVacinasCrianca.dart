@@ -16,6 +16,25 @@ class ListagemVacinasCrianca extends StatefulWidget {
 
 class _ListagemVacinasCriancaState extends State<ListagemVacinasCrianca> {
   @override
+  void initState() {
+    super.initState();
+
+    verificaVacinaUser();
+  }
+
+  void verificaVacinaUser() {
+    if (widget.listVacinaUser.length != 0) {
+      for (int i = 0; i < widget.listVacinaUser.length; i++) {
+        for (int j = 0; j < widget.vacinas.listaVacinas.length; j++) {
+          if (widget.vacinas.listaVacinas[j].codigo ==
+              widget.listVacinaUser[i].codigoDaVacina)
+            widget.vacinas.listaVacinas[j].status = true;
+        }
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -89,15 +108,35 @@ class _ListagemVacinasCriancaState extends State<ListagemVacinasCrianca> {
         ),
       ),
       onTap: () {
-        //_showOptions(context, index);
+        _mostrarDetalhes(widget.vacinas.listaVacinas[index].codigo,
+            widget.vacinas.listaVacinas[index]);
       },
     );
   }
 
-  // void _mostrarDetalhesDo({Profissional profissional, User user}) {
-  //   ScreeanArguments screeanArguments =
-  //       new ScreeanArguments(user: user, profissional: profissional);
-  //   Navigator.of(context)
-  //       .pushNamed('EdicaoDeProfissional', arguments: screeanArguments);
-  // }
+  VacinaUser buscaVacinaUser(String codigo) {
+    for (var item in widget.listVacinaUser) {
+      if (item.codigoDaVacina == codigo && item.userID == widget.user.uid)
+        return item;
+    }
+    return null;
+  }
+
+  void _mostrarDetalhes(String codigo, TiposDeVacinas tipoDeVacina) {
+    VacinaUser vacinaUser = buscaVacinaUser(codigo);
+
+    if (vacinaUser == null) {
+      ScreeanArguments screeanArguments =
+          new ScreeanArguments(user: widget.user, tipoDeVacina: tipoDeVacina);
+      Navigator.of(context)
+          .pushNamed('EdicaoDeVacina', arguments: screeanArguments);
+    } else {
+      ScreeanArguments screeanArguments = new ScreeanArguments(
+          user: widget.user,
+          tipoDeVacina: tipoDeVacina,
+          vacinaUser: vacinaUser);
+      Navigator.of(context)
+          .pushNamed('EdicaoDeVacina', arguments: screeanArguments);
+    }
+  }
 }

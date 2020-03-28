@@ -17,6 +17,8 @@ class ScreeanArguments {
   Receita receita;
   Imagem imagem;
   Vacina vacina;
+  TiposDeVacinas tipoDeVacina;
+  VacinaUser vacinaUser;
   List<VacinaUser> listVacinaUser;
 
   ScreeanArguments({
@@ -28,6 +30,8 @@ class ScreeanArguments {
     this.receita,
     this.imagem,
     this.vacina,
+    this.tipoDeVacina,
+    this.vacinaUser,
     this.listVacinaUser,
   });
 }
