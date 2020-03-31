@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Helper/Vacina_Help.dart';
+import 'package:myhealth/Persistencia/P_Vacina_x_User.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Vacina_x_User.dart';
 import 'package:myhealth/class/user.dart';
 
-class ListagemVacinasCrianca extends StatefulWidget {
+class ListagemVacinas extends StatefulWidget {
   final User user;
   Vacina vacinas = Vacina();
   List<VacinaUser> listVacinaUser;
-  ListagemVacinasCrianca({this.user, this.vacinas, this.listVacinaUser});
+  String titulo;
+  ListagemVacinas({this.user, this.vacinas, this.titulo});
 
   @override
-  _ListagemVacinasCriancaState createState() => _ListagemVacinasCriancaState();
+  _ListagemVacinasState createState() => _ListagemVacinasState();
 }
 
-class _ListagemVacinasCriancaState extends State<ListagemVacinasCrianca> {
+class _ListagemVacinasState extends State<ListagemVacinas> {
+  P_Vacina_x_User bd = new P_Vacina_x_User();
+
   @override
   void initState() {
     super.initState();
+    buscaVacinasUser();
+  }
 
+  void buscaVacinasUser() async {
+    widget.listVacinaUser = await bd.listaDeVacinaUser(widget.user.uid);
     verificaVacinaUser();
+
+    setState(() {});
   }
 
   void verificaVacinaUser() {
@@ -38,9 +48,22 @@ class _ListagemVacinasCriancaState extends State<ListagemVacinasCrianca> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vacinas para Crianças"),
+        title: Text(widget.titulo),
         backgroundColor: Colors.deepPurple,
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                buscaVacinasUser();
+              });
+            },
+          )
+        ],
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(

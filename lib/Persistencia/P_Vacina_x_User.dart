@@ -22,9 +22,14 @@ class P_Vacina_x_User {
     return snapshots.documents.isNotEmpty;
   }
 
-  Future cadastraVacinaUser(String codigoDaVacina, String userID, String data) {
-    vacinaCollection.document().setData(
-        {'codigoDaVacina': codigoDaVacina, 'userID': userID, 'data': data});
+  Future cadastraVacinaUser(String codigoDaVacina, String userID, String data,
+      {String local}) {
+    vacinaCollection.document().setData({
+      'codigoDaVacina': codigoDaVacina,
+      'userID': userID,
+      'data': data,
+      'local': local ?? ''
+    });
   }
 
   Future listaDeVacinaUser(String userID) async {
@@ -37,22 +42,40 @@ class P_Vacina_x_User {
 
     snapshots.documents.forEach((d) {
       vacina_x_user = new VacinaUser(
-          d.data['codigoDaVacina'], d.data['userID'], d.data['data']);
+          d.data['codigoDaVacina'], d.data['userID'], d.data['data'],
+          local: d.data['local']);
       vacinas_x_users.add(vacina_x_user);
     });
 
     return vacinas_x_users;
   }
 
-  Future atualizarVacinaUser(
-      String codigoDaVacina, String userID, String data) {
+  void atualizarVacinaUser(String codigoDaVacina, String userID, String data,
+      {String local}) {
     try {
-      vacinaCollection
-          .document(userID)
-          .updateData({'codigoDaVacina': codigoDaVacina, 'data': data});
+      vacinaCollection.document(userID).updateData({
+        'codigoDaVacina': codigoDaVacina,
+        'data': data,
+        'local': local ?? ''
+      });
     } catch (e) {
       print(e.toString());
-      return null;
+    }
+  }
+
+  void excluirVacinaUser(String codigoDaVacina, String userID) {
+    try {
+      vacinaCollection
+          .where("userID", isEqualTo: userID)
+          .where("codigoDaVacina", isEqualTo: codigoDaVacina)
+          .getDocuments()
+          .then((val) {
+        for (var item in val.documents) {
+          item.reference.delete();
+        }
+      });
+    } catch (e) {
+      print(e.toString());
     }
   }
 

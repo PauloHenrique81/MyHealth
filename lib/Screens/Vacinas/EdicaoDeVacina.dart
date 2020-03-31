@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealth/Helper/Vacina_Help.dart';
 import 'package:myhealth/Persistencia/P_Vacina_x_User.dart';
@@ -21,6 +22,8 @@ class _EdicaoDeVacinaState extends State<EdicaoDeVacina> {
   TiposDeVacinas _tipoDeVacina;
   bool _userEdited = false;
   bool novaVacinaUser = false;
+  bool status = false;
+  String statusText = "";
 
   DateTime _date = new DateTime.now();
   Future<Null> _selectDate(BuildContext context) async {
@@ -40,11 +43,7 @@ class _EdicaoDeVacinaState extends State<EdicaoDeVacina> {
   final _formKey = GlobalKey<FormState>();
 
   P_Vacina_x_User conectionDB = new P_Vacina_x_User();
-
-  final _tipoController = TextEditingController();
-  final _descricaoController = TextEditingController();
-  final _doseController = TextEditingController();
-  final _statusController = TextEditingController();
+  final _localController = TextEditingController();
   final _dataController = TextEditingController();
 
   @override
@@ -52,91 +51,169 @@ class _EdicaoDeVacinaState extends State<EdicaoDeVacina> {
     super.initState();
     _tipoDeVacina = widget.tipoDeVacina;
 
-    _tipoController.text = _tipoDeVacina.tipo;
-    _descricaoController.text = _tipoDeVacina.descricao;
-    _doseController.text = _tipoDeVacina.doses;
-
     if (widget.vacinaUser == null) {
       _vacinaUserEdicao = VacinaUser("", "", "");
       novaVacinaUser = true;
-      _statusController.text = "Não tomada";
+      statusText = "Você ainda não tomou essa vacina :/";
     } else {
       _vacinaUserEdicao = widget.vacinaUser;
 
       _dataController.text = _vacinaUserEdicao.data;
-      _statusController.text = "Tomada";
+      _localController.text = _vacinaUserEdicao.local;
+      statusText = "Você já tomou essa vacina :)";
+      status = true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
-        title: Text(_tipoDeVacina.tipo),
-        centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (_formKey.currentState.validate()) {
-            if (novaVacinaUser == true) {
-              await conectionDB.cadastraVacinaUser(
-                  _tipoDeVacina.codigo, widget.user.uid, _dataController.text);
-            } else {
-              await conectionDB.atualizarVacinaUser(
-                  _tipoDeVacina.codigo, widget.user.uid, _dataController.text);
-            }
-
-            Navigator.pop(context);
-          }
-        },
-        child: Icon(Icons.save),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: SingleChildScrollView(
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurple,
+          title: Text(_tipoDeVacina.tipo),
+          centerTitle: true,
+        ),
+        floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            overlayColor: Colors.black87,
+            animatedIconTheme: IconThemeData.fallback(),
+            children: [
+              SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir",
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Excluir dados ?"),
+                            content: Text(
+                                "Se excluir, o status da Vacina voltara a ser 'Não tomada'"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("Cancelar"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              FlatButton(
+                                child: Text("Sim"),
+                                onPressed: () {
+                                  conectionDB.excluirVacinaUser(
+                                      _tipoDeVacina.codigo, _tipoDeVacina.uid);
+                                  Navigator.pushReplacementNamed(
+                                      context, 'ListagemTiposDeVacinas',
+                                      arguments: widget.user);
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  }),
+              SpeedDialChild(
+                child: Icon(Icons.save),
+                backgroundColor: Colors.deepPurple,
+                label: "Salvar",
+                onTap: () async {
+                  if (_dataController.text != "") {
+                    if (novaVacinaUser == true) {
+                      await conectionDB.cadastraVacinaUser(_tipoDeVacina.codigo,
+                          widget.user.uid, _dataController.text,
+                          local: _localController.text);
+                    } else {
+                      conectionDB.atualizarVacinaUser(_tipoDeVacina.codigo,
+                          widget.user.uid, _dataController.text,
+                          local: _localController.text);
+                    }
+                    Navigator.pop(context);
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Aviso"),
+                            content: Text(
+                                "Não é possivel salvar com o campo Data vazio!"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("Voltar"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  }
+                },
+              ),
+            ]),
+        body: SingleChildScrollView(
           padding: EdgeInsets.all(10.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  controller: _tipoController,
-                  decoration: InputDecoration(labelText: "Tipo:"),
-                  onChanged: (text) {
-                    setState(() {
-                      _tipoDeVacina.tipo = text;
-                    });
-                  },
-                ),
-                TextField(
-                  controller: _descricaoController,
-                  decoration: InputDecoration(labelText: "Descrição:"),
-                  onChanged: (text) {
-                    _tipoDeVacina.descricao = text;
-                  },
-                ),
-                TextFormField(
-                  controller: _doseController,
-                  decoration: InputDecoration(labelText: "Dose:"),
-                  onChanged: (text) {
-                    _tipoDeVacina.doses = text;
-                  },
-                ),
-                TextFormField(
-                  controller: _statusController,
-                  decoration: InputDecoration(labelText: "Status :"),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                height: 10.0,
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: status ? Colors.green : Colors.red),
+              ),
+              Text(
+                "Descrição:",
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(3.0, 10.0, 3.0, 10.0),
                   child: Text(
-                    "Já tomou essa vacina ?",
-                    style: TextStyle(fontSize: 22.0),
+                    _tipoDeVacina.descricao,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 18.0),
                   ),
+                ),
+              ),
+              Text(
+                "Dose:",
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(3.0, 10.0, 3.0, 3.0),
+                  child: Text(
+                    _tipoDeVacina.doses,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ),
+              ),
+              Text(
+                "Status:",
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(3.0, 10.0, 3.0, 10.0),
+                  child: Text(
+                    statusText,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ),
+              ),
+              Card(
+                  child: Column(children: <Widget>[
+                Padding(padding: EdgeInsets.all(3.0)),
+                Text(
+                  "Outras informações:",
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 TextFormField(
                   controller: _dataController,
-                  decoration: InputDecoration(labelText: "Data:"),
-                  validator: (val) => val.isEmpty ? 'Digite a data' : null,
+                  decoration: InputDecoration(labelText: " Dia em que tomou:"),
                   onChanged: (text) {
                     _userEdited = true;
                     _vacinaUserEdicao.data = text;
@@ -144,39 +221,13 @@ class _EdicaoDeVacinaState extends State<EdicaoDeVacina> {
                   onTap: () => _selectDate(context),
                   keyboardType: TextInputType.datetime,
                 ),
-              ],
-            ),
-          )),
-    );
+                TextFormField(
+                  controller: _localController,
+                  decoration: InputDecoration(labelText: " Local :"),
+                ),
+              ])),
+            ],
+          ),
+        ));
   }
 }
-// Future<bool> _requestPop(BuildContext context) {
-//   if (_userEdited) {
-//     showDialog(
-//         context: context,
-//         builder: (context) {
-//           return AlertDialog(
-//             title: Text("Descartar alterações?"),
-//             content: Text("Se sair as alterações serão perdidas."),
-//             actions: <Widget>[
-//               FlatButton(
-//                 child: Text("Cancelar"),
-//                 onPressed: () {
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//               FlatButton(
-//                 child: Text("Sim"),
-//                 onPressed: () {
-//                   Navigator.pushNamed(context, 'ListagemDeExames',
-//                       arguments: widget.user);
-//                 },
-//               )
-//             ],
-//           );
-//         });
-//     return Future.value(false);
-//   } else {
-//     return Future.value(true);
-//   }
-// }

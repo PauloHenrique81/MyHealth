@@ -20,18 +20,19 @@ class ScreeanArguments {
   TiposDeVacinas tipoDeVacina;
   VacinaUser vacinaUser;
   List<VacinaUser> listVacinaUser;
+  String string;
 
-  ScreeanArguments({
-    this.user,
-    this.consulta,
-    this.cirurgia,
-    this.exame,
-    this.profissional,
-    this.receita,
-    this.imagem,
-    this.vacina,
-    this.tipoDeVacina,
-    this.vacinaUser,
-    this.listVacinaUser,
-  });
+  ScreeanArguments(
+      {this.user,
+      this.consulta,
+      this.cirurgia,
+      this.exame,
+      this.profissional,
+      this.receita,
+      this.imagem,
+      this.vacina,
+      this.tipoDeVacina,
+      this.vacinaUser,
+      this.listVacinaUser,
+      this.string});
 }

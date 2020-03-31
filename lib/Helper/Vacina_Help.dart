@@ -10,7 +10,7 @@ class Vacina_Help {
   Vacina_Help() {
     crianca = populaCrianca();
     adolescente = populaAdolescente();
-    adulto = populaCrianca();
+    adulto = populaAdulto();
     idoso = populaIdoso();
     gestante = populaGestante();
     populaVacinaAux();
@@ -46,8 +46,8 @@ class Vacina_Help {
         status: false);
     var v44 = new TiposDeVacinas(
         "v44",
-        "dTpa  (Tríplice bacteriana acelular do tipo adulto) ",
-        "(previne difteria, tétano e coqueluche",
+        "dTpa  (Tríplice bacteriana acelular)",
+        "(Previne difteria, tétano e coqueluche",
         "Uma dose a cada gestação a partir da 20ª semana de gestação ou no puerpério (até 45 dias após o parto).",
         status: false);
     var v45 = new TiposDeVacinas("v45", "Influenza",
@@ -111,24 +111,29 @@ class Vacina_Help {
         "v32",
         "Hepatite B",
         "Previne a hepatite do tipo B",
-        "3 doses, de acordo com a situação vacinal");
+        "3 doses, de acordo com a situação vacinal",
+        status: false);
     var v33 = new TiposDeVacinas(
         "v33",
         "Febre Amarela",
         "Previne a febre amarela",
-        "1 dose (a depender da situação vacinal anterior)");
+        "1 dose (a depender da situação vacinal anterior)",
+        status: false);
     var v34 = new TiposDeVacinas(
         "v34",
         "Tríplice viral",
         "previne sarampo, caxumba e rubéola",
-        "2 doses (de acordo com a situação vacinal anterior)");
+        "2 doses (de acordo com a situação vacinal anterior)",
+        status: false);
     var v35 = new TiposDeVacinas("v35", "Dupla adulto (dT)",
-        "Previne difteria e tétano", "Reforço a cada 10 anos");
+        "Previne difteria e tétano", "Reforço a cada 10 anos",
+        status: false);
     var v36 = new TiposDeVacinas(
         "v36",
         "Pneumocócica 23 Valente",
         "Previne pneumonia, otite, meningite e outras doenças causadas pelo Pneumococo",
-        "1 dose (Está indicada para população indígena e grupos-alvo específicos)");
+        "1 dose (Está indicada para população indígena e grupos-alvo específicos)",
+        status: false);
 
     var listaVacinaAdulto = new List<TiposDeVacinas>();
 

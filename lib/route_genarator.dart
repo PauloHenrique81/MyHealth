@@ -14,17 +14,12 @@ import 'package:myhealth/Screens/Profissional/ListagemDeProfissional.dart';
 import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
 import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
 import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
-import 'package:myhealth/Screens/Vacinas/ListagemVacinasAdolescente.dart';
-import 'package:myhealth/Screens/Vacinas/ListagemVacinasAdulto.dart';
-import 'package:myhealth/Screens/Vacinas/ListagemVacinasGestante.dart';
-import 'package:myhealth/Screens/Vacinas/ListagemVacinasIdoso.dart';
 import 'package:myhealth/Screens/Vacinas/ListagensTiposDeVacinas.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
-import 'package:myhealth/class/Imagem.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
-import 'Screens/Vacinas/ListagemVacinasCrianca.dart';
+import 'Screens/Vacinas/ListagemVacinas.dart';
 import 'class/user.dart';
 
 class RouteGenarator {
@@ -159,53 +154,13 @@ class RouteGenarator {
               builder: (_) => ListagemTiposDeVacinas(user: args));
         }
         return _errorRoute();
-      case 'ListagemVacinasCrianca':
+      case 'ListagemVacinas':
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
-              builder: (_) => ListagemVacinasCrianca(
+              builder: (_) => ListagemVacinas(
                     user: args.user,
                     vacinas: args.vacina,
-                    listVacinaUser: args.listVacinaUser,
-                  ));
-        }
-        return _errorRoute();
-      case 'ListagemVacinasAdolescente':
-        if (args is ScreeanArguments) {
-          return MaterialPageRoute(
-              builder: (_) => ListagemVacinasAdolescente(
-                    user: args.user,
-                    vacinas: args.vacina,
-                    listVacinaUser: args.listVacinaUser,
-                  ));
-        }
-        return _errorRoute();
-      case 'ListagemVacinasAdulto':
-        if (args is ScreeanArguments) {
-          return MaterialPageRoute(
-              builder: (_) => ListagemVacinasAdulto(
-                    user: args.user,
-                    vacinas: args.vacina,
-                    listVacinaUser: args.listVacinaUser,
-                  ));
-        }
-        return _errorRoute();
-      case 'ListagemVacinasIdoso':
-        if (args is ScreeanArguments) {
-          return MaterialPageRoute(
-              builder: (_) => ListagemVacinasIdoso(
-                    user: args.user,
-                    vacinas: args.vacina,
-                    listVacinaUser: args.listVacinaUser,
-                  ));
-        }
-        return _errorRoute();
-      case 'ListagemVacinasGestante':
-        if (args is ScreeanArguments) {
-          return MaterialPageRoute(
-              builder: (_) => ListagemVacinasGestante(
-                    user: args.user,
-                    vacinas: args.vacina,
-                    listVacinaUser: args.listVacinaUser,
+                    titulo: args.string,
                   ));
         }
         return _errorRoute();
