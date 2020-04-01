@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealth/Persistencia/P_Atestado.dart';
 import 'package:myhealth/Persistencia/P_Imagem.dart';
-import 'package:myhealth/Persistencia/P_Receita.dart';
 import 'package:myhealth/Screens/Loading.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/class/Atestado.dart';
 import 'package:myhealth/class/Imagem.dart';
-import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
 
-class EdicaoDeReceita extends StatefulWidget {
-  final Receita receita;
+class EdicaoDeAtestado extends StatefulWidget {
+  final Atestado atestado;
   final User user;
-  EdicaoDeReceita({this.user, this.receita});
+  EdicaoDeAtestado({this.user, this.atestado});
 
   @override
-  _EdicaoDeReceitaState createState() => _EdicaoDeReceitaState();
+  _EdicaoDeAtestadoState createState() => _EdicaoDeAtestadoState();
 }
 
-class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
-  Receita _receitaEdicao;
+class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
+  Atestado _atestadoEdicao;
   bool _userEdited = false;
-  bool _novaReceita = false;
+  bool _novoAtestado = false;
 
   DateTime _date = new DateTime.now();
 
@@ -40,30 +40,33 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
 
   final _formKey = GlobalKey<FormState>();
 
-  P_Receita conectionDB = new P_Receita();
+  P_Atestado conectionDB = new P_Atestado();
 
   List<Imagem> imagens = new List<Imagem>();
   P_Imagem conectionDB_imagem = new P_Imagem();
 
   final _medicoController = TextEditingController();
   final _dataController = TextEditingController();
-  final _descricaoController = TextEditingController();
-  var idReceita;
+  final _quantidadeDeDiasController = TextEditingController();
+  final _motivoController = TextEditingController();
+  var idAtestado;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.receita == null) {
-      _receitaEdicao = Receita();
-      _novaReceita = true;
+    if (widget.atestado == null) {
+      _atestadoEdicao = Atestado();
+      _novoAtestado = true;
     } else {
-      _receitaEdicao = widget.receita;
+      _atestadoEdicao = widget.atestado;
 
-      _medicoController.text = _receitaEdicao.medico;
-      _dataController.text = _receitaEdicao.data;
-      _descricaoController.text = _receitaEdicao.descricao;
-      idReceita = _receitaEdicao.idReceita;
+      _medicoController.text = _atestadoEdicao.medico;
+      _dataController.text = _atestadoEdicao.data;
+      _quantidadeDeDiasController.text = _atestadoEdicao.quantidadeDeDias;
+      _motivoController.text = _atestadoEdicao.motivo;
+
+      idAtestado = _atestadoEdicao.idAtestado;
     }
   }
 
@@ -74,7 +77,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.deepPurple,
-            title: Text("Nova Receita"),
+            title: Text("Novo Atestado"),
             centerTitle: true,
             actions: <Widget>[
               IconButton(
@@ -91,18 +94,22 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                if (_novaReceita == true) {
-                  await conectionDB.cadastraReceita(widget.user.uid,
-                      _medicoController.text, _dataController.text,
-                      descricao: _descricaoController.text);
-                } else {
-                  await conectionDB.atualizarReceita(
+                if (_novoAtestado == true) {
+                  await conectionDB.cadastraAtestado(
                       widget.user.uid,
-                      _receitaEdicao.idReceita,
                       _medicoController.text,
                       _dataController.text,
-                      descricao: _descricaoController.text);
-                  idReceita = _receitaEdicao.idReceita;
+                      _quantidadeDeDiasController.text,
+                      _motivoController.text);
+                } else {
+                  await conectionDB.atualizarAtestado(
+                      widget.user.uid,
+                      _atestadoEdicao.idAtestado,
+                      _medicoController.text,
+                      _dataController.text,
+                      _quantidadeDeDiasController.text,
+                      _motivoController.text);
+                  idAtestado = _atestadoEdicao.idAtestado;
                 }
 
                 Navigator.pop(context);
@@ -125,7 +132,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                           val.isEmpty ? 'Digite o nome do Médico' : null,
                       onChanged: (text) {
                         _userEdited = true;
-                        _receitaEdicao.medico = text;
+                        _atestadoEdicao.medico = text;
                       },
                     ),
                     TextFormField(
@@ -134,18 +141,27 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                       validator: (val) => val.isEmpty ? 'Digite a data' : null,
                       onChanged: (text) {
                         _userEdited = true;
-                        _receitaEdicao.data = text;
+                        _atestadoEdicao.data = text;
                       },
                       onTap: () => _selectDate(context),
                       keyboardType: TextInputType.datetime,
                     ),
                     TextFormField(
                         keyboardType: TextInputType.text,
-                        controller: _descricaoController,
-                        decoration: InputDecoration(labelText: "Descrição:"),
+                        controller: _quantidadeDeDiasController,
+                        decoration:
+                            InputDecoration(labelText: "Quantidade de dias:"),
                         onChanged: (text) {
                           _userEdited = true;
-                          _receitaEdicao.descricao = text;
+                          _atestadoEdicao.quantidadeDeDias = text;
+                        }),
+                    TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _motivoController,
+                        decoration: InputDecoration(labelText: "Motivo:"),
+                        onChanged: (text) {
+                          _userEdited = true;
+                          _atestadoEdicao.motivo = text;
                         }),
                     Padding(padding: EdgeInsets.all(10.0)),
                     Row(
@@ -158,27 +174,30 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                             tooltip: "Adicionar foto",
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
-                                if (_novaReceita == true) {
-                                  idReceita = await conectionDB.cadastraReceita(
-                                      widget.user.uid,
-                                      _medicoController.text,
-                                      _dataController.text,
-                                      descricao: _descricaoController.text);
-                                  _novaReceita = false;
+                                if (_novoAtestado == true) {
+                                  idAtestado =
+                                      await conectionDB.cadastraAtestado(
+                                          widget.user.uid,
+                                          _medicoController.text,
+                                          _dataController.text,
+                                          _quantidadeDeDiasController.text,
+                                          _motivoController.text);
+                                  _novoAtestado = false;
                                 } else {
-                                  await conectionDB.atualizarReceita(
+                                  await conectionDB.atualizarAtestado(
                                       widget.user.uid,
-                                      _receitaEdicao.idReceita,
+                                      _atestadoEdicao.idAtestado,
                                       _medicoController.text,
                                       _dataController.text,
-                                      descricao: _descricaoController.text);
-                                  idReceita = _receitaEdicao.idReceita;
+                                      _quantidadeDeDiasController.text,
+                                      _motivoController.text);
+                                  idAtestado = _atestadoEdicao.idAtestado;
                                 }
 
                                 Imagem img = new Imagem(
                                     idUser: widget.user.uid,
-                                    modulo: "Receitas",
-                                    idItem: idReceita);
+                                    modulo: "Atestados",
+                                    idItem: idAtestado);
                                 _inserirImagem(user: widget.user, imagem: img);
                               }
                             })
@@ -190,7 +209,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                             child: SizedBox(
                           height: 300.0,
                           child: FutureBuilder(
-                              future: buscaImagens(widget.user.uid, idReceita),
+                              future: buscaImagens(widget.user.uid, idAtestado),
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.data == null) {
@@ -252,7 +271,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'ListagemDeReceitas',
+                    Navigator.pushNamed(context, 'ListagemDeAtestados',
                         arguments: widget.user);
                   },
                 )

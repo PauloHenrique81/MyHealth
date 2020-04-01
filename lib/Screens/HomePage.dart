@@ -103,6 +103,12 @@ class _HomePage extends StatelessWidget {
                   arguments: user),
             ),
             new ListTile(
+              title: new Text("Atestados"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(context, 'ListagemDeAtestados',
+                  arguments: user),
+            ),
+            new ListTile(
               title: new Text("Fechar"),
               trailing: new Icon(Icons.close),
               onTap: () => Navigator.of(context).pop(),

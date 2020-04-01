@@ -1,4 +1,5 @@
 import 'package:myhealth/Helper/Vacina_Help.dart';
+import 'package:myhealth/class/Atestado.dart';
 import 'package:myhealth/class/Cirurgia.dart';
 import 'package:myhealth/class/Consulta.dart';
 import 'package:myhealth/class/Exame.dart';
@@ -21,6 +22,7 @@ class ScreeanArguments {
   VacinaUser vacinaUser;
   List<VacinaUser> listVacinaUser;
   String string;
+  Atestado atestado;
 
   ScreeanArguments(
       {this.user,
@@ -34,5 +36,6 @@ class ScreeanArguments {
       this.tipoDeVacina,
       this.vacinaUser,
       this.listVacinaUser,
-      this.string});
+      this.string,
+      this.atestado});
 }

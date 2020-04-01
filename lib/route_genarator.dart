@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myhealth/Screens/Atestado/EdicaoDeAtestado.dart';
+import 'package:myhealth/Screens/Atestado/ListagemDeAtestado.dart';
 import 'package:myhealth/Screens/Autenticacao/wrapper.dart';
 import 'package:myhealth/Screens/Cirurgias/EdicaoCirurgia.dart';
 import 'package:myhealth/Screens/Cirurgias/ListagemDeCirurgias.dart';
@@ -119,6 +121,27 @@ class RouteGenarator {
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => EdicaoDeReceita(user: args.user));
+        }
+        return _errorRoute();
+      case 'EdicaoDeAtestado':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeAtestado(
+                    user: args.user,
+                    atestado: args.atestado,
+                  ));
+        }
+        return _errorRoute();
+      case 'ListagemDeAtestados':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeAtestados(user: args));
+        }
+        return _errorRoute();
+      case 'NovoAtestado':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDeAtestado(user: args.user));
         }
         return _errorRoute();
 

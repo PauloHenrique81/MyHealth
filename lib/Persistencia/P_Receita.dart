@@ -48,7 +48,7 @@ class P_Receita {
         idUser: d.data['idUser'] ?? '',
         idReceita: d.data['idReceita'] ?? '',
         medico: d.data['medico'] ?? '',
-        data: d.data['cpf'] ?? '',
+        data: d.data['data'] ?? '',
         descricao: d.data['descricao'] ?? '');
 
     return receita;
