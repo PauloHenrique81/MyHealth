@@ -19,6 +19,7 @@ import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
 import 'package:myhealth/Screens/Vacinas/ListagensTiposDeVacinas.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/class/Maps/Maps.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
 import 'Screens/Vacinas/ListagemVacinas.dart';
@@ -38,6 +39,8 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => CadastroDePaciente());
       case 'PreLogin':
         return MaterialPageRoute(builder: (_) => PreLogin());
+      case 'Maps':
+        return MaterialPageRoute(builder: (_) => Maps());
       case 'ListagemDeConsultas':
         if (args is User) {
           return MaterialPageRoute(

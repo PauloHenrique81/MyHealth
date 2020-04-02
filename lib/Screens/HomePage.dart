@@ -109,6 +109,11 @@ class _HomePage extends StatelessWidget {
                   arguments: user),
             ),
             new ListTile(
+              title: new Text("Mapa"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(context, 'Maps'),
+            ),
+            new ListTile(
               title: new Text("Fechar"),
               trailing: new Icon(Icons.close),
               onTap: () => Navigator.of(context).pop(),
