@@ -1,6 +1,8 @@
 # myhealth
 
-A new Flutter project.
+Projeto de TCC - Engenharia de computação.
+Desenvolver o aplicativo com o intuito de armazenar todas as informações medicas de maneira organizada e pratica para o usuario. 
+
 
 ## Getting Started
 
