@@ -87,7 +87,7 @@ class P_Receita {
     }
   }
 
-  Stream<List<Receita>> get allCirurgias {
+  Stream<List<Receita>> get allReceitas {
     return receitaCollection.snapshots().map(receitaListFromSnapshot);
   }
 }
