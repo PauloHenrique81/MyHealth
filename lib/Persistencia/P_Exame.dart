@@ -2,9 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myhealth/class/Exame.dart';
 
 class P_Exame {
-  final String uid;
-  P_Exame({this.uid});
-
   final CollectionReference exameCollection =
       Firestore.instance.collection("exames");
 

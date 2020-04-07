@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealth/Persistencia/P_Consulta.dart';
+import 'package:myhealth/Persistencia/P_UserLocalModulo.dart';
+import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Consulta.dart';
+import 'package:myhealth/class/UserLocalModulo.dart';
 import 'package:myhealth/class/user.dart';
 
 class EdicaoDeConsulta extends StatefulWidget {
@@ -17,6 +21,9 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   Consulta _consultaEdicao;
   bool _userEdited = false;
   bool _novaConsulta = false;
+  bool _locCadastrada = false;
+  String _idConsulta = "";
+  UserLocalModulo _userLocalModulo = null;
 
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
@@ -56,6 +63,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
 
   DatabaseService conectionDB = new DatabaseService();
 
+  P_UserLocalModulo conectionUserLocalModulo = new P_UserLocalModulo();
+
   final _nomeMedicoController = TextEditingController();
 
   final _especialidadeController = TextEditingController();
@@ -88,7 +97,15 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
       _medicamentosController.text = _consultaEdicao.medicamentos;
       _formaDePagamentoController.text = _consultaEdicao.formaDePagamento;
       _valorController.text = _consultaEdicao.valor;
+
+      _getUserLocalModulo();
     }
+  }
+
+  void _getUserLocalModulo() async {
+    _userLocalModulo = await conectionUserLocalModulo.getUserLocalModulo(
+        widget.user.uid, widget.consulta.idConsulta);
+    if (_userLocalModulo != null) _locCadastrada = true;
   }
 
   @override
@@ -101,38 +118,98 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
             title: Text(_consultaEdicao.nomeDoMedico ?? "Nova Consulta"),
             centerTitle: true,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (_novaConsulta == true) {
-                  await conectionDB.cadastraConsulta(
-                      widget.user.uid,
-                      _nomeMedicoController.text,
-                      _dataController.text,
-                      _horaController.text,
-                      _localController.text,
-                      especialidade: _especialidadeController.text);
-                } else {
-                  await conectionDB.atualizarConsulta(
-                      widget.user.uid,
-                      _consultaEdicao.idConsulta,
-                      _nomeMedicoController.text,
-                      _dataController.text,
-                      _horaController.text,
-                      _localController.text,
-                      especialidade: _especialidadeController.text,
-                      diagnostico: _diagnosticoController.text,
-                      exames: _examesController.text,
-                      medicamentos: _medicamentosController.text,
-                      formaDePagamento: _formaDePagamentoController.text,
-                      valor: _valorController.text);
-                }
+          floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            overlayColor: Colors.black87,
+            animatedIconTheme: IconThemeData.fallback(),
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.save),
+                backgroundColor: Colors.deepPurple,
+                label: "Salvar",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novaConsulta == true) {
+                      await conectionDB.cadastraConsulta(
+                          widget.user.uid,
+                          _nomeMedicoController.text,
+                          _dataController.text,
+                          _horaController.text,
+                          _localController.text,
+                          especialidade: _especialidadeController.text);
+                    } else {
+                      await conectionDB.atualizarConsulta(
+                          widget.user.uid,
+                          _consultaEdicao.idConsulta,
+                          _nomeMedicoController.text,
+                          _dataController.text,
+                          _horaController.text,
+                          _localController.text,
+                          especialidade: _especialidadeController.text,
+                          diagnostico: _diagnosticoController.text,
+                          exames: _examesController.text,
+                          medicamentos: _medicamentosController.text,
+                          formaDePagamento: _formaDePagamentoController.text,
+                          valor: _valorController.text);
+                    }
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.map),
+                backgroundColor: Colors.blue,
+                label: _locCadastrada
+                    ? "Vizualizar localização"
+                    : "Adicionar localização",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novaConsulta == true) {
+                      _idConsulta = await conectionDB.cadastraConsulta(
+                          widget.user.uid,
+                          _nomeMedicoController.text,
+                          _dataController.text,
+                          _horaController.text,
+                          _localController.text,
+                          especialidade: _especialidadeController.text);
+                    } else {
+                      await conectionDB.atualizarConsulta(
+                          widget.user.uid,
+                          _consultaEdicao.idConsulta,
+                          _nomeMedicoController.text,
+                          _dataController.text,
+                          _horaController.text,
+                          _localController.text,
+                          especialidade: _especialidadeController.text,
+                          diagnostico: _diagnosticoController.text,
+                          exames: _examesController.text,
+                          medicamentos: _medicamentosController.text,
+                          formaDePagamento: _formaDePagamentoController.text,
+                          valor: _valorController.text);
 
-                Navigator.pop(context);
-              }
-            },
-            child: Icon(Icons.save),
-            backgroundColor: Colors.deepPurple,
+                      _idConsulta = _consultaEdicao.idConsulta;
+                    }
+
+                    if (_locCadastrada) {
+                      ScreeanArguments screeanArguments = new ScreeanArguments(
+                          user: widget.user,
+                          string1: _idConsulta,
+                          string2: "Consulta",
+                          userLocalModulo: _userLocalModulo);
+                      Navigator.of(context)
+                          .pushNamed('Maps', arguments: screeanArguments);
+                    } else {
+                      ScreeanArguments screeanArguments = new ScreeanArguments(
+                          user: widget.user,
+                          string1: _idConsulta,
+                          string2: "Consulta");
+                      Navigator.of(context)
+                          .pushNamed('Maps', arguments: screeanArguments);
+                    }
+                  }
+                },
+              ),
+            ],
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),
@@ -245,6 +322,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       },
                       keyboardType: TextInputType.number,
                     ),
+                    const SizedBox(height: 30),
                   ],
                 ),
               )),

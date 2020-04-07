@@ -10,13 +10,14 @@ class P_UserLocalModulo {
 
   List<UserLocalModulo> userLocalModuloListFromSnapshot(
       QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.documents.map((d) {
       return UserLocalModulo(
-          idUser: doc.data['idUser'],
-          modulo: doc.data['modulo'],
-          idItem: doc.data['idItem'],
-          latitude: doc.data['latitude'],
-          longitude: doc.data['longitude']);
+          idUser: d.data['idUser'],
+          modulo: d.data['modulo'],
+          idItem: d.data['idItem'],
+          latitude: d.data['latitude'],
+          longitude: d.data['longitude'],
+          nomeLocal: d.data['nomeLocal']);
     }).toList();
   }
 
@@ -34,6 +35,7 @@ class P_UserLocalModulo {
         idItem: d.data['idItem'],
         latitude: d.data['latitude'],
         longitude: d.data['longitude'],
+        nomeLocal: d.data['nomeLocal'],
         idUserLocalModulo: d.documentID,
       );
       modulos.add(modulo);
@@ -49,29 +51,37 @@ class P_UserLocalModulo {
         .where("idUser", isEqualTo: userId)
         .where("idItem", isEqualTo: idItem)
         .getDocuments();
-    var d = snapshots.documents.first;
 
-    modulo = new UserLocalModulo(
+    if (snapshots.documents.length != 0) {
+      var d = snapshots.documents.first;
+
+      modulo = new UserLocalModulo(
         idUser: d.data['idUser'],
         modulo: d.data['modulo'],
         idItem: d.data['idItem'],
         latitude: d.data['latitude'],
-        longitude: d.data['longitude']);
+        longitude: d.data['longitude'],
+        nomeLocal: d.data['nomeLocal'],
+        idUserLocalModulo: d.documentID,
+      );
 
-    return modulo;
+      return modulo;
+    }
+
+    return null;
   }
 
-  Future cadastraUserLocalModulo(
-      String idUser, String modulo, String idItem, latitude, longitude) async {
+  Future cadastraUserLocalModulo(String idUser, String modulo, String idItem,
+      latitude, longitude, String nomeLocal) async {
     try {
       var idUserLocalModulo = await userLocalModuloCollection.add({
         'idUser': idUser,
         'modulo': modulo,
         'idItem': idItem,
         'latitude': latitude,
-        'longitude': longitude
+        'longitude': longitude,
+        'nomeLocal': nomeLocal
       });
-
       return idUserLocalModulo.documentID;
     } catch (e) {
       print(e.toString());
@@ -79,15 +89,13 @@ class P_UserLocalModulo {
     }
   }
 
-  Future atualizarUserLocalModulo(String idUser, String iduserLocalModulo,
-      String modulo, String idItem, latitude, longitude) {
+  Future atualizarUserLocalModulo(
+      String iduserLocalModulo, latitude, longitude, String nomeLocal) {
     try {
       userLocalModuloCollection.document(iduserLocalModulo).updateData({
-        'idUser': idUser,
-        'modulo': modulo,
-        'idItem': idItem,
         'latitude': latitude,
-        'longitude': longitude
+        'longitude': longitude,
+        'nomeLocal': nomeLocal
       });
     } catch (e) {
       print(e.toString());

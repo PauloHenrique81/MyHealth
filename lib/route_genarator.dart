@@ -39,8 +39,6 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => CadastroDePaciente());
       case 'PreLogin':
         return MaterialPageRoute(builder: (_) => PreLogin());
-      case 'Maps':
-        return MaterialPageRoute(builder: (_) => Maps());
       case 'ListagemDeConsultas':
         if (args is User) {
           return MaterialPageRoute(
@@ -186,7 +184,7 @@ class RouteGenarator {
               builder: (_) => ListagemVacinas(
                     user: args.user,
                     vacinas: args.vacina,
-                    titulo: args.string,
+                    titulo: args.string1,
                   ));
         }
         return _errorRoute();
@@ -212,6 +210,24 @@ class RouteGenarator {
       case 'Perfil':
         if (args is String) {
           return MaterialPageRoute(builder: (_) => Perfil(uid: args));
+        }
+        return _errorRoute();
+
+      case 'Maps':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => Maps(
+                  user: args.user,
+                  idItem: args.string1,
+                  modulo: args.string2,
+                  userLocalModulo: args.userLocalModulo));
+        }
+        return _errorRoute();
+      case 'Maps':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => Maps(
+                  user: args.user, idItem: args.string1, modulo: args.string2));
         }
         return _errorRoute();
       default:

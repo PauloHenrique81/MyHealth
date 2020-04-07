@@ -6,6 +6,7 @@ import 'package:myhealth/class/Exame.dart';
 import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/Receita.dart';
+import 'package:myhealth/class/UserLocalModulo.dart';
 import 'package:myhealth/class/Vacina_x_User.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -21,21 +22,26 @@ class ScreeanArguments {
   TiposDeVacinas tipoDeVacina;
   VacinaUser vacinaUser;
   List<VacinaUser> listVacinaUser;
-  String string;
+  String string1;
+  String string2;
   Atestado atestado;
+  UserLocalModulo userLocalModulo;
 
-  ScreeanArguments(
-      {this.user,
-      this.consulta,
-      this.cirurgia,
-      this.exame,
-      this.profissional,
-      this.receita,
-      this.imagem,
-      this.vacina,
-      this.tipoDeVacina,
-      this.vacinaUser,
-      this.listVacinaUser,
-      this.string,
-      this.atestado});
+  ScreeanArguments({
+    this.user,
+    this.consulta,
+    this.cirurgia,
+    this.exame,
+    this.profissional,
+    this.receita,
+    this.imagem,
+    this.vacina,
+    this.tipoDeVacina,
+    this.vacinaUser,
+    this.listVacinaUser,
+    this.string1,
+    this.string2,
+    this.atestado,
+    this.userLocalModulo,
+  });
 }

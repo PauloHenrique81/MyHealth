@@ -112,35 +112,35 @@ class _ListagemTiposDeVacinasState extends State<ListagemTiposDeVacinas> {
 
   void _mostrarDetalhesCrianca({Vacina vacina, User user}) {
     ScreeanArguments screeanArguments = new ScreeanArguments(
-        user: user, vacina: vacina, string: "Vacinas para Criança");
+        user: user, vacina: vacina, string1: "Vacinas para Criança");
     Navigator.of(context)
         .pushNamed('ListagemVacinas', arguments: screeanArguments);
   }
 
   void _mostrarDetalheAdolescente({Vacina vacina, User user}) {
     ScreeanArguments screeanArguments = new ScreeanArguments(
-        user: user, vacina: vacina, string: "Vacinas para Adolescente");
+        user: user, vacina: vacina, string1: "Vacinas para Adolescente");
     Navigator.of(context)
         .pushNamed('ListagemVacinas', arguments: screeanArguments);
   }
 
   void _mostrarDetalheAdulto({Vacina vacina, User user}) {
     ScreeanArguments screeanArguments = new ScreeanArguments(
-        user: user, vacina: vacina, string: "Vacinas para Adulto");
+        user: user, vacina: vacina, string1: "Vacinas para Adulto");
     Navigator.of(context)
         .pushNamed('ListagemVacinas', arguments: screeanArguments);
   }
 
   void _mostrarDetalheIdoso({Vacina vacina, User user}) {
     ScreeanArguments screeanArguments = new ScreeanArguments(
-        user: user, vacina: vacina, string: "Vacinas para Idoso");
+        user: user, vacina: vacina, string1: "Vacinas para Idoso");
     Navigator.of(context)
         .pushNamed('ListagemVacinas', arguments: screeanArguments);
   }
 
   void _mostrarDetalheGestante({Vacina vacina, User user}) {
     ScreeanArguments screeanArguments = new ScreeanArguments(
-        user: user, vacina: vacina, string: "Vacinas para Gestante");
+        user: user, vacina: vacina, string1: "Vacinas para Gestante");
     Navigator.of(context)
         .pushNamed('ListagemVacinas', arguments: screeanArguments);
   }

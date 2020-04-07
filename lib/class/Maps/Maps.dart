@@ -3,10 +3,21 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:myhealth/Persistencia/P_UserLocalModulo.dart';
 import 'package:myhealth/Screens/Loading.dart';
 import 'package:myhealth/class/Maps/Requests/google_maps_requests.dart';
+import 'package:myhealth/class/UserLocalModulo.dart';
+
+import '../user.dart';
 
 class Maps extends StatefulWidget {
+  final String idItem;
+  final User user;
+  String modulo;
+  UserLocalModulo userLocalModulo;
+
+  Maps({this.user, this.idItem, this.modulo, this.userLocalModulo});
+
   @override
   _MapsState createState() => _MapsState();
 }
@@ -18,20 +29,38 @@ class _MapsState extends State<Maps> {
   GoogleMapController mapController;
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
-
   final Set<Polyline> _polyLines = {};
-
   List<Marker> allMarkers = [];
 
+//----------------------------------------------------------------------------------------------------
+
+  UserLocalModulo _userLocalModuloEdicao;
+  bool _novoUserLocalModulo = false;
+  P_UserLocalModulo conectionBD = new P_UserLocalModulo();
+
+//-----------------------------------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
     _getUserLocation();
+
+    if (widget.userLocalModulo == null) {
+      _userLocalModuloEdicao = new UserLocalModulo();
+      _novoUserLocalModulo = true;
+    } else {
+      _userLocalModuloEdicao = widget.userLocalModulo;
+      _createRouteWhenStart();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        title: Text("Mapa"),
+        centerTitle: true,
+      ),
       body: _initialPosition == null
           ? Container(
               child: Center(
@@ -52,7 +81,7 @@ class _MapsState extends State<Maps> {
                   polylines: _polyLines,
                 ),
                 Positioned(
-                  top: 50.0,
+                  top: 10.0,
                   right: 15.0,
                   left: 15.0,
                   child: Container(
@@ -90,7 +119,7 @@ class _MapsState extends State<Maps> {
                   ),
                 ),
                 Positioned(
-                  top: 105.0,
+                  top: 70.0,
                   right: 15.0,
                   left: 15.0,
                   child: Container(
@@ -116,8 +145,17 @@ class _MapsState extends State<Maps> {
                             components: [
                               Component(Component.country, "br"),
                             ]);
+
                         if (p.placeId != null) {
-                          _addMarkerByPlaceId(p.placeId, p.description);
+                          var destination =
+                              await _getLocationbyPlaceId(p.placeId);
+
+                          _desenharRota(p.description, destination);
+
+                          _salvarUserLocalModulo(
+                              destination.latitude.toString(),
+                              destination.longitude.toString(),
+                              p.description);
                         }
                       },
                       cursorColor: Colors.black,
@@ -141,6 +179,18 @@ class _MapsState extends State<Maps> {
                   ),
                 ),
                 Positioned(
+                  bottom: 70,
+                  right: 10,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    tooltip: "Salvar",
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.save, color: Colors.blue),
+                  ),
+                ),
+                Positioned(
                   bottom: 10,
                   right: 10,
                   child: FloatingActionButton(
@@ -152,16 +202,6 @@ class _MapsState extends State<Maps> {
                     child: Icon(Icons.remove_circle, color: Colors.red),
                   ),
                 ),
-                Positioned(
-                  bottom: 80,
-                  right: 10,
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                    tooltip: "Salvar",
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.save, color: Colors.blue),
-                  ),
-                )
               ],
             ),
     );
@@ -184,7 +224,7 @@ class _MapsState extends State<Maps> {
       allMarkers.add(Marker(
           markerId: MarkerId('myMarker'),
           draggable: true,
-          infoWindow: InfoWindow(title: nomeLocal, snippet: "good place"),
+          infoWindow: InfoWindow(title: nomeLocal, snippet: ""),
           position: location));
     });
     moveCameraToNewPoint(location);
@@ -258,20 +298,57 @@ class _MapsState extends State<Maps> {
     });
   }
 
-  void _addMarkerByPlaceId(String placeId, String nomeLocal) async {
+  Future<LatLng> _getLocationbyPlaceId(
+    String placeId,
+  ) async {
     var latLng = await _googleMapsServices.getPlaceLatLng(placeId);
     var aux = latLng.split(',');
     LatLng destination = new LatLng(double.parse(aux[0]), double.parse(aux[1]));
+
+    return destination;
+  }
+
+  void _desenharRota(String nomeLocal, LatLng destination) async {
     _addMarker(destination, nomeLocal);
 
-    String route = await _googleMapsServices.getRouteCoordinates(
-        _initialPosition, destination);
+    String route = await _getRoute(_initialPosition, destination);
+
     createRoute(route);
+
+    locationController.text = nomeLocal;
   }
 
   void _restartMap() {
     _polyLines.clear();
     _getUserLocation();
     moveCameraToNewPoint(_initialPosition);
+  }
+
+  Future<String> _getRoute(LatLng _initialPosition, LatLng destination) async {
+    String route = await _googleMapsServices.getRouteCoordinates(
+        _initialPosition, destination);
+
+    return route;
+  }
+
+  void _createRouteWhenStart() async {
+    LatLng location = new LatLng(double.parse(_userLocalModuloEdicao.latitude),
+        double.parse(_userLocalModuloEdicao.longitude));
+
+    _desenharRota(_userLocalModuloEdicao.nomeLocal, location);
+  }
+
+  void _salvarUserLocalModulo(
+      String latitude, String longitude, String nomeLocal) {
+    if (_novoUserLocalModulo) {
+      conectionBD.cadastraUserLocalModulo(widget.user.uid, widget.modulo,
+          widget.idItem, latitude, longitude, nomeLocal);
+    } else {
+      conectionBD.atualizarUserLocalModulo(
+          widget.userLocalModulo.idUserLocalModulo,
+          latitude,
+          longitude,
+          nomeLocal);
+    }
   }
 }

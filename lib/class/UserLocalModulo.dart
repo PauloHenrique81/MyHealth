@@ -5,6 +5,7 @@ class UserLocalModulo {
   String idItem;
   String latitude;
   String longitude;
+  String nomeLocal;
 
   UserLocalModulo(
       {this.idUser,
@@ -12,5 +13,6 @@ class UserLocalModulo {
       this.idItem,
       this.latitude,
       this.longitude,
-      idUserLocalModulo});
+      this.idUserLocalModulo,
+      this.nomeLocal});
 }
