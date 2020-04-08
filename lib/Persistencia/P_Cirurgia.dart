@@ -30,14 +30,14 @@ class P_Cirurgia {
   }
 
   Future listaDeCirurgias(String idUser) async {
-    Cirurgia consulta = new Cirurgia();
-    List<Cirurgia> consultas = new List<Cirurgia>();
+    Cirurgia cirurgia = new Cirurgia();
+    List<Cirurgia> cirurgias = new List<Cirurgia>();
 
     var snapshots = await cirurgiaCollection
         .where("idUser", isEqualTo: idUser)
         .getDocuments();
     snapshots.documents.forEach((d) {
-      consulta = new Cirurgia(
+      cirurgia = new Cirurgia(
           idUser: d.data['idUser'],
           idCirurgia: d.documentID,
           nomeDoMedico: d.data['nomeDoMedico'],
@@ -53,10 +53,10 @@ class P_Cirurgia {
           formaDePagamento: d.data['formaDePagamento'] ?? '',
           valor: d.data['valor'] ?? '',
           status: d.data['status'] ?? '');
-      consultas.add(consulta);
+      cirurgias.add(cirurgia);
     });
 
-    return consultas;
+    return cirurgias;
   }
 
   Future cadastraCirurgia(
@@ -95,7 +95,7 @@ class P_Cirurgia {
     }
   }
 
-  Future atualizarConsulta(
+  Future atualizarCirurgia(
       String idUser,
       String idCirurgia,
       String nomeDoMedico,

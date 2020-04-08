@@ -72,7 +72,7 @@ class P_Exame {
     }
   }
 
-  Future atualizarConsulta(String idUser, String idExame, String nomeDoMedico,
+  Future atualizarExame(String idUser, String idExame, String nomeDoMedico,
       String tipoExame, String data, String horario, String local,
       {String dataResultado,
       String formaDePagamento,

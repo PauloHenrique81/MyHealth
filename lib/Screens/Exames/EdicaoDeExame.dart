@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealth/Persistencia/P_Exame.dart';
+import 'package:myhealth/Persistencia/P_UserLocalModulo.dart';
+import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Exame.dart';
+import 'package:myhealth/class/UserLocalModulo.dart';
 import 'package:myhealth/class/user.dart';
 
 class EdicaoDeExame extends StatefulWidget {
@@ -17,6 +21,11 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
   Exame _exameEdicao;
   bool _userEdited = false;
   bool _novoExame = false;
+
+  bool _locCadastrada = false;
+  String _idExame = "";
+  UserLocalModulo _userLocalModulo = null;
+  P_UserLocalModulo conectionUserLocalModulo = new P_UserLocalModulo();
 
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
@@ -99,7 +108,15 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
       _dataResultadoController.text = _exameEdicao.dataResultado;
       _formaDePagamentoController.text = _exameEdicao.formaDePagamento;
       _valorController.text = _exameEdicao.valor;
+
+      _getUserLocalModulo();
     }
+  }
+
+  void _getUserLocalModulo() async {
+    _userLocalModulo = await conectionUserLocalModulo.getUserLocalModulo(
+        widget.user.uid, widget.exame.idExame);
+    if (_userLocalModulo != null) _locCadastrada = true;
   }
 
   @override
@@ -109,40 +126,100 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.deepPurple,
-            title: Text(_exameEdicao.nomeDoMedico ?? "Nova Consulta"),
+            title: Text(_exameEdicao.nomeDoMedico ?? "Novo Exame"),
             centerTitle: true,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (_novoExame == true) {
-                  await conectionDB.cadastraExame(
-                    widget.user.uid,
-                    _nomeMedicoController.text,
-                    _tipoExameController.text,
-                    _dataController.text,
-                    _horaController.text,
-                    _localController.text,
-                  );
-                } else {
-                  await conectionDB.atualizarConsulta(
-                      widget.user.uid,
-                      _exameEdicao.idExame,
-                      _nomeMedicoController.text,
-                      _tipoExameController.text,
-                      _dataController.text,
-                      _horaController.text,
-                      _localController.text,
-                      dataResultado: _dataResultadoController.text,
-                      formaDePagamento: _formaDePagamentoController.text,
-                      valor: _valorController.text);
-                }
+          floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            overlayColor: Colors.black87,
+            animatedIconTheme: IconThemeData.fallback(),
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.save),
+                backgroundColor: Colors.deepPurple,
+                label: "Salvar",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novoExame == true) {
+                      await conectionDB.cadastraExame(
+                        widget.user.uid,
+                        _nomeMedicoController.text,
+                        _tipoExameController.text,
+                        _dataController.text,
+                        _horaController.text,
+                        _localController.text,
+                      );
+                    } else {
+                      await conectionDB.atualizarExame(
+                          widget.user.uid,
+                          _exameEdicao.idExame,
+                          _nomeMedicoController.text,
+                          _tipoExameController.text,
+                          _dataController.text,
+                          _horaController.text,
+                          _localController.text,
+                          dataResultado: _dataResultadoController.text,
+                          formaDePagamento: _formaDePagamentoController.text,
+                          valor: _valorController.text);
+                    }
 
-                Navigator.pop(context);
-              }
-            },
-            child: Icon(Icons.save),
-            backgroundColor: Colors.deepPurple,
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.map),
+                backgroundColor: Colors.blue,
+                label: _locCadastrada
+                    ? "Vizualizar localização"
+                    : "Adicionar localização",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novoExame == true) {
+                      _idExame = await conectionDB.cadastraExame(
+                        widget.user.uid,
+                        _nomeMedicoController.text,
+                        _tipoExameController.text,
+                        _dataController.text,
+                        _horaController.text,
+                        _localController.text,
+                      );
+                    } else {
+                      await conectionDB.atualizarExame(
+                          widget.user.uid,
+                          _exameEdicao.idExame,
+                          _nomeMedicoController.text,
+                          _tipoExameController.text,
+                          _dataController.text,
+                          _horaController.text,
+                          _localController.text,
+                          dataResultado: _dataResultadoController.text,
+                          formaDePagamento: _formaDePagamentoController.text,
+                          valor: _valorController.text);
+
+                      _idExame = _exameEdicao.idExame;
+                    }
+
+                    if (_locCadastrada) {
+                      ScreeanArguments screeanArguments = new ScreeanArguments(
+                          user: widget.user,
+                          string1: _idExame,
+                          string2: "Exame",
+                          userLocalModulo: _userLocalModulo);
+                      Navigator.of(context)
+                          .pushNamed('Maps', arguments: screeanArguments);
+                    } else {
+                      ScreeanArguments screeanArguments = new ScreeanArguments(
+                          user: widget.user,
+                          string1: _idExame,
+                          string2: "Exame");
+                      Navigator.of(context)
+                          .pushNamed('Maps', arguments: screeanArguments);
+                    }
+                  }
+                },
+              ),
+            ],
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),

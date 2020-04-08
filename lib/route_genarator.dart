@@ -65,7 +65,7 @@ class RouteGenarator {
           return MaterialPageRoute(
               builder: (_) => EdicaoDeCirurgia(
                     user: args.user,
-                    consulta: args.cirurgia,
+                    cirurgia: args.cirurgia,
                   ));
         }
         return _errorRoute();
