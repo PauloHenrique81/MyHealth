@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myhealth/Service/auth.dart';
+import 'package:myhealth/UserProfissional/Authenticate/AuthProfissional.dart';
 
 class CadastroDeProfissional extends StatefulWidget {
   @override
@@ -7,18 +7,27 @@ class CadastroDeProfissional extends StatefulWidget {
 }
 
 class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
-  final AuthService _auth = AuthService();
+  final AuthProfissional _auth = AuthProfissional();
   final _formKey = GlobalKey<FormState>();
 
   String nome = '';
-  String idade = '';
   String cpf = '';
+  String idProfissao = '';
+  String profissao = '';
   String email = '';
   String emailC = '';
   String senha = '';
   String senhaC = '';
 
   String error = '';
+
+  var profissionais = [
+    "Médico",
+    "Fisioterapeuta",
+    "Psicólogo",
+    "Nutricionista",
+    "Dentista"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +56,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
+                          keyboardType: TextInputType.text,
                           validator: (val) =>
                               val.isEmpty ? 'Digite seu nome' : null,
                           onChanged: (val) {
@@ -68,27 +78,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
-                          validator: (val) =>
-                              val.isEmpty ? 'Digite sua idade' : null,
-                          onChanged: (val) {
-                            setState(() {
-                              idade = val;
-                            });
-                          },
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Idade',
-                              labelStyle:
-                                  TextStyle(fontSize: 15, color: Colors.black)),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: TextFormField(
+                          keyboardType: TextInputType.number,
                           validator: (val) {
                             if (val.isEmpty) return 'Digite seu CPF';
                             if (val.length > 11 || val.length < 11)
@@ -114,6 +104,55 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
+                          validator: (val) => val.isEmpty
+                              ? 'Digite seu identificador profissional'
+                              : null,
+                          onChanged: (val) {
+                            setState(() {
+                              idProfissao = val;
+                            });
+                          },
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              labelText: 'Identificador Profissional',
+                              labelStyle:
+                                  TextStyle(fontSize: 15, color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Row(
+                          children: <Widget>[
+                            Text("Profissão : "),
+                            Expanded(
+                              child: DropdownButton(
+                                hint: Text(profissao),
+                                items: profissionais
+                                    .map((String progissaoEscolhida) {
+                                  return DropdownMenuItem<String>(
+                                    value: progissaoEscolhida,
+                                    child: Text(progissaoEscolhida),
+                                  );
+                                }).toList(),
+                                onChanged: (text) {
+                                  setState(() {
+                                    profissao = text;
+                                  });
+                                },
+                                isExpanded: true,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               val.isEmpty ? 'Digite seu email' : null,
                           onChanged: (val) {
@@ -135,6 +174,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           validator: (val) {
                             if (val != emailC) return 'Emails diferentes ';
                             if (val.isEmpty) return 'Digite seu Email';
@@ -159,6 +199,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
                           validator: (val) {
                             if (val.isEmpty) return 'Digite sua senha';
                             if (val.length < 6)
@@ -217,14 +258,13 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                   child: MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        dynamic result = await _auth.registrarPaciente(
-                            nome, cpf, email, senha,
-                            idade: idade);
+                        dynamic result = await _auth.cadastroPorEmaileSenha(
+                            nome, cpf, idProfissao, profissao, email, senha);
                         if (result == null) {
                           setState(
                               () => error = 'Erro ao realizar o cadastro.');
                         } else {
-                          Navigator.of(context).pushNamed('LoginPaciente');
+                          Navigator.of(context).pushNamed('LoginProfissional');
                         }
                       }
                     },

@@ -19,6 +19,10 @@ import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
 import 'package:myhealth/Screens/Vacinas/ListagensTiposDeVacinas.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/UserProfissional/Screens/CadastroDeProfissional.dart';
+import 'package:myhealth/UserProfissional/Screens/HomePageProfissional.dart';
+import 'package:myhealth/UserProfissional/Screens/Login_Profissional.dart';
+import 'package:myhealth/UserProfissional/Screens/PerfilProfissional.dart';
 import 'package:myhealth/class/Maps/Maps.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
@@ -230,6 +234,26 @@ class RouteGenarator {
                   user: args.user, idItem: args.string1, modulo: args.string2));
         }
         return _errorRoute();
+
+//---------------------------------------------------------------------------ROTAS MODULO DE PROFISSIONAIS-------------------------------------------------------
+
+      case 'LoginProfissional':
+        return MaterialPageRoute(builder: (_) => LoginProfissional());
+      case 'CadastroDeProfissional':
+        return MaterialPageRoute(builder: (_) => CadastroDeProfissional());
+      case 'HomePageProfissional':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => HomePageProfissional(user: args));
+        }
+        return _errorRoute();
+      case 'PerfilProfissional':
+        if (args is String) {
+          return MaterialPageRoute(
+              builder: (_) => PerfilProfissional(uid: args));
+        }
+        return _errorRoute();
+
       default:
         return _errorRoute();
     }

@@ -143,7 +143,7 @@ class _MapsState extends State<Maps> {
                             apiKey: _googleMapsServices.apiKey,
                             language: "pt",
                             components: [
-                              Component(Component.country, "br"),
+                              Component(Component.country, "us"),
                             ]);
 
                         if (p.placeId != null) {
@@ -151,7 +151,7 @@ class _MapsState extends State<Maps> {
                               await _getLocationbyPlaceId(p.placeId);
 
                           _desenharRota(p.description, destination);
-
+                          destinationController.text = p.description;
                           _salvarUserLocalModulo(
                               destination.latitude.toString(),
                               destination.longitude.toString(),
@@ -182,6 +182,7 @@ class _MapsState extends State<Maps> {
                   bottom: 70,
                   right: 10,
                   child: FloatingActionButton(
+                    heroTag: "btnSalvar",
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -194,10 +195,11 @@ class _MapsState extends State<Maps> {
                   bottom: 10,
                   right: 10,
                   child: FloatingActionButton(
+                    heroTag: "btnLimpar",
                     onPressed: () {
                       _restartMap();
                     },
-                    tooltip: "Lipar busca",
+                    tooltip: "Limpar busca",
                     backgroundColor: Colors.white,
                     child: Icon(Icons.remove_circle, color: Colors.red),
                   ),
@@ -339,7 +341,7 @@ class _MapsState extends State<Maps> {
   }
 
   void _salvarUserLocalModulo(
-      String latitude, String longitude, String nomeLocal) {
+      String latitude, String longitude, String nomeLocal) {  
     if (_novoUserLocalModulo) {
       conectionBD.cadastraUserLocalModulo(widget.user.uid, widget.modulo,
           widget.idItem, latitude, longitude, nomeLocal);

@@ -1,15 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:myhealth/Service/auth.dart';
+import 'package:myhealth/UserProfissional/Authenticate/AuthProfissional.dart';
 
-class LoginPaciente extends StatefulWidget {
+class LoginProfissional extends StatefulWidget {
   @override
-  _LoginPacienteState createState() => _LoginPacienteState();
+  _LoginProfissionalState createState() => _LoginProfissionalState();
 }
 
-class _LoginPacienteState extends State<LoginPaciente> {
-  final AuthService _auth = AuthService();
+class _LoginProfissionalState extends State<LoginProfissional> {
+  final AuthProfissional _auth = AuthProfissional();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -24,7 +24,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginPaciente.jpg'),
+        image: AssetImage('Assets/loginProfissional.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -111,7 +111,8 @@ class _LoginPacienteState extends State<LoginPaciente> {
                         if (result == null) {
                           setState(() => error = 'Email ou senha incorretos.');
                         } else {
-                          Navigator.pushReplacementNamed(context, 'HomePage',
+                          Navigator.pushReplacementNamed(
+                              context, 'HomePageProfissional',
                               arguments: result);
                         }
                       }
@@ -143,10 +144,13 @@ class _LoginPacienteState extends State<LoginPaciente> {
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
                     onPressed: () async {
-                      await _auth.signInWithGmail().then((user) {
-                        if (user != null) {
-                          Navigator.pushReplacementNamed(context, 'HomePage',
-                              arguments: user);
+                      var userP = await _auth.signInWithGmail();
+
+                      await _auth.cadastraUserProfissional(userP).then((userP) {
+                        if (userP != null) {
+                          Navigator.pushReplacementNamed(
+                              context, 'HomePageProfissional',
+                              arguments: userP);
                         }
                       });
                     },
@@ -194,7 +198,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                             ),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () => Navigator.of(context)
-                                  .pushNamed('CadastroDePaciente'))
+                                  .pushNamed('CadastroDeProfissional'))
                       ]),
                     ),
                   ),
