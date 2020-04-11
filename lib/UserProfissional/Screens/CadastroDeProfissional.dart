@@ -34,7 +34,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/login5.jpg'),
+        image: AssetImage('Assets/cadastro.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -264,7 +264,8 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           setState(
                               () => error = 'Erro ao realizar o cadastro.');
                         } else {
-                          Navigator.of(context).pushNamed('LoginProfissional');
+                          Navigator.of(context)
+                              .pushReplacementNamed('LoginProfissional');
                         }
                       }
                     },

@@ -83,11 +83,16 @@ class _HomePage extends StatelessWidget {
                   arguments: user),
             ),
             new ListTile(
-              title: new Text("Profissionais"),
+              title: new Text("Habilitar Profissional"),
               trailing: new Icon(Icons.receipt),
-              onTap: () => Navigator.pushNamed(
-                  context, 'ListagemDeProfissionais',
+              onTap: () => Navigator.pushNamed(context, 'HabilitarProfissional',
                   arguments: user),
+            ),
+            new ListTile(
+              title: new Text("Perfil"),
+              trailing: new Icon(Icons.person_outline),
+              onTap: () =>
+                  Navigator.pushNamed(context, 'Perfil', arguments: user.uid),
             ),
             new ListTile(
               title: new Text("Receitas"),

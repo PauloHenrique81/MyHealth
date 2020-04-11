@@ -224,7 +224,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           setState(
                               () => error = 'Erro ao realizar o cadastro.');
                         } else {
-                          Navigator.of(context).pushNamed('LoginPaciente');
+                          Navigator.of(context)
+                              .pushReplacementNamed('LoginPaciente');
                         }
                       }
                     },

@@ -127,12 +127,44 @@ class P_Profissional {
     }
   }
 
+  Future listaDeProfissionaisUser(String idUser) async {
+    Profissional profissional = new Profissional();
+    List<Profissional> profissionais = new List<Profissional>();
+
+    var snapshots = await profissionalCollection
+        .where("tipoUser", isEqualTo: "Sim")
+        .getDocuments();
+    if (snapshots.documents.length != 0) {
+      snapshots.documents.forEach((d) {
+        profissional = new Profissional(
+            idUser: d.data['idUser'],
+            idProfissional: d.documentID,
+            profissao: d.data['profissao'],
+            especialidade: d.data['especialidade'] ?? '',
+            nome: d.data['nome'],
+            cpf: d.data['cpf'] ?? '',
+            dataDeNascimento: d.data['dataDeNascimento'] ?? '',
+            sexo: d.data['sexo'] ?? '',
+            email: d.data['email'] ?? '',
+            identificacao: d.data['identificacao'],
+            localDeAtendimento: d.data['localDeAtendimento'],
+            telefone: d.data['telefone'],
+            imagemUrl: d.data['imagemUrl'] ?? '',
+            status: d.data['status'] ?? '',
+            tipoUser: d.data['tipoUser'] ?? '');
+
+        profissionais.add(profissional);
+      });
+      return profissionais;
+    }
+  }
+
   Future getProfissionalUser(String idUser) async {
     Profissional profissional = new Profissional();
 
     var snapshots = await profissionalCollection
         .where("idUser", isEqualTo: idUser)
-        .where("tipoUser", isEqualTo: "sim")
+        .where("tipoUser", isEqualTo: "Sim")
         .getDocuments();
     var d = snapshots.documents.first;
     profissional = new Profissional(

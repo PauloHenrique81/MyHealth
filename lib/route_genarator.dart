@@ -7,6 +7,8 @@ import 'package:myhealth/Screens/Cirurgias/ListagemDeCirurgias.dart';
 import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
 import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
 import 'package:myhealth/Screens/Exames/EdicaoDeExame.dart';
+import 'package:myhealth/Screens/HabilitarProfissional/HabilitarProfissionalEdicao.dart';
+import 'package:myhealth/Screens/HabilitarProfissional/HabilitarProfissionalListagem.dart';
 import 'package:myhealth/Screens/HomePage.dart';
 import 'package:myhealth/Screens/Perfil.dart';
 import 'package:myhealth/Screens/PreLogin.dart';
@@ -232,6 +234,21 @@ class RouteGenarator {
           return MaterialPageRoute(
               builder: (_) => Maps(
                   user: args.user, idItem: args.string1, modulo: args.string2));
+        }
+        return _errorRoute();
+
+      case 'HabilitarProfissionalEdicao':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => HabilitarProfissionalEdicao(
+                  user: args.user, profissional: args.profissional));
+        }
+        return _errorRoute();
+
+      case 'HabilitarProfissional':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => HabilitarProfissionalListagem(user: args));
         }
         return _errorRoute();
 

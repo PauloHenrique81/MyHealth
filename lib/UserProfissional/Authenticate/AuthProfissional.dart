@@ -71,7 +71,7 @@ class AuthProfissional {
 
     if (!usuarioJaCadastrado)
       profissionalBD.cadastraProfissional(userX.uid, "", userX.userName, "",
-          email: userX.userEmail, imagemUrl: userX.photoUrl, tipoUser: "sim");
+          email: userX.userEmail, imagemUrl: userX.photoUrl, tipoUser: "Sim");
     return userX;
   }
 
@@ -95,7 +95,7 @@ class AuthProfissional {
             cpf: cpf,
             identificacao: identificacao,
             email: email,
-            tipoUser: "sim");
+            tipoUser: "Sim");
         return user;
       }
     } catch (e) {
