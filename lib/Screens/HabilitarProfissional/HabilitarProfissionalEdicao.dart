@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myhealth/Persistencia/P_Profissional.dart';
+import 'package:myhealth/Persistencia/P_HabilitarProfissional.dart';
+import 'package:myhealth/class/HabilitarProfissional.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -18,19 +19,19 @@ class _HabilitarProfissionalEdicaoState
   Profissional _profissionalEdicao;
   bool _userEdited = false;
   bool _novoProfissional = false;
-
+  HabilitarProfissional habilitarProfissional;
   final _formKey = GlobalKey<FormState>();
 
-  P_Profissional conectionDB = new P_Profissional();
+  P_HabilitarProfissional conectionDB = new P_HabilitarProfissional();
 
-  String tipo = "";
+  String habilitado = "";
   var tipoUser = ["Sim", "Não"];
 
   final _profissaoController = TextEditingController();
   final _nomeController = TextEditingController();
   final _localDeAtendimentoController = TextEditingController();
 
-  final _tipoUserController = TextEditingController();
+  final _habilitadoController = TextEditingController();
 
   @override
   void initState() {
@@ -38,7 +39,6 @@ class _HabilitarProfissionalEdicaoState
 
     if (widget.profissional == null) {
       _profissionalEdicao = Profissional();
-      _novoProfissional = true;
     } else {
       _profissionalEdicao = widget.profissional;
 
@@ -46,9 +46,27 @@ class _HabilitarProfissionalEdicaoState
       _nomeController.text = _profissionalEdicao.nome;
       _localDeAtendimentoController.text =
           _profissionalEdicao.localDeAtendimento;
-      _tipoUserController.text = _profissionalEdicao.tipoUser;
+    }
 
-      tipo = _profissionalEdicao.tipoUser;
+    _getHabilitadoProfissional();
+  }
+
+  void _getHabilitadoProfissional() async {
+    habilitarProfissional = await conectionDB.getHabilitarProfissional(
+        widget.user.uid, widget.profissional.idProfissional);
+
+    if (habilitarProfissional == null) {
+      setState(() {
+        habilitado = "Não";
+      });
+
+      _novoProfissional = true;
+    } else {
+      _novoProfissional = false;
+
+      setState(() {
+        habilitado = habilitarProfissional.estaHabilitado;
+      });
     }
   }
 
@@ -84,8 +102,13 @@ class _HabilitarProfissionalEdicaoState
                               FlatButton(
                                 child: Text("Sim"),
                                 onPressed: () {
+                                  conectionDB.cadastraHabilitarProfissional(
+                                      widget.user.uid,
+                                      widget.profissional.idProfissional,
+                                      habilitado);
+
                                   Navigator.popAndPushNamed(
-                                      context, 'ListagemDeProfissionais',
+                                      context, 'HabilitarProfissional',
                                       arguments: widget.user);
                                 },
                               )
@@ -93,6 +116,11 @@ class _HabilitarProfissionalEdicaoState
                           );
                         });
                   }
+                } else {
+                  conectionDB.atualizarProfissional(
+                      habilitarProfissional.idDocumento, habilitado);
+                  Navigator.popAndPushNamed(context, 'HabilitarProfissional',
+                      arguments: widget.user);
                 }
               }
             },
@@ -110,7 +138,8 @@ class _HabilitarProfissionalEdicaoState
                       height: 10.0,
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
-                          color: tipo == "Sim" ? Colors.green : Colors.red),
+                          color:
+                              habilitado == "Sim" ? Colors.green : Colors.red),
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
@@ -138,10 +167,10 @@ class _HabilitarProfissionalEdicaoState
                     Padding(padding: EdgeInsets.only(top: 10.0)),
                     Row(
                       children: <Widget>[
-                        Text("Habilitado : "),
+                        Text("Habilitar : "),
                         Expanded(
                           child: DropdownButton(
-                            hint: Text(tipo),
+                            hint: Text(habilitado),
                             items: tipoUser.map((String tipoUserEscolhido) {
                               return DropdownMenuItem<String>(
                                 value: tipoUserEscolhido,
@@ -151,10 +180,10 @@ class _HabilitarProfissionalEdicaoState
                             onChanged: (text) {
                               _userEdited = true;
                               _profissionalEdicao.tipoUser = text;
-                              _tipoUserController.text = text;
+                              _habilitadoController.text = text;
 
                               setState(() {
-                                tipo = text;
+                                habilitado = text;
                               });
                             },
                             isExpanded: true,
@@ -186,8 +215,7 @@ class _HabilitarProfissionalEdicaoState
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.popAndPushNamed(
-                        context, 'ListagemDeProfissionais',
+                    Navigator.popAndPushNamed(context, 'HabilitarProfissional',
                         arguments: widget.user);
                   },
                 )
