@@ -49,6 +49,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               val.isEmpty ? 'Digite seu email' : null,
                           onChanged: (val) {

@@ -49,6 +49,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               val.isEmpty ? 'Digite seu email' : null,
                           onChanged: (val) {
