@@ -92,8 +92,8 @@ class _PerfilState extends State<Perfil> {
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                await conectionDB.atualizarPaciente(
-                    widget.uid, _nomeController.text, _cpfController.text,
+                await conectionDB.atualizarPaciente(_paciente.documentID,
+                    _nomeController.text, _cpfController.text,
                     dataDeNascimento: _dataDeNascimentoController.text,
                     email: _emailController.text,
                     telefone: _telefoneController.text,
@@ -131,6 +131,7 @@ class _PerfilState extends State<Perfil> {
                           },
                         ),
                         TextField(
+                          keyboardType: TextInputType.number,
                           controller: _cpfController,
                           decoration: InputDecoration(labelText: "CPF:"),
                           onChanged: (text) {

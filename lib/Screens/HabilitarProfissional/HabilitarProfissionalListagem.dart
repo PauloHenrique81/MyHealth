@@ -10,7 +10,7 @@ class HabilitarProfissionalListagem extends StatefulWidget {
   User user;
   HabilitarProfissionalListagem({this.user}) : super();
 
-  final String title = "Filter List Demo";
+  final String title = "Lista de Profissionais";
 
   @override
   HabilitarProfissionalListagemState createState() =>
@@ -55,6 +55,19 @@ class HabilitarProfissionalListagemState
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Colors.deepPurple,
+        centerTitle: true,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, 'HomePage',
+                    arguments: widget.user);
+              },
+            );
+          },
+        ),
       ),
       body: Column(
         children: <Widget>[

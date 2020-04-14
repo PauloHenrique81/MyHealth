@@ -23,6 +23,7 @@ import 'package:myhealth/Service/ImageCapture.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/UserProfissional/Screens/CadastroDeProfissional.dart';
 import 'package:myhealth/UserProfissional/Screens/HomePageProfissional.dart';
+import 'package:myhealth/UserProfissional/Screens/ListagemDePaciente.dart';
 import 'package:myhealth/UserProfissional/Screens/Login_Profissional.dart';
 import 'package:myhealth/UserProfissional/Screens/PerfilProfissional.dart';
 import 'package:myhealth/class/Maps/Maps.dart';
@@ -262,6 +263,12 @@ class RouteGenarator {
         if (args is User) {
           return MaterialPageRoute(
               builder: (_) => HomePageProfissional(user: args));
+        }
+        return _errorRoute();
+      case 'ListagemDePacientes':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDePacientes(user: args));
         }
         return _errorRoute();
       case 'PerfilProfissional':

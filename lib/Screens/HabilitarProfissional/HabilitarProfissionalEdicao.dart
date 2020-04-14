@@ -104,7 +104,7 @@ class _HabilitarProfissionalEdicaoState
                                 onPressed: () {
                                   conectionDB.cadastraHabilitarProfissional(
                                       widget.user.uid,
-                                      widget.profissional.idProfissional,
+                                      widget.profissional.idUser,
                                       habilitado);
 
                                   Navigator.popAndPushNamed(

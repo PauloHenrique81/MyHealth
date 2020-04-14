@@ -1,5 +1,6 @@
 class Paciente {
   String uid;
+  String documentID;
   String nome;
   String dataDeNascimento;
   String cpf;
@@ -16,6 +17,7 @@ class Paciente {
 
   Paciente(
       {this.uid,
+      this.documentID,
       this.nome,
       this.dataDeNascimento,
       this.cpf,

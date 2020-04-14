@@ -13,6 +13,7 @@ class P_Paciente {
       return Paciente(
         uid: doc.data['uid'] ?? '',
         nome: doc.data['nome'] ?? '',
+        documentID: doc.documentID,
         dataDeNascimento: doc.data['dataDeNascimento'] ?? '',
         cpf: doc.data['cpf'] ?? '',
         email: doc.data['email'] ?? '',
@@ -68,6 +69,7 @@ class P_Paciente {
     snapshots.documents.forEach((d) {
       paciente = new Paciente(
           uid: d.data['uid'] ?? '',
+          documentID: d.documentID,
           nome: d.data['nome'] ?? '',
           dataDeNascimento: d.data['dataDeNascimento'] ?? '',
           cpf: d.data['cpf'] ?? '',
@@ -90,10 +92,11 @@ class P_Paciente {
     Paciente paciente = new Paciente();
 
     var snapshots =
-        await pacienteCollection.where("uid", isEqualTo: uid).getDocuments();
+        await pacienteCollection.where("uid", isEqualTo: idUser).getDocuments();
     var d = snapshots.documents.first;
     paciente = new Paciente(
         uid: d.data['uid'] ?? '',
+        documentID: d.documentID,
         nome: d.data['nome'] ?? '',
         dataDeNascimento: d.data['dataDeNascimento'] ?? '',
         cpf: d.data['cpf'] ?? '',
@@ -109,7 +112,7 @@ class P_Paciente {
     return paciente;
   }
 
-  Future atualizarPaciente(String uid, String nome, String cpf,
+  Future atualizarPaciente(String documentID, String nome, String cpf,
       {String dataDeNascimento,
       String email,
       String telefone,
@@ -120,7 +123,7 @@ class P_Paciente {
       String intolerancia,
       String imagemUrl}) {
     try {
-      pacienteCollection.document(uid).updateData({
+      pacienteCollection.document(documentID).updateData({
         'nome': nome ?? '',
         'cpf': cpf ?? '',
         'dataDeNascimento': dataDeNascimento ?? '',
