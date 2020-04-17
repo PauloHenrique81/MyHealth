@@ -116,10 +116,10 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           child: DropdownButton(
                             hint: Text(profissao),
                             items:
-                                profissionais.map((String progissaoEscolhida) {
+                                profissionais.map((String profissaoEscolhida) {
                               return DropdownMenuItem<String>(
-                                value: progissaoEscolhida,
-                                child: Text(progissaoEscolhida),
+                                value: profissaoEscolhida,
+                                child: Text(profissaoEscolhida),
                               );
                             }).toList(),
                             onChanged: (text) {

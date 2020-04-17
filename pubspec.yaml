@@ -73,9 +73,11 @@ flutter:
    - Assets/gestante.jpg
    - Assets/adolescente.jpg
    - Assets/vacina.jpg
-   - Assets/loginProfissional.jpg
+   - Assets/fundoAzul.jpg 
    - Assets/loginPaciente.jpg
    - Assets/cadastro.jpg
+   - Assets/preLogin.jpg
+   - Assets/fundoBranco.jpg
 
 
 

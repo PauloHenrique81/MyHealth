@@ -34,7 +34,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/cadastro.jpg'),
+        image: AssetImage('Assets/fundoAzul.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

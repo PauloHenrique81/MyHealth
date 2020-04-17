@@ -143,7 +143,7 @@ class _MapsState extends State<Maps> {
                             apiKey: _googleMapsServices.apiKey,
                             language: "pt",
                             components: [
-                              Component(Component.country, "us"),
+                              Component(Component.country, "br"),
                             ]);
 
                         if (p.placeId != null) {
@@ -341,7 +341,7 @@ class _MapsState extends State<Maps> {
   }
 
   void _salvarUserLocalModulo(
-      String latitude, String longitude, String nomeLocal) {  
+      String latitude, String longitude, String nomeLocal) {
     if (_novoUserLocalModulo) {
       conectionBD.cadastraUserLocalModulo(widget.user.uid, widget.modulo,
           widget.idItem, latitude, longitude, nomeLocal);

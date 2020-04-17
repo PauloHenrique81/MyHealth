@@ -24,6 +24,17 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
           title: Text("Consultas"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {});
+              },
+            )
+          ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -96,7 +107,19 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                                       Text("    ",
                                           style: TextStyle(fontSize: 18.0)),
                                       Text(snapshot.data[index].horario ?? "",
-                                          style: TextStyle(fontSize: 18.0))
+                                          style: TextStyle(fontSize: 18.0)),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: verificaData(snapshot
+                                                        .data[index].data) <=
+                                                    0
+                                                ? Colors.green
+                                                : Colors.red),
+                                      ),
                                     ],
                                   )
                                 ],
@@ -114,9 +137,20 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
             }));
   }
 
+  int verificaData(String data) {
+    var aux = data.split('-');
+    DateTime dateTime =
+        new DateTime(int.parse(aux[2]), int.parse(aux[1]), int.parse(aux[0]));
+
+    var dateNow = DateTime.now();
+    var newDate = new DateTime(dateNow.year, dateNow.month, dateNow.day);
+    return newDate.compareTo(dateTime);
+  }
+
   Future buscaConsultas(String idUser) async {
     consultas = await bd.listaDeConsultas(idUser);
-    return consultas;
+    var teste = _ordenarLista(consultas, consultas.length);
+    return teste;
   }
 
   void _mostrarDetalhesDaConsulta({Consulta consulta, User user}) {
@@ -131,4 +165,21 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
     Navigator.of(context)
         .pushNamed('NovaConsulta', arguments: screeanArguments);
   }
+}
+
+List<Consulta> _ordenarLista(List<Consulta> lista, int n) {
+  int i, j;
+  Consulta key;
+
+  for (i = 1; i < n; i++) {
+    key = lista[i];
+    j = i - 1;
+    while (j >= 0 && lista[j].convertData().compareTo(key.convertData()) < 0) {
+      lista[j + 1] = lista[j];
+      j = j - 1;
+    }
+    lista[j + 1] = key;
+  }
+
+  return lista;
 }

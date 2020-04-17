@@ -6,7 +6,7 @@ class PreLogin extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/login5.jpg'),
+        image: AssetImage('Assets/preLogin.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -68,10 +68,10 @@ class PreLogin extends StatelessWidget {
                   elevation: 0,
                   minWidth: 350,
                   height: 60,
-                  textColor: Colors.blueAccent,
+                  textColor: Colors.black,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
-                      side: BorderSide(color: Colors.blueAccent)),
+                      side: BorderSide(color: Colors.black)),
                 ),
               ),
             ],

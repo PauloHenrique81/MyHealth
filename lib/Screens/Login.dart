@@ -24,7 +24,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginPaciente.jpg'),
+        image: AssetImage('Assets/fundoBranco.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -167,10 +167,10 @@ class _LoginPacienteState extends State<LoginPaciente> {
                     elevation: 0,
                     minWidth: 350,
                     height: 60,
-                    textColor: Colors.white,
+                    textColor: Colors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
-                        side: BorderSide(color: Colors.white)),
+                        side: BorderSide(color: Colors.black)),
                   ),
                 ),
                 Padding(
@@ -182,7 +182,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                           text: "Ainda não tem uma conta?",
                           style: TextStyle(
                             fontFamily: 'SFUIDisplay',
-                            color: Colors.white,
+                            color: Colors.black,
                             fontSize: 15,
                           ),
                         ),

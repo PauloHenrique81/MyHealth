@@ -15,6 +15,7 @@ class DatabaseService {
         idUser: doc.data['idUser'] ?? '',
         nomeDoMedico: doc.data['nomeDoMedico'] ?? '',
         especialidade: doc.data['especialidade'] ?? '',
+        idConsulta: doc.data['idConsulta'] ?? '',
         data: doc.data['data'] ?? '',
         horario: doc.data['horario'] ?? '',
         local: doc.data['local'] ?? '',
@@ -32,7 +33,9 @@ class DatabaseService {
     Consulta consulta = new Consulta();
     List<Consulta> consultas = new List<Consulta>();
 
-    var snapshots = await consultaCollection.where("idUser", isEqualTo : idUser).getDocuments();
+    var snapshots = await consultaCollection
+        .where("idUser", isEqualTo: idUser)
+        .getDocuments();
     snapshots.documents.forEach((d) {
       consulta = new Consulta(
           idUser: d.data['idUser'],
@@ -54,6 +57,19 @@ class DatabaseService {
     return consultas;
   }
 
+  void excluirConsulta(String idConsulta, String idUser) async {
+    try {
+      var consultas = await consultaCollection
+          .where("idUser", isEqualTo: idUser)
+          .where("idConsulta", isEqualTo: idConsulta)
+          .getDocuments();
+
+      consultas.documents.first.reference.delete();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future cadastraConsulta(String idUser, String nomeDoMedico, String data,
       String horario, String local,
       {String especialidade,
@@ -62,9 +78,9 @@ class DatabaseService {
       String medicamentos,
       String formaDePagamento,
       double valor,
-      String status}) {
+      String status}) async {
     try {
-      consultaCollection.document().setData({
+      var idConsulta = await consultaCollection.add({
         'idUser': idUser,
         'nomeDoMedico': nomeDoMedico,
         'especialidade': especialidade ?? '',
@@ -78,6 +94,12 @@ class DatabaseService {
         'valor': valor ?? '',
         'status': status ?? ''
       });
+
+      consultaCollection
+          .document(idConsulta.documentID)
+          .updateData({'idConsulta': idConsulta.documentID});
+
+      var teste = idConsulta;
     } catch (e) {
       print(e.toString());
       return null;

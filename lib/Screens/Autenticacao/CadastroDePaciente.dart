@@ -25,7 +25,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/login5.jpg'),
+        image: AssetImage('Assets/fundoBranco.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

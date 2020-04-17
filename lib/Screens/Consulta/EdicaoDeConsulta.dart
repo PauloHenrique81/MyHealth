@@ -28,6 +28,15 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
 
+  var formasDePagamento = [
+    "Dinheiro",
+    "Cartão de Crédito",
+    "Cartão de Débito",
+    "Plano de saúde"
+  ];
+
+  String formaDePagamento = "";
+
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -97,7 +106,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
       _medicamentosController.text = _consultaEdicao.medicamentos;
       _formaDePagamentoController.text = _consultaEdicao.formaDePagamento;
       _valorController.text = _consultaEdicao.valor;
-
+      formaDePagamento = _consultaEdicao.formaDePagamento;
       _getUserLocalModulo();
     }
   }
@@ -156,6 +165,42 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                   }
                 },
               ),
+              SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir",
+                  onTap: () {
+                    if (!_novaConsulta) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Consulta ?"),
+                              content: Text(
+                                  "As informações desta consulta, serão excluidos permanentemente"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    conectionDB.excluirConsulta(
+                                        _consultaEdicao.idConsulta,
+                                        widget.user.uid);
+                                    Navigator.pushReplacementNamed(
+                                        context, 'ListagemDeConsultas',
+                                        arguments: widget.user);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
               SpeedDialChild(
                 child: Icon(Icons.map),
                 backgroundColor: Colors.blue,
@@ -263,7 +308,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     TextFormField(
                       controller: _localController,
-                      decoration: InputDecoration(labelText: "Local:"),
+                      decoration: InputDecoration(labelText: "Nome do local:"),
                       validator: (val) => val.isEmpty ? 'Digite o local' : null,
                       onChanged: (text) {
                         _userEdited = true;
@@ -305,15 +350,6 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       },
                     ),
                     TextFormField(
-                      controller: _formaDePagamentoController,
-                      decoration:
-                          InputDecoration(labelText: "Forma de pagamento:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _consultaEdicao.formaDePagamento = text;
-                      },
-                    ),
-                    TextFormField(
                       controller: _valorController,
                       decoration: InputDecoration(labelText: "Valor:"),
                       onChanged: (text) {
@@ -322,7 +358,34 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       },
                       keyboardType: TextInputType.number,
                     ),
-                    const SizedBox(height: 30),
+                    Row(
+                      children: <Widget>[
+                        Text("Forma de Pagamento : "),
+                        Expanded(
+                          child: DropdownButton(
+                            hint: Text(formaDePagamento),
+                            items: formasDePagamento
+                                .map((String formaDePagamentoEscolhida) {
+                              return DropdownMenuItem<String>(
+                                value: formaDePagamentoEscolhida,
+                                child: Text(formaDePagamentoEscolhida),
+                              );
+                            }).toList(),
+                            onChanged: (text) {
+                              _userEdited = true;
+                              _consultaEdicao.formaDePagamento = text;
+                              _formaDePagamentoController.text = text;
+
+                              setState(() {
+                                formaDePagamento = text;
+                              });
+                            },
+                            isExpanded: true,
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 70),
                   ],
                 ),
               )),

@@ -24,7 +24,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginProfissional.jpg'),
+        image: AssetImage('Assets/fundoAzul.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
