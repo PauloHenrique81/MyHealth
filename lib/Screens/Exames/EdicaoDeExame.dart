@@ -116,7 +116,11 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
   void _getUserLocalModulo() async {
     _userLocalModulo = await conectionUserLocalModulo.getUserLocalModulo(
         widget.user.uid, widget.exame.idExame);
-    if (_userLocalModulo != null) _locCadastrada = true;
+    if (_userLocalModulo != null) {
+      setState(() {
+        _locCadastrada = true;
+      });
+    }
   }
 
   @override
@@ -167,6 +171,41 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
                   }
                 },
               ),
+              SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir",
+                  onTap: () {
+                    if (!_novoExame) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Exame ?"),
+                              content: Text(
+                                  "As informações deste exame, serão excluidos permanentemente"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    conectionDB.excluirExame(
+                                        _exameEdicao.idExame, widget.user.uid);
+                                    Navigator.pushReplacementNamed(
+                                        context, 'ListagemDeExames',
+                                        arguments: widget.user);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
               SpeedDialChild(
                 child: Icon(Icons.map),
                 backgroundColor: Colors.blue,

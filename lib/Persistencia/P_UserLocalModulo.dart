@@ -45,7 +45,7 @@ class P_UserLocalModulo {
   }
 
   Future getUserLocalModulo(String userId, String idItem) async {
-    UserLocalModulo modulo = new UserLocalModulo();
+    UserLocalModulo modulo;
 
     var snapshots = await userLocalModuloCollection
         .where("idUser", isEqualTo: userId)

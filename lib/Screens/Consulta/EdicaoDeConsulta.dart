@@ -181,7 +181,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                             return AlertDialog(
                               title: Text("Excluir Consulta ?"),
                               content: Text(
-                                  "As informações desta consulta, serão excluidos permanentemente"),
+                                  "As informações desta consulta, serão excluidas permanentemente"),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text("Cancelar"),

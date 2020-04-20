@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myhealth/Persistencia/P_Consulta.dart';
 import 'package:myhealth/Screens/Loading.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/class/Consulta.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -110,11 +111,11 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                                           style: TextStyle(fontSize: 18.0)),
                                       Container(
                                         alignment: Alignment.center,
-                                        width: 20.0,
-                                        height: 20.0,
+                                        width: 10.0,
+                                        height: 10.0,
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: verificaData(snapshot
+                                            shape: BoxShape.rectangle,
+                                            color: Util.verificaData(snapshot
                                                         .data[index].data) <=
                                                     0
                                                 ? Colors.green
@@ -137,20 +138,9 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
             }));
   }
 
-  int verificaData(String data) {
-    var aux = data.split('-');
-    DateTime dateTime =
-        new DateTime(int.parse(aux[2]), int.parse(aux[1]), int.parse(aux[0]));
-
-    var dateNow = DateTime.now();
-    var newDate = new DateTime(dateNow.year, dateNow.month, dateNow.day);
-    return newDate.compareTo(dateTime);
-  }
-
   Future buscaConsultas(String idUser) async {
     consultas = await bd.listaDeConsultas(idUser);
-    var teste = _ordenarLista(consultas, consultas.length);
-    return teste;
+    return _ordenarLista(consultas, consultas.length);
   }
 
   void _mostrarDetalhesDaConsulta({Consulta consulta, User user}) {

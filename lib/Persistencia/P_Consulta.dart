@@ -98,8 +98,6 @@ class DatabaseService {
       consultaCollection
           .document(idConsulta.documentID)
           .updateData({'idConsulta': idConsulta.documentID});
-
-      var teste = idConsulta;
     } catch (e) {
       print(e.toString());
       return null;
