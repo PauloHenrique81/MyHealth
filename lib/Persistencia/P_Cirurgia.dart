@@ -72,9 +72,9 @@ class P_Cirurgia {
       String dataRetorno,
       String formaDePagamento,
       double status,
-      String valor}) {
+      String valor}) async {
     try {
-      cirurgiaCollection.document().setData({
+      var idCirurgia = await cirurgiaCollection.add({
         'idUser': idUser,
         'nomeDoMedico': nomeDoMedico,
         'tipoDeCirurgia': tipoDeCirurgia ?? '',
@@ -89,9 +89,26 @@ class P_Cirurgia {
         'valor': valor ?? '',
         'status': status ?? ''
       });
+
+      cirurgiaCollection
+          .document(idCirurgia.documentID)
+          .updateData({'idCirurgia': idCirurgia.documentID});
     } catch (e) {
       print(e.toString());
       return null;
+    }
+  }
+
+  void excluirCirurgia(String idCirurgia, String idUser) async {
+    try {
+      var cirurgias = await cirurgiaCollection
+          .where("idUser", isEqualTo: idUser)
+          .where("idCirurgia", isEqualTo: idCirurgia)
+          .getDocuments();
+
+      cirurgias.documents.first.reference.delete();
+    } catch (e) {
+      print(e.toString());
     }
   }
 

@@ -30,6 +30,15 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
 
+  var formasDePagamento = [
+    "Dinheiro",
+    "Cartão de Crédito",
+    "Cartão de Débito",
+    "Plano de saúde"
+  ];
+
+  String formaDePagamento = "";
+
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -116,6 +125,8 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
       _dataRetornoController.text = _cirurgiaEdicao.dataRetorno;
       _formaDePagamentoController.text = _cirurgiaEdicao.formaDePagamento;
       _valorController.text = _cirurgiaEdicao.valor;
+
+      formaDePagamento = _cirurgiaEdicao.formaDePagamento;
       _getUserLocalModulo();
     }
   }
@@ -123,7 +134,11 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
   void _getUserLocalModulo() async {
     _userLocalModulo = await conectionUserLocalModulo.getUserLocalModulo(
         widget.user.uid, widget.cirurgia.idCirurgia);
-    if (_userLocalModulo != null) _locCadastrada = true;
+    if (_userLocalModulo != null) {
+      setState(() {
+        _locCadastrada = true;
+      });
+    }
   }
 
   @override
@@ -181,8 +196,44 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                 },
               ),
               SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir",
+                  onTap: () {
+                    if (!_novaCirurgia) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Cirurgia ?"),
+                              content: Text(
+                                  "As informações desta cirurgia, serão excluidas permanentemente"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    conectionDB.excluirCirurgia(
+                                        _cirurgiaEdicao.idCirurgia,
+                                        widget.user.uid);
+                                    Navigator.pushReplacementNamed(
+                                        context, 'ListagemDeCirurgias',
+                                        arguments: widget.user);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
+              SpeedDialChild(
                 child: Icon(Icons.map),
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.deepPurple,
                 label: _locCadastrada
                     ? "Vizualizar localização"
                     : "Adicionar localização",
@@ -343,15 +394,6 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                       onTap: () => _selectDateRetorno(context),
                     ),
                     TextFormField(
-                      controller: _formaDePagamentoController,
-                      decoration:
-                          InputDecoration(labelText: "Forma de pagamento:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _cirurgiaEdicao.formaDePagamento = text;
-                      },
-                    ),
-                    TextFormField(
                       controller: _valorController,
                       decoration: InputDecoration(labelText: "Valor:"),
                       onChanged: (text) {
@@ -360,6 +402,34 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                       },
                       keyboardType: TextInputType.number,
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text("Forma de Pagamento : "),
+                        Expanded(
+                          child: DropdownButton(
+                            hint: Text(formaDePagamento),
+                            items: formasDePagamento
+                                .map((String formaDePagamentoEscolhida) {
+                              return DropdownMenuItem<String>(
+                                value: formaDePagamentoEscolhida,
+                                child: Text(formaDePagamentoEscolhida),
+                              );
+                            }).toList(),
+                            onChanged: (text) {
+                              _userEdited = true;
+                              _cirurgiaEdicao.formaDePagamento = text;
+                              _formaDePagamentoController.text = text;
+
+                              setState(() {
+                                formaDePagamento = text;
+                              });
+                            },
+                            isExpanded: true,
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 70),
                   ],
                 ),
               )),

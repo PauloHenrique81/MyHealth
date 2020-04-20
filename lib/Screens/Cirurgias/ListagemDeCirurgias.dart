@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Persistencia/P_Cirurgia.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/class/Cirurgia.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -25,6 +26,17 @@ class _ListagemDeCirurgiasState extends State<ListagemDeCirurgias> {
           title: Text("Cirurgias"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {});
+              },
+            )
+          ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -97,7 +109,19 @@ class _ListagemDeCirurgiasState extends State<ListagemDeCirurgias> {
                                       Text("    ",
                                           style: TextStyle(fontSize: 18.0)),
                                       Text(snapshot.data[index].horario ?? "",
-                                          style: TextStyle(fontSize: 18.0))
+                                          style: TextStyle(fontSize: 18.0)),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: 10.0,
+                                        height: 10.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            color: Util.verificaData(snapshot
+                                                        .data[index].data) <=
+                                                    0
+                                                ? Colors.green
+                                                : Colors.red),
+                                      ),
                                     ],
                                   )
                                 ],
@@ -117,7 +141,7 @@ class _ListagemDeCirurgiasState extends State<ListagemDeCirurgias> {
 
   Future buscaCirurgias(String idUser) async {
     cirurgias = await bd.listaDeCirurgias(idUser);
-    return cirurgias;
+    return _ordenarLista(cirurgias, cirurgias.length);
   }
 
   void _mostrarDetalhesDaConsulta({Cirurgia cirurgia, User user}) {
@@ -131,5 +155,23 @@ class _ListagemDeCirurgiasState extends State<ListagemDeCirurgias> {
     ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
     Navigator.of(context)
         .pushNamed('NovaCirurgia', arguments: screeanArguments);
+  }
+
+  List<Cirurgia> _ordenarLista(List<Cirurgia> lista, int n) {
+    int i, j;
+    Cirurgia key;
+
+    for (i = 1; i < n; i++) {
+      key = lista[i];
+      j = i - 1;
+      while (
+          j >= 0 && lista[j].convertData().compareTo(key.convertData()) < 0) {
+        lista[j + 1] = lista[j];
+        j = j - 1;
+      }
+      lista[j + 1] = key;
+    }
+
+    return lista;
   }
 }

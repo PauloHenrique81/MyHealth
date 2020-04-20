@@ -30,6 +30,15 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
 
+  var formasDePagamento = [
+    "Dinheiro",
+    "Cartão de Crédito",
+    "Cartão de Débito",
+    "Plano de saúde"
+  ];
+
+  String formaDePagamento = "";
+
   Future<Null> _selectDateResultado(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -108,7 +117,7 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
       _dataResultadoController.text = _exameEdicao.dataResultado;
       _formaDePagamentoController.text = _exameEdicao.formaDePagamento;
       _valorController.text = _exameEdicao.valor;
-
+      formaDePagamento = _exameEdicao.formaDePagamento;
       _getUserLocalModulo();
     }
   }
@@ -336,15 +345,6 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
                       onTap: () => _selectDateResultado(context),
                     ),
                     TextFormField(
-                      controller: _formaDePagamentoController,
-                      decoration:
-                          InputDecoration(labelText: "Forma de pagamento:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _exameEdicao.formaDePagamento = text;
-                      },
-                    ),
-                    TextFormField(
                       controller: _valorController,
                       decoration: InputDecoration(labelText: "Valor:"),
                       onChanged: (text) {
@@ -353,6 +353,34 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
                       },
                       keyboardType: TextInputType.number,
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text("Forma de Pagamento : "),
+                        Expanded(
+                          child: DropdownButton(
+                            hint: Text(formaDePagamento),
+                            items: formasDePagamento
+                                .map((String formaDePagamentoEscolhida) {
+                              return DropdownMenuItem<String>(
+                                value: formaDePagamentoEscolhida,
+                                child: Text(formaDePagamentoEscolhida),
+                              );
+                            }).toList(),
+                            onChanged: (text) {
+                              _userEdited = true;
+                              _exameEdicao.formaDePagamento = text;
+                              _formaDePagamentoController.text = text;
+
+                              setState(() {
+                                formaDePagamento = text;
+                              });
+                            },
+                            isExpanded: true,
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 70),
                   ],
                 ),
               )),
