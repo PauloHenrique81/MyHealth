@@ -49,7 +49,6 @@ class _MapsState extends State<Maps> {
       _novoUserLocalModulo = true;
     } else {
       _userLocalModuloEdicao = widget.userLocalModulo;
-      _createRouteWhenStart();
     }
   }
 
@@ -151,7 +150,7 @@ class _MapsState extends State<Maps> {
                               await _getLocationbyPlaceId(p.placeId);
 
                           _desenharRota(p.description, destination);
-                          destinationController.text = p.description;
+
                           _salvarUserLocalModulo(
                               destination.latitude.toString(),
                               destination.longitude.toString(),
@@ -212,6 +211,10 @@ class _MapsState extends State<Maps> {
   void onCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
+
+      if (widget.userLocalModulo != null) {
+        _createRouteWhenStart();
+      }
     });
   }
 
@@ -314,10 +317,8 @@ class _MapsState extends State<Maps> {
     _addMarker(destination, nomeLocal);
 
     String route = await _getRoute(_initialPosition, destination);
-
+    destinationController.text = nomeLocal;
     createRoute(route);
-
-    locationController.text = nomeLocal;
   }
 
   void _restartMap() {

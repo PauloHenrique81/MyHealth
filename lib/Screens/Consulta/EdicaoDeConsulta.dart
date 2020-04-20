@@ -114,7 +114,11 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   void _getUserLocalModulo() async {
     _userLocalModulo = await conectionUserLocalModulo.getUserLocalModulo(
         widget.user.uid, widget.consulta.idConsulta);
-    if (_userLocalModulo != null) _locCadastrada = true;
+    if (_userLocalModulo != null) {
+      setState(() {
+        _locCadastrada = true;
+      });
+    }
   }
 
   @override
@@ -264,9 +268,10 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                   children: <Widget>[
                     TextFormField(
                       controller: _nomeMedicoController,
-                      decoration: InputDecoration(labelText: "Nome do Médico:"),
+                      decoration:
+                          InputDecoration(labelText: "Nome do Profissional:"),
                       validator: (val) =>
-                          val.isEmpty ? 'Digite o nome do Médico' : null,
+                          val.isEmpty ? 'Digite o nome do Profissional' : null,
                       onChanged: (text) {
                         _userEdited = true;
                         setState(() {
@@ -277,7 +282,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     TextField(
                       controller: _especialidadeController,
                       decoration: InputDecoration(
-                          labelText: "Especialidade do Médico:"),
+                          labelText: "Especialidade do Profissional:"),
                       onChanged: (text) {
                         _userEdited = true;
                         _consultaEdicao.especialidade = text;

@@ -64,11 +64,9 @@ class P_UserLocalModulo {
         nomeLocal: d.data['nomeLocal'],
         idUserLocalModulo: d.documentID,
       );
-
-      return modulo;
     }
 
-    return null;
+    return modulo;
   }
 
   Future cadastraUserLocalModulo(String idUser, String modulo, String idItem,
