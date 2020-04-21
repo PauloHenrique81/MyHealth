@@ -68,9 +68,9 @@ class P_Profissional {
       String sexo,
       String email,
       String tipoUser,
-      String imagemUrl}) {
+      String imagemUrl}) async {
     try {
-      profissionalCollection.document().setData({
+      var idProfissional = await profissionalCollection.add({
         'idUser': idUser,
         'profissao': profissao,
         'nome': nome,
@@ -86,9 +86,26 @@ class P_Profissional {
         'tipoUser': tipoUser,
         'imagemUrl': imagemUrl ?? ''
       });
+
+      profissionalCollection
+          .document(idProfissional.documentID)
+          .updateData({'idProfissional': idProfissional.documentID});
     } catch (e) {
       print(e.toString());
       return null;
+    }
+  }
+
+  void excluirProfissional(String idProfissional, String idUser) async {
+    try {
+      var profissionais = await profissionalCollection
+          .where("idUser", isEqualTo: idUser)
+          .where("idProfissional", isEqualTo: idProfissional)
+          .getDocuments();
+
+      profissionais.documents.first.reference.delete();
+    } catch (e) {
+      print(e.toString());
     }
   }
 

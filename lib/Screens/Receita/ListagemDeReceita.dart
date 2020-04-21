@@ -25,6 +25,17 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
           title: Text("Receitas"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {});
+              },
+            )
+          ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -102,7 +113,7 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
 
   Future buscaReceitas(String idUser) async {
     receitas = await bd.listaDeReceitas(idUser);
-    return receitas;
+    return _ordenarLista(receitas, receitas.length);
   }
 
   void _mostrarDetalhesDaReceita({Receita receita, User user}) {
@@ -115,5 +126,23 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
   void _novaReceita(User user) {
     ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
     Navigator.of(context).pushNamed('NovaReceita', arguments: screeanArguments);
+  }
+
+  List<Receita> _ordenarLista(List<Receita> lista, int n) {
+    int i, j;
+    Receita key;
+
+    for (i = 1; i < n; i++) {
+      key = lista[i];
+      j = i - 1;
+      while (
+          j >= 0 && lista[j].convertData().compareTo(key.convertData()) < 0) {
+        lista[j + 1] = lista[j];
+        j = j - 1;
+      }
+      lista[j + 1] = key;
+    }
+
+    return lista;
   }
 }

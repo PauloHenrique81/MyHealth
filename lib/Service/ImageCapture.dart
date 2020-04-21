@@ -42,7 +42,7 @@ class _ImageCaptureState extends State<ImageCapture> {
         await Uploader.storage.ref().child(Uploader.filePath).getDownloadURL();
     if (url != null)
       bd.cadastraImagem(widget.imagem.idUser, widget.imagem.modulo,
-          widget.imagem.idItem, url);
+          widget.imagem.idItem, url, Uploader.filePath);
   }
 
   @override

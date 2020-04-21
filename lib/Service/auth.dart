@@ -84,14 +84,14 @@ class AuthService {
   }
 
   Future registrarPaciente(String nome, String cpf, String email, String senha,
-      {String idade}) async {
+      {String dataDeNascimento}) async {
     try {
       User user = await _registrarEmailESenha(email, senha);
       if (user != null) {
         pacienteCollection.document().setData({
           'uid': user.uid,
           'nome': nome,
-          'idade': idade ?? '',
+          'dataDeNascimento': dataDeNascimento ?? '',
           'cpf': cpf,
           'email': email,
           'senha': senha,

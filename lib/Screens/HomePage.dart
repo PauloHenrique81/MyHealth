@@ -83,18 +83,6 @@ class _HomePage extends StatelessWidget {
                   arguments: user),
             ),
             new ListTile(
-              title: new Text("Habilitar Profissional"),
-              trailing: new Icon(Icons.receipt),
-              onTap: () => Navigator.pushNamed(context, 'HabilitarProfissional',
-                  arguments: user),
-            ),
-            new ListTile(
-              title: new Text("Perfil"),
-              trailing: new Icon(Icons.person_outline),
-              onTap: () =>
-                  Navigator.pushNamed(context, 'Perfil', arguments: user.uid),
-            ),
-            new ListTile(
               title: new Text("Receitas"),
               trailing: new Icon(Icons.receipt),
               onTap: () => Navigator.pushNamed(context, 'ListagemDeReceitas',
@@ -111,6 +99,19 @@ class _HomePage extends StatelessWidget {
               title: new Text("Atestados"),
               trailing: new Icon(Icons.receipt),
               onTap: () => Navigator.pushNamed(context, 'ListagemDeAtestados',
+                  arguments: user),
+            ),
+            new ListTile(
+              title: new Text("Profissional"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(
+                  context, 'ListagemDeProfissionais',
+                  arguments: user),
+            ),
+            new ListTile(
+              title: new Text("Habilitar Profissional"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(context, 'HabilitarProfissional',
                   arguments: user),
             ),
             new ListTile(

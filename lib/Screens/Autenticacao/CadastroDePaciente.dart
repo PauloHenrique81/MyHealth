@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealth/Service/auth.dart';
 
 class CadastroDePaciente extends StatefulWidget {
@@ -9,14 +10,30 @@ class CadastroDePaciente extends StatefulWidget {
 class _CadastroDePacienteState extends State<CadastroDePaciente> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  DateTime _date = new DateTime.now();
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: new DateTime(1940),
+        lastDate: new DateTime(2023));
+
+    if (picked != null) {
+      setState(() {
+        _dataController.text = new DateFormat("dd-MM-yyyy").format(picked);
+      });
+    }
+  }
 
   String nome = '';
-  String idade = '';
   String cpf = '';
   String email = '';
   String emailC = '';
   String senha = '';
   String senhaC = '';
+
+  final _dataController = TextEditingController();
 
   String error = '';
 
@@ -55,7 +72,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -68,22 +85,15 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
+                          controller: _dataController,
+                          decoration: InputDecoration(labelText: "Data:"),
                           validator: (val) =>
-                              val.isEmpty ? 'Digite sua idade' : null,
-                          onChanged: (val) {
-                            setState(() {
-                              idade = val;
-                            });
+                              val.isEmpty ? 'Digite a data' : null,
+                          onChanged: (text) {
+                            _dataController.text = text;
                           },
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Idade',
-                              labelStyle:
-                                  TextStyle(fontSize: 15, color: Colors.black)),
+                          onTap: () => _selectDate(context),
+                          keyboardType: TextInputType.datetime,
                         ),
                       ),
                       Padding(
@@ -100,8 +110,9 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                               cpf = val;
                             });
                           },
+                          keyboardType: TextInputType.number,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -121,8 +132,9 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                               email = val;
                             });
                           },
+                          keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -145,8 +157,9 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                               emailC = val;
                             });
                           },
+                          keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -172,7 +185,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           },
                           obscureText: true,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -199,7 +212,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           },
                           obscureText: true,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -219,7 +232,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                       if (_formKey.currentState.validate()) {
                         dynamic result = await _auth.registrarPaciente(
                             nome, cpf, email, senha,
-                            idade: idade);
+                            dataDeNascimento: _dataController.text);
                         if (result == null) {
                           setState(
                               () => error = 'Erro ao realizar o cadastro.');

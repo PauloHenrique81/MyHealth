@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealth/Persistencia/P_Atestado.dart';
 import 'package:myhealth/Persistencia/P_Imagem.dart';
@@ -91,32 +92,112 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
               )
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (_novoAtestado == true) {
-                  await conectionDB.cadastraAtestado(
-                      widget.user.uid,
-                      _medicoController.text,
-                      _dataController.text,
-                      _quantidadeDeDiasController.text,
-                      _motivoController.text);
-                } else {
-                  await conectionDB.atualizarAtestado(
-                      widget.user.uid,
-                      _atestadoEdicao.idAtestado,
-                      _medicoController.text,
-                      _dataController.text,
-                      _quantidadeDeDiasController.text,
-                      _motivoController.text);
-                  idAtestado = _atestadoEdicao.idAtestado;
-                }
+          floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            overlayColor: Colors.black87,
+            animatedIconTheme: IconThemeData.fallback(),
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.save),
+                backgroundColor: Colors.deepPurple,
+                label: "Salvar",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novoAtestado == true) {
+                      await conectionDB.cadastraAtestado(
+                          widget.user.uid,
+                          _medicoController.text,
+                          _dataController.text,
+                          _quantidadeDeDiasController.text,
+                          _motivoController.text);
+                    } else {
+                      await conectionDB.atualizarAtestado(
+                          widget.user.uid,
+                          _atestadoEdicao.idAtestado,
+                          _medicoController.text,
+                          _dataController.text,
+                          _quantidadeDeDiasController.text,
+                          _motivoController.text);
+                      idAtestado = _atestadoEdicao.idAtestado;
+                    }
 
-                Navigator.pop(context);
-              }
-            },
-            child: Icon(Icons.save),
-            backgroundColor: Colors.deepPurple,
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              SpeedDialChild(
+                  child: Icon(Icons.image),
+                  backgroundColor: Colors.red,
+                  label: "Excluir imagens",
+                  onTap: () {
+                    if (!_novoAtestado) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Imagens ?"),
+                              content: Text("Todas as imagens serão deletadas"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    if (imagens != null) {
+                                      conectionDB_imagem.excluirImagem(
+                                          widget.user.uid,
+                                          _atestadoEdicao.idAtestado);
+                                    }
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir receita",
+                  onTap: () {
+                    if (!_novoAtestado) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Atestado ?"),
+                              content: Text(
+                                  "As informações deste Atestado, serão excluidos permanentemente"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    conectionDB.excluirAtestado(
+                                        _atestadoEdicao.idAtestado,
+                                        widget.user.uid);
+
+                                    Navigator.pushReplacementNamed(
+                                        context, 'ListagemDeAtestados',
+                                        arguments: widget.user);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
+            ],
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),

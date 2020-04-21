@@ -57,6 +57,19 @@ class P_Atestado {
     return atestado;
   }
 
+  void excluirAtestado(String idAtestado, String idUser) async {
+    try {
+      var consultas = await atestadoCollection
+          .where("idUser", isEqualTo: idUser)
+          .where("idAtestado", isEqualTo: idAtestado)
+          .getDocuments();
+
+      consultas.documents.first.reference.delete();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future cadastraAtestado(String idUser, String medico, String data,
       String quantidadeDeDias, String motivo) async {
     try {
@@ -67,6 +80,10 @@ class P_Atestado {
         'quantidadeDeDias': quantidadeDeDias,
         'motivo': motivo
       });
+
+      atestadoCollection
+          .document(idAtestado.documentID)
+          .updateData({'idAtestado': idAtestado.documentID});
 
       return idAtestado.documentID;
     } catch (e) {

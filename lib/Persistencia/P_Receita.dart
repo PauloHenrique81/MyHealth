@@ -64,10 +64,27 @@ class P_Receita {
         'data': data
       });
 
+      receitaCollection
+          .document(idReceita.documentID)
+          .updateData({'idReceita': idReceita.documentID});
+
       return idReceita.documentID;
     } catch (e) {
       print(e.toString());
       return null;
+    }
+  }
+
+  void excluirReceita(String idReceita, String idUser) async {
+    try {
+      var consultas = await receitaCollection
+          .where("idUser", isEqualTo: idUser)
+          .where("idReceita", isEqualTo: idReceita)
+          .getDocuments();
+
+      consultas.documents.first.reference.delete();
+    } catch (e) {
+      print(e.toString());
     }
   }
 

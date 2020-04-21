@@ -26,6 +26,17 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
           title: Text("Profissionais"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {});
+              },
+            )
+          ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(

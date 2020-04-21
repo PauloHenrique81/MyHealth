@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Persistencia/P_Atestado.dart';
-import 'package:myhealth/Persistencia/P_Receita.dart';
 import 'package:myhealth/Service/ScreeanArguments.dart';
 import 'package:myhealth/class/Atestado.dart';
-import 'package:myhealth/class/Receita.dart';
 import 'package:myhealth/class/user.dart';
 
 import '../Loading.dart';
@@ -26,6 +24,17 @@ class _ListagemDeAtestadosState extends State<ListagemDeAtestados> {
         appBar: AppBar(
           title: Text("Atestados"),
           backgroundColor: Colors.deepPurple,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {});
+              },
+            )
+          ],
           centerTitle: true,
           leading: Builder(
             builder: (BuildContext context) {
@@ -104,7 +113,7 @@ class _ListagemDeAtestadosState extends State<ListagemDeAtestados> {
 
   Future buscaAtestado(String idUser) async {
     atestados = await bd.listaDeAtestados(idUser);
-    return atestados;
+    return _ordenarLista(atestados, atestados.length);
   }
 
   void _mostrarDetalhesDaAtestado({Atestado atestado, User user}) {
@@ -118,5 +127,23 @@ class _ListagemDeAtestadosState extends State<ListagemDeAtestados> {
     ScreeanArguments screeanArguments = new ScreeanArguments(user: user);
     Navigator.of(context)
         .pushNamed('NovoAtestado', arguments: screeanArguments);
+  }
+
+  List<Atestado> _ordenarLista(List<Atestado> lista, int n) {
+    int i, j;
+    Atestado key;
+
+    for (i = 1; i < n; i++) {
+      key = lista[i];
+      j = i - 1;
+      while (
+          j >= 0 && lista[j].convertData().compareTo(key.convertData()) < 0) {
+        lista[j + 1] = lista[j];
+        j = j - 1;
+      }
+      lista[j + 1] = key;
+    }
+
+    return lista;
   }
 }

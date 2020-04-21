@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealth/Persistencia/P_Imagem.dart';
 import 'package:myhealth/Persistencia/P_Receita.dart';
@@ -42,7 +43,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
 
   P_Receita conectionDB = new P_Receita();
 
-  List<Imagem> imagens = new List<Imagem>();
+  List<Imagem> imagens;
   P_Imagem conectionDB_imagem = new P_Imagem();
 
   final _medicoController = TextEditingController();
@@ -74,7 +75,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.deepPurple,
-            title: Text("Nova Receita"),
+            title: Text(_novaReceita ? "Nova Receita" : "Receita"),
             centerTitle: true,
             actions: <Widget>[
               IconButton(
@@ -88,28 +89,108 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
               )
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (_novaReceita == true) {
-                  await conectionDB.cadastraReceita(widget.user.uid,
-                      _medicoController.text, _dataController.text,
-                      descricao: _descricaoController.text);
-                } else {
-                  await conectionDB.atualizarReceita(
-                      widget.user.uid,
-                      _receitaEdicao.idReceita,
-                      _medicoController.text,
-                      _dataController.text,
-                      descricao: _descricaoController.text);
-                  idReceita = _receitaEdicao.idReceita;
-                }
+          floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            overlayColor: Colors.black87,
+            animatedIconTheme: IconThemeData.fallback(),
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.save),
+                backgroundColor: Colors.deepPurple,
+                label: "Salvar",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novaReceita == true) {
+                      await conectionDB.cadastraReceita(widget.user.uid,
+                          _medicoController.text, _dataController.text,
+                          descricao: _descricaoController.text);
+                    } else {
+                      await conectionDB.atualizarReceita(
+                          widget.user.uid,
+                          _receitaEdicao.idReceita,
+                          _medicoController.text,
+                          _dataController.text,
+                          descricao: _descricaoController.text);
+                      idReceita = _receitaEdicao.idReceita;
+                    }
 
-                Navigator.pop(context);
-              }
-            },
-            child: Icon(Icons.save),
-            backgroundColor: Colors.deepPurple,
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              SpeedDialChild(
+                  child: Icon(Icons.image),
+                  backgroundColor: Colors.red,
+                  label: "Excluir imagens",
+                  onTap: () {
+                    if (!_novaReceita) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Imagens ?"),
+                              content: Text("Todas as imagens serão deletadas"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    if (imagens != null) {
+                                      conectionDB_imagem.excluirImagem(
+                                          widget.user.uid,
+                                          _receitaEdicao.idReceita);
+                                    }
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir receita",
+                  onTap: () {
+                    if (!_novaReceita) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Receita ?"),
+                              content: Text(
+                                  "As informações desta Receita, serão excluidas permanentemente"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    conectionDB.excluirReceita(
+                                        _receitaEdicao.idReceita,
+                                        widget.user.uid);
+
+                                    Navigator.pushReplacementNamed(
+                                        context, 'ListagemDeReceitas',
+                                        arguments: widget.user);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }),
+            ],
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),

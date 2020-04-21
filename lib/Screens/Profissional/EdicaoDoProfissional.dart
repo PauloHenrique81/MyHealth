@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:myhealth/Persistencia/P_Profissional.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/user.dart';
@@ -71,37 +72,80 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
             title: Text(_profissionalEdicao.nome ?? "Novo Profissional"),
             centerTitle: true,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (_novoProfissional == true) {
-                  await conectionDB.cadastraProfissional(
-                      widget.user.uid,
-                      _profissaoController.text,
-                      _nomeController.text,
-                      _localDeAtendimentoController.text,
-                      especialidade: _especialidadeController.text,
-                      identificacao: _identificacaoController.text,
-                      telefone: _telefoneController.text,
-                      status: _statusController.text);
-                } else {
-                  await conectionDB.atualizarProfissional(
-                      widget.user.uid,
-                      _profissionalEdicao.idProfissional,
-                      _nomeController.text,
-                      _localDeAtendimentoController.text,
-                      _profissaoController.text,
-                      especialidade: _especialidadeController.text,
-                      identificacao: _identificacaoController.text,
-                      telefone: _telefoneController.text,
-                      status: _statusController.text);
-                }
-
-                Navigator.pop(context);
-              }
-            },
-            child: Icon(Icons.save),
-            backgroundColor: Colors.deepPurple,
+          floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            overlayColor: Colors.black87,
+            animatedIconTheme: IconThemeData.fallback(),
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.save),
+                backgroundColor: Colors.deepPurple,
+                label: "Salvar",
+                onTap: () async {
+                  if (_formKey.currentState.validate()) {
+                    if (_novoProfissional == true) {
+                      await conectionDB.cadastraProfissional(
+                          widget.user.uid,
+                          _profissaoController.text,
+                          _nomeController.text,
+                          _localDeAtendimentoController.text,
+                          especialidade: _especialidadeController.text,
+                          identificacao: _identificacaoController.text,
+                          telefone: _telefoneController.text,
+                          status: _statusController.text);
+                    } else {
+                      await conectionDB.atualizarProfissional(
+                          widget.user.uid,
+                          _profissionalEdicao.idProfissional,
+                          _nomeController.text,
+                          _localDeAtendimentoController.text,
+                          _profissaoController.text,
+                          especialidade: _especialidadeController.text,
+                          identificacao: _identificacaoController.text,
+                          telefone: _telefoneController.text,
+                          status: _statusController.text);
+                    }
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              SpeedDialChild(
+                  child: Icon(Icons.cancel),
+                  backgroundColor: Colors.red,
+                  label: "Excluir",
+                  onTap: () {
+                    if (!_novoProfissional) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Excluir Profissional ?"),
+                              content: Text(
+                                  "As informações deste Profissional, serão excluidas permanentemente"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Sim"),
+                                  onPressed: () {
+                                    conectionDB.excluirProfissional(
+                                        _profissionalEdicao.idProfissional,
+                                        widget.user.uid);
+                                    Navigator.pushReplacementNamed(
+                                        context, 'ListagemDeProfissionais',
+                                        arguments: widget.user);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  })
+            ],
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),
