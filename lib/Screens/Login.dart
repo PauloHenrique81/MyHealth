@@ -58,7 +58,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -78,7 +78,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                         },
                         obscureText: true,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(

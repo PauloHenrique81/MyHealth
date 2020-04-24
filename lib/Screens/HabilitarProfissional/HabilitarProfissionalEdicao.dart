@@ -91,7 +91,7 @@ class _HabilitarProfissionalEdicaoState
                           return AlertDialog(
                             title: Text("Habilitar Profissional"),
                             content: Text(
-                                "Ao habilitar um profissional, tal profissional podera ter acesso a algumas informações suas."),
+                                "Ao habilitar um profissional, tal profissional podera ter acesso a algumas de suas informações."),
                             actions: <Widget>[
                               FlatButton(
                                 child: Text("Cancelar"),
