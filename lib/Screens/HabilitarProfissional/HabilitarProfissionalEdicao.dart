@@ -53,7 +53,7 @@ class _HabilitarProfissionalEdicaoState
 
   void _getHabilitadoProfissional() async {
     habilitarProfissional = await conectionDB.getHabilitarProfissional(
-        widget.user.uid, widget.profissional.idProfissional);
+        widget.user.uid, widget.profissional.idUser);
 
     if (habilitarProfissional == null) {
       setState(() {

@@ -57,6 +57,17 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
   final _localDeAtendimentoController = TextEditingController();
   final _profissaoController = TextEditingController();
 
+
+    var profissionais = [
+    "Médico",
+    "Fisioterapeuta",
+    "Psicólogo",
+    "Nutricionista",
+    "Dentista"
+  ];
+
+    String profissao = '';
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +88,13 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
     _identificacaoController.text = _profissional.identificacao;
     _localDeAtendimentoController.text = _profissional.localDeAtendimento;
     _profissaoController.text = _profissional.profissao;
+
+    setState(() {
+      profissao = _profissional.profissao;
+
+    });
+    
+
   }
 
   @override
@@ -105,6 +123,7 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                   dataDeNascimento: _dataDeNascimentoController.text,
                   sexo: _sexoController.text,
                   email: _emailController.text,
+                  tipoUser: "Sim"
                 );
 
                 Navigator.pop(context);
@@ -170,14 +189,34 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                               _profissional.telefone = text;
                             },
                             keyboardType: TextInputType.number),
-                        TextFormField(
-                          controller: _profissaoController,
-                          decoration: InputDecoration(labelText: "Profissão:"),
-                          onChanged: (text) {
-                            _userEdited = true;
-                            _profissional.profissao = text;
-                          },
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                        child: Row(
+                          children: <Widget>[
+                            Text("Profissão : "),
+                            Expanded(
+                              child: DropdownButton(
+                                hint: Text(profissao,style: TextStyle(color: Colors.black),),
+                                items: profissionais
+                                    .map((String progissaoEscolhida) {
+                                  return DropdownMenuItem<String>(
+                                    value: progissaoEscolhida,
+                                    child: Text(progissaoEscolhida),
+                                  );
+                                }).toList(),
+                                onChanged: (text) {
+                                  _profissaoController.text = text;
+
+                                  setState(() {
+                                    profissao = text;
+                                  });
+                                },
+                                isExpanded: true,
+                              ),
+                            )
+                          ],
                         ),
+                      ),
                         TextFormField(
                           controller: _identificacaoController,
                           decoration: InputDecoration(

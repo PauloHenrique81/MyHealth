@@ -206,6 +206,7 @@ class P_Profissional {
   Future existeProfissional(String idUser) async {
     var snapshots = await profissionalCollection
         .where("idUser", isEqualTo: idUser)
+        .where("tipoUser", isEqualTo: "Sim")
         .getDocuments();
     return snapshots.documents.isNotEmpty;
   }
