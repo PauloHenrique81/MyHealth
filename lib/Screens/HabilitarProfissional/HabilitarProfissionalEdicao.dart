@@ -167,7 +167,7 @@ class _HabilitarProfissionalEdicaoState
                     Padding(padding: EdgeInsets.only(top: 10.0)),
                     Row(
                       children: <Widget>[
-                        Text("Habilitar : "),
+                        Text("Habilitar : ", style:TextStyle( color: Colors.black)),
                         Expanded(
                           child: DropdownButton(
                             hint: Text(habilitado),

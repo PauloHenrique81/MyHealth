@@ -213,7 +213,7 @@ class _EdicaoDeVacinaState extends State<EdicaoDeVacina> {
                 ),
                 TextFormField(
                   controller: _dataController,
-                  decoration: InputDecoration(labelText: " Dia em que tomou:"),
+                  decoration: InputDecoration(labelText: " Dia em que tomou: *"),
                   onChanged: (text) {
                     _userEdited = true;
                     _vacinaUserEdicao.data = text;
@@ -223,7 +223,7 @@ class _EdicaoDeVacinaState extends State<EdicaoDeVacina> {
                 ),
                 TextFormField(
                   controller: _localController,
-                  decoration: InputDecoration(labelText: " Local :"),
+                  decoration: InputDecoration(labelText: " Local: *"),
                 ),
               ])),
             ],

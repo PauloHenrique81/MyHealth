@@ -208,7 +208,7 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: _medicoController,
-                      decoration: InputDecoration(labelText: "Médico"),
+                      decoration: InputDecoration(labelText: "Médico: *"),
                       validator: (val) =>
                           val.isEmpty ? 'Digite o nome do Médico' : null,
                       onChanged: (text) {
@@ -218,7 +218,7 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
                     ),
                     TextFormField(
                       controller: _dataController,
-                      decoration: InputDecoration(labelText: "Data:"),
+                      decoration: InputDecoration(labelText: "Data: *"),
                       validator: (val) => val.isEmpty ? 'Digite a data' : null,
                       onChanged: (text) {
                         _userEdited = true;
@@ -231,7 +231,8 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
                         keyboardType: TextInputType.text,
                         controller: _quantidadeDeDiasController,
                         decoration:
-                            InputDecoration(labelText: "Quantidade de dias:"),
+                            InputDecoration(labelText: "Quantidade de dias: *"),
+                         validator: (val) => val.isEmpty ? 'Digite a qauntidade de dias' : null,
                         onChanged: (text) {
                           _userEdited = true;
                           _atestadoEdicao.quantidadeDeDias = text;

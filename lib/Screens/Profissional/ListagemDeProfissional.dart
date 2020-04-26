@@ -78,9 +78,8 @@ class _ListagemDeProfissionaisState extends State<ListagemDeProfissionais> {
                             child: Container(
                               child: Column(
                                 children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  Column(
+                                    
                                     children: <Widget>[
                                       Text(snapshot.data[index].profissao ?? "",
                                           style: TextStyle(

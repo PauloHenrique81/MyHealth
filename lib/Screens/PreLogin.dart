@@ -58,7 +58,7 @@ class PreLogin extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Text(
-                        'Médico',
+                        'Profissional',
                         style:
                             TextStyle(fontSize: 20, fontFamily: 'SFUIDisplay'),
                       )

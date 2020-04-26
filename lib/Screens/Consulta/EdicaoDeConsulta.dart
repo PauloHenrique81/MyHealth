@@ -269,7 +269,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     TextFormField(
                       controller: _nomeMedicoController,
                       decoration:
-                          InputDecoration(labelText: "Nome do Profissional:"),
+                          InputDecoration(labelText: "Nome do Profissional: *"),
                       validator: (val) =>
                           val.isEmpty ? 'Digite o nome do Profissional' : null,
                       onChanged: (text) {
@@ -290,7 +290,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     TextFormField(
                       controller: _dataController,
-                      decoration: InputDecoration(labelText: "Data:"),
+                      decoration: InputDecoration(labelText: "Data: *"),
                       validator: (val) => val.isEmpty ? 'Digite a data' : null,
                       onChanged: (text) {
                         _userEdited = true;
@@ -301,7 +301,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     TextFormField(
                       controller: _horaController,
-                      decoration: InputDecoration(labelText: "Horário:"),
+                      decoration: InputDecoration(labelText: "Horário: *"),
                       validator: (val) =>
                           val.isEmpty ? 'Digite o horário' : null,
                       onChanged: (text) {
@@ -313,7 +313,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     TextFormField(
                       controller: _localController,
-                      decoration: InputDecoration(labelText: "Nome do local:"),
+                      decoration: InputDecoration(labelText: "Nome do local: *"),
                       validator: (val) => val.isEmpty ? 'Digite o local' : null,
                       onChanged: (text) {
                         _userEdited = true;
@@ -365,7 +365,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text("Forma de Pagamento : "),
+                        Text("Forma de Pagamento : ", style:TextStyle( color: Colors.black)),
                         Expanded(
                           child: DropdownButton(
                             hint: Text(formaDePagamento),

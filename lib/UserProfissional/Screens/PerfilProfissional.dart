@@ -193,7 +193,7 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                         padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
                         child: Row(
                           children: <Widget>[
-                            Text("Profissão : "),
+                            Text("Profissão : ", style:TextStyle( color: Colors.black)),
                             Expanded(
                               child: DropdownButton(
                                 hint: Text(profissao,style: TextStyle(color: Colors.black),),

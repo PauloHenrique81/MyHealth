@@ -155,10 +155,10 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Text("Profissão : "),
+                        Text("Profissão: * ", style:TextStyle( color: Colors.black)),
                         Expanded(
                           child: DropdownButton(
-                            hint: Text(profissao),
+                            hint: Text(profissao, style:TextStyle( color: Colors.black)),
                             items:
                                 profissionais.map((String profissaoEscolhida) {
                               return DropdownMenuItem<String>(
@@ -192,7 +192,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: _nomeController,
-                      decoration: InputDecoration(labelText: "Nome:"),
+                      decoration: InputDecoration(labelText: "Nome: *"),
                       validator: (val) => val.isEmpty ? 'Digite o Nome' : null,
                       onChanged: (text) {
                         _userEdited = true;
@@ -203,7 +203,8 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                         keyboardType: TextInputType.text,
                         controller: _identificacaoController,
                         decoration:
-                            InputDecoration(labelText: "Identificação:"),
+                            InputDecoration(labelText: "Identificação: *"),
+                        validator: (val) => val.isEmpty ? 'Digite o codigo de identificação' : null,
                         onChanged: (text) {
                           _userEdited = true;
                           _profissionalEdicao.identificacao = text;

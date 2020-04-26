@@ -57,6 +57,17 @@ class HabilitarProfissionalListagemState
         title: Text(widget.title),
         backgroundColor: Colors.deepPurple,
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {});
+            },
+          )
+        ],
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(

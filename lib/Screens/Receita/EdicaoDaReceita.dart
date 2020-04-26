@@ -201,7 +201,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: _medicoController,
-                      decoration: InputDecoration(labelText: "Médico"),
+                      decoration: InputDecoration(labelText: "Médico *"),
                       validator: (val) =>
                           val.isEmpty ? 'Digite o nome do Médico' : null,
                       onChanged: (text) {
@@ -211,7 +211,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                     ),
                     TextFormField(
                       controller: _dataController,
-                      decoration: InputDecoration(labelText: "Data:"),
+                      decoration: InputDecoration(labelText: "Data: *"),
                       validator: (val) => val.isEmpty ? 'Digite a data' : null,
                       onChanged: (text) {
                         _userEdited = true;

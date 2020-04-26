@@ -27,6 +27,17 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
           title: Text("Pacientes"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {});
+            },
+          )
+        ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(

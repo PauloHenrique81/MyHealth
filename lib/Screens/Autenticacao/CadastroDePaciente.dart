@@ -77,7 +77,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Nome',
+                              labelText: 'Nome *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -86,7 +86,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
                           controller: _dataController,
-                          decoration: InputDecoration(labelText: "Data:"),
+                          decoration: InputDecoration(labelText: "Data: *"),
                           validator: (val) =>
                               val.isEmpty ? 'Digite a data' : null,
                           onChanged: (text) {
@@ -117,7 +117,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'CPF',
+                              labelText: 'CPF *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -139,7 +139,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email',
+                              labelText: 'Email *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -164,7 +164,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Confirmar email',
+                              labelText: 'Confirmar email *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -190,7 +190,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Senha',
+                              labelText: 'Senha *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -217,7 +217,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Confirmar senha',
+                              labelText: 'Confirmar senha *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),

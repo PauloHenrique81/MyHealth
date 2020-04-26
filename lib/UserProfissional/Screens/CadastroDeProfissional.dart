@@ -70,7 +70,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Nome',
+                              labelText: 'Nome *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -96,7 +96,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'CPF',
+                              labelText: 'CPF *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -118,7 +118,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Identificador Profissional',
+                              labelText: 'Identificador Profissional *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -127,7 +127,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: Row(
                           children: <Widget>[
-                            Text("Profissão : "),
+                            Text("Profissão : ", style:TextStyle( color: Colors.black)),
                             Expanded(
                               child: DropdownButton(
                                 hint: Text(profissao),
@@ -166,7 +166,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email',
+                              labelText: 'Email *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -191,7 +191,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Confirmar email',
+                              labelText: 'Confirmar email *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -218,7 +218,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Senha',
+                              labelText: 'Senha *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -245,7 +245,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Confirmar senha',
+                              labelText: 'Confirmar senha *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),

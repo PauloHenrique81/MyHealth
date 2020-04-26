@@ -44,7 +44,7 @@ class _MapsState extends State<Maps> {
     super.initState();
     _getUserLocation();
 
-    if (widget.userLocalModulo == null) {
+    if (widget.userLocalModulo == null){
       _userLocalModuloEdicao = new UserLocalModulo();
       _novoUserLocalModulo = true;
     } else {
@@ -144,7 +144,6 @@ class _MapsState extends State<Maps> {
                             components: [
                               Component(Component.country, "br"),
                             ]);
-
                         if (p.placeId != null) {
                           var destination =
                               await _getLocationbyPlaceId(p.placeId);
@@ -323,7 +322,9 @@ class _MapsState extends State<Maps> {
 
   void _restartMap() {
     _polyLines.clear();
+    allMarkers.clear();
     _getUserLocation();
+    destinationController.clear();
     moveCameraToNewPoint(_initialPosition);
   }
 
