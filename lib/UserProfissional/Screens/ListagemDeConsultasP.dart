@@ -5,15 +5,15 @@ import 'package:myhealth/Screens/Loading.dart';
 import 'package:myhealth/class/Paciente.dart';
 import 'package:myhealth/class/user.dart';
 
-class ListagemDePacientes extends StatefulWidget {
+class ListagemDeConsultasP extends StatefulWidget {
   final User user;
-  ListagemDePacientes({this.user});
+  ListagemDeConsultasP({this.user});
 
   @override
-  _ListagemDePacientesState createState() => _ListagemDePacientesState();
+  _ListagemDeConsultasPState createState() => _ListagemDeConsultasPState();
 }
 
-class _ListagemDePacientesState extends State<ListagemDePacientes> {
+class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
   P_Paciente connectionPaciente = new P_Paciente();
   P_HabilitarProfissional connectionPH = new P_HabilitarProfissional();
 
@@ -24,7 +24,7 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Pacientes"),
+          title: Text("Consultas"),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
           actions: <Widget>[

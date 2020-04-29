@@ -71,6 +71,12 @@ class _HomePage extends StatelessWidget {
                   arguments: user),
             ),
             new ListTile(
+              title: new Text("Consultas agendadas"),
+              trailing: new Icon(Icons.person_outline),
+              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultas',
+                  arguments: user),
+            ),
+            new ListTile(
               title: new Text("Fechar"),
               trailing: new Icon(Icons.close),
               onTap: () => Navigator.of(context).pop(),

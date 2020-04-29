@@ -123,23 +123,25 @@ class HabilitarProfissionalListagemState
                           SizedBox(
                             height: 5.0,
                           ),
-                          Text(
-                            filteredUsers[index].profissao,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Text(
-                            filteredUsers[index].localDeAtendimento,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.grey,
-                            ),
-                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                filteredUsers[index].profissao,
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text(
+                                filteredUsers[index].identificacao,
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),

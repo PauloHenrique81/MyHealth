@@ -30,6 +30,7 @@ class _HabilitarProfissionalEdicaoState
   final _profissaoController = TextEditingController();
   final _nomeController = TextEditingController();
   final _localDeAtendimentoController = TextEditingController();
+   final _identificacaoController = TextEditingController();
 
   final _habilitadoController = TextEditingController();
 
@@ -46,6 +47,7 @@ class _HabilitarProfissionalEdicaoState
       _nomeController.text = _profissionalEdicao.nome;
       _localDeAtendimentoController.text =
           _profissionalEdicao.localDeAtendimento;
+      _identificacaoController.text = _profissionalEdicao.identificacao;
     }
 
     _getHabilitadoProfissional();
@@ -155,6 +157,13 @@ class _HabilitarProfissionalEdicaoState
                         decoration: InputDecoration(labelText: "Profissão:"),
                         onChanged: (text) {
                           _profissionalEdicao.profissao = text;
+                        }),
+                    TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _identificacaoController,
+                        decoration: InputDecoration(labelText: "Código de Identificação:"),
+                        onChanged: (text) {
+                          _profissionalEdicao.identificacao = text;
                         }),
                     TextFormField(
                         keyboardType: TextInputType.text,
