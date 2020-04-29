@@ -2,6 +2,7 @@ import 'package:myhealth/Helper/Vacina_Help.dart';
 import 'package:myhealth/class/Atestado.dart';
 import 'package:myhealth/class/Cirurgia.dart';
 import 'package:myhealth/class/Consulta.dart';
+import 'package:myhealth/class/DoarSangue.dart';
 import 'package:myhealth/class/Exame.dart';
 import 'package:myhealth/class/Imagem.dart';
 import 'package:myhealth/class/Profissional.dart';
@@ -26,6 +27,7 @@ class ScreeanArguments {
   String string2;
   Atestado atestado;
   UserLocalModulo userLocalModulo;
+  DoarSangue doacao;
 
   ScreeanArguments({
     this.user,
@@ -43,5 +45,6 @@ class ScreeanArguments {
     this.string2,
     this.atestado,
     this.userLocalModulo,
+    this.doacao
   });
 }

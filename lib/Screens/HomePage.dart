@@ -76,6 +76,12 @@ class _HomePage extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, 'ListagemDeCirurgias',
                   arguments: user),
             ),
+              new ListTile(
+              title: new Text("Doações de Sangue"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(context, 'ListagemDeDoacoes',
+                  arguments: user),
+            ),
             new ListTile(
               title: new Text("Exames"),
               trailing: new Icon(Icons.receipt),

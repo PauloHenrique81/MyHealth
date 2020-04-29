@@ -6,6 +6,8 @@ import 'package:myhealth/Screens/Cirurgias/EdicaoCirurgia.dart';
 import 'package:myhealth/Screens/Cirurgias/ListagemDeCirurgias.dart';
 import 'package:myhealth/Screens/Consulta/EdicaoDeConsulta.dart';
 import 'package:myhealth/Screens/Consulta/ListagemDeConsultas.dart';
+import 'package:myhealth/Screens/Doacoes/EdicaoDoacao.dart';
+import 'package:myhealth/Screens/Doacoes/ListagensDoacao.dart';
 import 'package:myhealth/Screens/Exames/EdicaoDeExame.dart';
 import 'package:myhealth/Screens/HabilitarProfissional/HabilitarProfissionalEdicao.dart';
 import 'package:myhealth/Screens/HabilitarProfissional/HabilitarProfissionalListagem.dart';
@@ -250,6 +252,28 @@ class RouteGenarator {
         if (args is User) {
           return MaterialPageRoute(
               builder: (_) => HabilitarProfissionalListagem(user: args));
+        }
+        return _errorRoute();
+
+      case 'EdicaoDeDoacao':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDedoacao(
+                    user: args.user,
+                    doacao: args.doacao,
+                  ));
+        }
+        return _errorRoute();
+      case 'ListagemDeDoacoes':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeDoacoes(user: args));
+        }
+        return _errorRoute();
+      case 'NovaDoacao':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => EdicaoDedoacao(user: args.user));
         }
         return _errorRoute();
 

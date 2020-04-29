@@ -78,7 +78,8 @@ flutter:
    - Assets/cadastro.jpg
    - Assets/preLogin.jpg
    - Assets/fundoBranco.jpg
-
+   - Assets/doar-sangue.jpg   
+   - Assets/doar-sangue2.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
