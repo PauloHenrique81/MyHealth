@@ -88,7 +88,7 @@ class P_Paciente {
     return pacientes;
   }
 
-  Future getPaciente(String idUser) async {
+  Future<Paciente> getPaciente(String idUser) async {
     Paciente paciente = new Paciente();
 
     var snapshots =

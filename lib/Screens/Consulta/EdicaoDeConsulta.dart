@@ -85,6 +85,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   final _medicamentosController = TextEditingController();
   final _formaDePagamentoController = TextEditingController();
   final _valorController = TextEditingController();
+  final __codProfissionalController = TextEditingController();
 
   @override
   void initState() {
@@ -107,6 +108,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
       _formaDePagamentoController.text = _consultaEdicao.formaDePagamento;
       _valorController.text = _consultaEdicao.valor;
       formaDePagamento = _consultaEdicao.formaDePagamento;
+      __codProfissionalController.text = _consultaEdicao.codigoDoProfissional;
       _getUserLocalModulo();
     }
   }
@@ -149,7 +151,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           _dataController.text,
                           _horaController.text,
                           _localController.text,
-                          especialidade: _especialidadeController.text);
+                          especialidade: _especialidadeController.text,
+                          codigoDoProfissional: __codProfissionalController.text);
                     } else {
                       await conectionDB.atualizarConsulta(
                           widget.user.uid,
@@ -163,7 +166,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           exames: _examesController.text,
                           medicamentos: _medicamentosController.text,
                           formaDePagamento: _formaDePagamentoController.text,
-                          valor: _valorController.text);
+                          valor: _valorController.text,
+                          codigoDoProfissional: __codProfissionalController.text);
                     }
                     Navigator.pop(context);
                   }
@@ -220,7 +224,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           _dataController.text,
                           _horaController.text,
                           _localController.text,
-                          especialidade: _especialidadeController.text);
+                          especialidade: _especialidadeController.text,
+                          codigoDoProfissional: __codProfissionalController.text);
                     } else {
                       await conectionDB.atualizarConsulta(
                           widget.user.uid,
@@ -234,7 +239,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           exames: _examesController.text,
                           medicamentos: _medicamentosController.text,
                           formaDePagamento: _formaDePagamentoController.text,
-                          valor: _valorController.text);
+                          valor: _valorController.text,
+                          codigoDoProfissional: __codProfissionalController.text);
 
                       _idConsulta = _consultaEdicao.idConsulta;
                     }
@@ -288,6 +294,15 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                         _consultaEdicao.especialidade = text;
                       },
                     ),
+                    TextField(
+                      controller: __codProfissionalController,
+                      decoration: InputDecoration(
+                          labelText: "Codigo de identificação  do Profissional:"),
+                      onChanged: (text) {
+                        _userEdited = true;
+                        _consultaEdicao.codigoDoProfissional = text;
+                      },
+                    ),
                     TextFormField(
                       controller: _dataController,
                       decoration: InputDecoration(labelText: "Data: *"),
@@ -313,7 +328,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     TextFormField(
                       controller: _localController,
-                      decoration: InputDecoration(labelText: "Nome do local: *"),
+                      decoration:
+                          InputDecoration(labelText: "Nome do local: *"),
                       validator: (val) => val.isEmpty ? 'Digite o local' : null,
                       onChanged: (text) {
                         _userEdited = true;
@@ -365,7 +381,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text("Forma de Pagamento : ", style:TextStyle( color: Colors.black)),
+                        Text("Forma de Pagamento : ",
+                            style: TextStyle(color: Colors.black)),
                         Expanded(
                           child: DropdownButton(
                             hint: Text(formaDePagamento),

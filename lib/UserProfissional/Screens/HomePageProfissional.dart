@@ -65,7 +65,7 @@ class _HomePage extends StatelessWidget {
                   arguments: user.uid),
             ),
             new ListTile(
-              title: new Text("Pacientes"),
+              title: new Text("Pacientes Habilitados"),
               trailing: new Icon(Icons.person_outline),
               onTap: () => Navigator.pushNamed(context, 'ListagemDePacientes',
                   arguments: user),
@@ -73,7 +73,7 @@ class _HomePage extends StatelessWidget {
             new ListTile(
               title: new Text("Consultas agendadas"),
               trailing: new Icon(Icons.person_outline),
-              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultas',
+              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultasP',
                   arguments: user),
             ),
             new ListTile(

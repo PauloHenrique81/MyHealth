@@ -3,6 +3,7 @@ class Consulta {
   String idConsulta;
   String nomeDoMedico;
   String especialidade;
+  String codigoDoProfissional;
   String data;
   String horario;
   String local;
@@ -18,6 +19,7 @@ class Consulta {
       this.idConsulta,
       this.nomeDoMedico,
       this.especialidade,
+      this.codigoDoProfissional,
       this.data,
       this.horario,
       this.local,
