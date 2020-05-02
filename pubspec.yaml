@@ -82,6 +82,7 @@ flutter:
    - Assets/doar-sangue2.png
    - Assets/iconeAtividade.png  
    - Assets/caixaMedica.png
+   - Assets/iconeConsulta.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

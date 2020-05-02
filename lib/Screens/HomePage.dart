@@ -177,16 +177,22 @@ class _HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       Text(snapshot.data[index].modulo ?? "",
-                                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].hora + "    " ?? "",
-                                          style: TextStyle(fontSize: 14.0,)),
-                                      Text(snapshot.data[index].data ?? "",
+                                      Text(snapshot.data[index].data + "    " ?? "",
                                           style: TextStyle(fontSize: 14.0)),
+                                      Text(
+                                          snapshot.data[index].hora  ??
+                                              "",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                          )),
                                     ],
                                   )
                                 ],

@@ -81,46 +81,34 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                          snapshot.data[index].nomeDoMedico ??
-                                              "",
+                                      Container(
+                                        width: 40.0,
+                                        height: 40.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "Assets/iconeConsulta.png"),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      Text(snapshot.data[index].nomeDoMedico ?? "",
                                           style: TextStyle(
-                                              fontSize: 22.0,
+                                              fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
-                                      Text(
-                                          snapshot.data[index].especialidade ??
-                                              "",
-                                          style: TextStyle(fontSize: 18.0)),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(snapshot.data[index].local ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].data ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
-                                      Text("    ",
-                                          style: TextStyle(fontSize: 18.0)),
+                                      Text(
+                                          snapshot.data[index].data + "    " ??
+                                              "",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                          )),
                                       Text(snapshot.data[index].horario ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: 10.0,
-                                        height: 10.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            color: Util.verificaData(snapshot
-                                                        .data[index].data) <=
-                                                    0
-                                                ? Colors.green
-                                                : Colors.red),
-                                      ),
+                                          style: TextStyle(fontSize: 14.0)),
                                     ],
                                   )
                                 ],
