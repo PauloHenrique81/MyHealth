@@ -19,6 +19,7 @@ import 'package:myhealth/Screens/Profissional/EdicaoDoProfissional.dart';
 import 'package:myhealth/Screens/Profissional/ListagemDeProfissional.dart';
 import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
 import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
+import 'package:myhealth/Screens/RecuperarSenhaPaciente.dart';
 import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
 import 'package:myhealth/Screens/Vacinas/ListagensTiposDeVacinas.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
@@ -47,6 +48,8 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => LoginPaciente());
       case 'CadastroDePaciente':
         return MaterialPageRoute(builder: (_) => CadastroDePaciente());
+      case 'RecuperarSenhaPaciente':
+        return MaterialPageRoute(builder: (_) => RecuperarSenhaPaciente());
       case 'PreLogin':
         return MaterialPageRoute(builder: (_) => PreLogin());
       case 'ListagemDeConsultas':
