@@ -163,7 +163,7 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
               SpeedDialChild(
                   child: Icon(Icons.cancel),
                   backgroundColor: Colors.red,
-                  label: "Excluir receita",
+                  label: "Excluir atestado",
                   onTap: () {
                     if (!_novoAtestado) {
                       showDialog(
