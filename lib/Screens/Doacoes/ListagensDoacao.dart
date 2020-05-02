@@ -136,7 +136,8 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
                       );
                     });
               }
-            }));
+            })
+          );
   }
 
   Future buscaDoacoes(String idUser) async {
