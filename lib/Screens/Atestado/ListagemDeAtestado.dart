@@ -81,21 +81,32 @@ class _ListagemDeAtestadosState extends State<ListagemDeAtestados> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
+                                      Container(
+                                        width: 40.0,
+                                        height: 40.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "Assets/iconeAtestado.png"),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
                                       Text(snapshot.data[index].medico ?? "",
                                           style: TextStyle(
-                                              fontSize: 22.0,
+                                              fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
-                                      Text(snapshot.data[index].data ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].motivo ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
+                                      Text(snapshot.data[index].data ?? "",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                          )),
                                     ],
-                                  ),
+                                  )
                                 ],
                               ),
                             ),

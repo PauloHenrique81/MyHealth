@@ -77,7 +77,7 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
                             padding: EdgeInsets.all(10.0),
                             child: Container(
                               child: Column(
-                                          children: <Widget>[
+                                children: <Widget>[
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -93,9 +93,7 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      Text(
-                                          snapshot.data[index].medico ??
-                                              "",
+                                      Text(snapshot.data[index].medico ?? "",
                                           style: TextStyle(
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
@@ -104,13 +102,10 @@ class _ListagemDeReceitasState extends State<ListagemDeReceitas> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      Text(
-                                          snapshot.data[index].data  ??
-                                              "",
+                                      Text(snapshot.data[index].data ?? "",
                                           style: TextStyle(
                                             fontSize: 14.0,
                                           )),
-                        
                                     ],
                                   )
                                 ],
