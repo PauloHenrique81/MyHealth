@@ -92,14 +92,17 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20, bottom: 5),
-                  child: Text(
-                    'Esqueceu sua senha?',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontFamily: 'SFUIDisplay',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                  child: InkWell(
+                    child: Text(
+                      'Esqueceu sua senha?',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontFamily: 'SFUIDisplay',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    onTap: (){Navigator.pushNamed(context, 'RecuperarSenhaProfissional');},
                   ),
                 ),
                 Padding(

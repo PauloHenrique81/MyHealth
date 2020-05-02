@@ -287,6 +287,8 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => LoginProfissional());
       case 'CadastroDeProfissional':
         return MaterialPageRoute(builder: (_) => CadastroDeProfissional());
+      case 'RecuperarSenhaProfissional':
+        return MaterialPageRoute(builder: (_) => RecuperarSenhaPaciente());
       case 'HomePageProfissional':
         if (args is User) {
           return MaterialPageRoute(
