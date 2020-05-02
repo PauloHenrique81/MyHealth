@@ -77,37 +77,41 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
                             padding: EdgeInsets.all(10.0),
                             child: Container(
                               child: Column(
-                                children: <Widget>[
+                             children: <Widget>[
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].tipoExame ?? "",
-                                          style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.bold)),
+                                      Container(
+                                        width: 40.0,
+                                        height: 40.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "Assets/iconeExame.png"),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
                                       Text(
-                                          snapshot.data[index].nomeDoMedico ??
+                                          snapshot.data[index].tipoExame ??
                                               "",
-                                          style: TextStyle(fontSize: 18.0)),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(snapshot.data[index].local ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      Text(snapshot.data[index].data ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
-                                      Text("    ",
-                                          style: TextStyle(fontSize: 18.0)),
+                                      Text(
+                                          snapshot.data[index].data + "    " ??
+                                              "",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                          )),
                                       Text(snapshot.data[index].horario ?? "",
-                                          style: TextStyle(fontSize: 18.0)),
+                                          style: TextStyle(fontSize: 14.0)),
                                       Container(
                                         alignment: Alignment.center,
                                         width: 10.0,
