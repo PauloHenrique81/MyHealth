@@ -92,7 +92,9 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      Text(snapshot.data[index].nomeDoMedico ?? "",
+                                      Text(
+                                          snapshot.data[index].nomeDoMedico ??
+                                              "",
                                           style: TextStyle(
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
@@ -109,6 +111,18 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
                                           )),
                                       Text(snapshot.data[index].horario ?? "",
                                           style: TextStyle(fontSize: 14.0)),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: 10.0,
+                                        height: 10.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            color: Util.verificaData(snapshot
+                                                        .data[index].data) <=
+                                                    0
+                                                ? Colors.green
+                                                : Colors.red),
+                                      ),
                                     ],
                                   )
                                 ],
