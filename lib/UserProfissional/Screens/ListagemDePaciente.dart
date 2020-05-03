@@ -20,6 +20,7 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
   List<Paciente> pacientes = new List<Paciente>();
   List<String> pacientesHabilitado = new List<String>();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,16 +29,18 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
           actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {});
-            },
-          )
-        ],
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  pacientes.clear();
+                });
+              },
+            )
+          ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -100,6 +103,7 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
                           ),
                         ),
                         onTap: () {
+                          _mostrarDetalhes(uid: widget.user.uid);
                         },
                       );
                     });
@@ -107,7 +111,13 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
             }));
   }
 
+  void _mostrarDetalhes({String uid}) {
+    Navigator.of(context)
+        .pushNamed('InformacoesDoPaciente', arguments: uid);
+  }
+
   Future buscaPacientes(String idUser) async {
+    pacientes.clear();
     var pacientesAux = await connectionPaciente.listaDePacientes();
     pacientesHabilitado =
         await connectionPH.listaDePacientesHabilitados(widget.user.uid);
@@ -125,5 +135,4 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
     }
     return pacientes;
   }
-
 }

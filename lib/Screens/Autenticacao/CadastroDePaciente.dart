@@ -86,7 +86,12 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
                           controller: _dataController,
-                          decoration: InputDecoration(labelText: "Data: *"),
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              labelText: 'Data de nascimento *',
+                              labelStyle:
+                                  TextStyle(fontSize: 15, color: Colors.black)),
                           validator: (val) =>
                               val.isEmpty ? 'Digite a data' : null,
                           onChanged: (text) {
