@@ -121,8 +121,8 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
                                             color: Util.verificaData(snapshot
                                                         .data[index].data) <=
                                                     0
-                                                ? Colors.green
-                                                : Colors.red),
+                                                ? Colors.blue
+                                                : Colors.grey),
                                       ),
                                     ],
                                   )

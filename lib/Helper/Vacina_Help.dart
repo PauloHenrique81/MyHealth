@@ -18,14 +18,14 @@ class Vacina_Help {
 
   void populaVacinaAux() {
     var crianca =
-        new VacinaAux("Criança", "Entre 0 e 10 anos", "Assets/bebe.jpg");
+        new VacinaAux("Criança", "Entre 0 e 10 anos", "Assets/bebe.png");
     var adolescente = new VacinaAux(
-        "Adolescente", "Entre 11 e 19 anos", "Assets/adolescente.jpg");
+        "Adolescente", "Entre 11 e 19 anos", "Assets/adolescente.png");
     var adulto =
-        new VacinaAux("Adulto", "Entre 20 e 59 anos", "Assets/adulto.jpg");
-    var idoso = new VacinaAux("Idoso", "60 + anos", "Assets/idoso.jpg");
+        new VacinaAux("Adulto", "Entre 20 e 59 anos", "Assets/adulto.png");
+    var idoso = new VacinaAux("Idoso", "60 + anos", "Assets/idoso.png");
     var gestante =
-        new VacinaAux("Gestante", "Período gestacional", "Assets/gestante.jpg");
+        new VacinaAux("Gestante", "Período gestacional", "Assets/gestante.png");
 
     vacinas.add(crianca);
     vacinas.add(adolescente);
