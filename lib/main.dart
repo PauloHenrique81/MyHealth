@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyHealth',
+      title: 'MinhaSaúde',
       initialRoute: 'Wrapper',
       onGenerateRoute: RouteGenarator.genareteRoute,
       debugShowCheckedModeBanner: false,

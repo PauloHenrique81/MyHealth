@@ -46,7 +46,7 @@ class _HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("MyHealth"),
+          title: new Text("MinhaSaúde"),
           actions: <Widget>[
             IconButton(
               icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
