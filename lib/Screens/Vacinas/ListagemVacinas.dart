@@ -120,8 +120,8 @@ class _ListagemVacinasState extends State<ListagemVacinas> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: widget.vacinas.listaVacinas[index].status
-                              ? Colors.green
-                              : Colors.red),
+                              ? Colors.blue
+                              : Colors.grey),
                     ),
                   ],
                 ),

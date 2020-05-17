@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
         user: user,
       ),
       onGenerateRoute: RouteGenarator.genareteRoute,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

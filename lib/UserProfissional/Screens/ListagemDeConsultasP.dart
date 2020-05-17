@@ -122,8 +122,8 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
                                             color: Util.verificaData(snapshot
                                                         .data[index].data) <=
                                                     0
-                                                ? Colors.green
-                                                : Colors.red),
+                                                ? Colors.blue
+                                                : Colors.grey),
                                       ),
                                     ],
                                   )

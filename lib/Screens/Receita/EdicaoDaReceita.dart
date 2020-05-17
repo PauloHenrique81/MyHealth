@@ -43,7 +43,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
 
   P_Receita conectionDB = new P_Receita();
 
-  List<Imagem> imagens;
+  List<Imagem> imagens = new List<Imagem>();
   P_Imagem conectionDB_imagem = new P_Imagem();
 
   final _medicoController = TextEditingController();

@@ -141,7 +141,7 @@ class _HabilitarProfissionalEdicaoState
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           color:
-                              habilitado == "Sim" ? Colors.green : Colors.red),
+                              habilitado == "Sim" ? Colors.blue : Colors.grey),
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,

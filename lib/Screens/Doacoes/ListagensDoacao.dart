@@ -118,8 +118,8 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
                                             color: Util.verificaData(snapshot
                                                         .data[index].data) <=
                                                     0
-                                                ? Colors.green
-                                                : Colors.red),
+                                                ? Colors.blue
+                                                : Colors.grey),
                                       ),
                                     ],
                                   )
