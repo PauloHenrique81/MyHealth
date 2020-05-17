@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:myhealth/Service/auth.dart';
 
-class RecuperarSenhaPaciente extends StatefulWidget {
+class RecuperarSenhaProfissional extends StatefulWidget {
   @override
-  _RecuperarSenhaPacienteState createState() => _RecuperarSenhaPacienteState();
+  _RecuperarSenhaProfissionalState createState() => _RecuperarSenhaProfissionalState();
 }
 
-class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
+class _RecuperarSenhaProfissionalState extends State<RecuperarSenhaProfissional> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   String email = '';

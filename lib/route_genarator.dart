@@ -31,6 +31,7 @@ import 'package:myhealth/UserProfissional/Screens/ListagemDeConsultasP.dart';
 import 'package:myhealth/UserProfissional/Screens/ListagemDePaciente.dart';
 import 'package:myhealth/UserProfissional/Screens/Login_Profissional.dart';
 import 'package:myhealth/UserProfissional/Screens/PerfilProfissional.dart';
+import 'package:myhealth/UserProfissional/Screens/RecuperarSenhaProfissional.dart';
 import 'package:myhealth/class/Maps/Maps.dart';
 import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
@@ -289,7 +290,7 @@ class RouteGenarator {
       case 'CadastroDeProfissional':
         return MaterialPageRoute(builder: (_) => CadastroDeProfissional());
       case 'RecuperarSenhaProfissional':
-        return MaterialPageRoute(builder: (_) => RecuperarSenhaPaciente());
+        return MaterialPageRoute(builder: (_) => RecuperarSenhaProfissional());
       case 'InformacoesDoPaciente':
         if (args is String) {
           return MaterialPageRoute(builder: (_) => InformacoesDoPaciente(uid: args));
