@@ -32,7 +32,7 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Consultas"),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.deepOrange,
           centerTitle: true,
           actions: <Widget>[
           IconButton(

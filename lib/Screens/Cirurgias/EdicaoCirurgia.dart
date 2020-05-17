@@ -235,7 +235,7 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                 child: Icon(Icons.map),
                 backgroundColor: Colors.deepPurple,
                 label: _locCadastrada
-                    ? "Vizualizar localização"
+                    ? "Visualizar localização"
                     : "Adicionar localização",
                 onTap: () async {
                   if (_formKey.currentState.validate()) {

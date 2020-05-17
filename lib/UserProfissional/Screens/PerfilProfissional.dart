@@ -103,7 +103,7 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
         onWillPop: () => _requestPop(context),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.deepPurple,
+            backgroundColor: Colors.deepOrange,
             title: Text("Perfil"),
             centerTitle: true,
           ),
@@ -130,7 +130,7 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
               }
             },
             child: Icon(Icons.save),
-            backgroundColor: Colors.deepPurple,
+            backgroundColor: Colors.deepOrange,
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),

@@ -26,7 +26,7 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Pacientes"),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.deepOrange,
           centerTitle: true,
           actions: <Widget>[
             IconButton(

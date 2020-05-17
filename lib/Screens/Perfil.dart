@@ -22,7 +22,7 @@ class _PerfilState extends State<Perfil> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: _date,
-        firstDate: new DateTime(2020),
+        firstDate: new DateTime(1930),
         lastDate: new DateTime(2023));
 
     if (picked != null) {

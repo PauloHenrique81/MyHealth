@@ -13,7 +13,7 @@ class HomePageProfissional extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.deepOrange,
           primaryColor: defaultTargetPlatform == TargetPlatform.iOS
               ? Colors.grey[50]
               : null),
@@ -87,7 +87,7 @@ class _HomePage extends StatelessWidget {
       ),
       body: new Container(
         child: new Center(
-          child: new Text("Home Page"),
+          child: new Text(""),
         ),
       ),
     );
