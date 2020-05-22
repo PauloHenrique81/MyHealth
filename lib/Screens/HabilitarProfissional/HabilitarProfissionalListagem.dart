@@ -8,7 +8,8 @@ import 'package:myhealth/class/user.dart';
 
 class HabilitarProfissionalListagem extends StatefulWidget {
   User user;
-  HabilitarProfissionalListagem({this.user}) : super();
+  bool moduloSolicitarConsulta = false;
+  HabilitarProfissionalListagem({this.user, this.moduloSolicitarConsulta}) : super();
 
   final String title = "Lista de Profissionais";
 
@@ -42,7 +43,7 @@ class HabilitarProfissionalListagemState
   @override
   void initState() {
     super.initState();
-    ServicesHP.getProfissionaisUsers(widget.user.uid).then((usersProf) {
+    ServicesHP.getProfissionaisUsers().then((usersProf) {
       setState(() {
         users = usersProf;
         filteredUsers = users;
@@ -160,9 +161,18 @@ class HabilitarProfissionalListagemState
   }
 
   void _mostrarDetalhes({Profissional profissional, User user}) {
-    ScreeanArguments screeanArguments =
+
+    if(widget.moduloSolicitarConsulta){
+      ScreeanArguments screeanArguments =
         new ScreeanArguments(user: user, profissional: profissional);
     Navigator.of(context)
         .pushNamed('HabilitarProfissionalEdicao', arguments: screeanArguments);
+    }else{
+      ScreeanArguments screeanArguments =
+        new ScreeanArguments(user: user, profissional: profissional);
+      Navigator.of(context)
+        .pushNamed('SolicitarConsultaEdicao', arguments: screeanArguments);
+    }
+    
   }
 }

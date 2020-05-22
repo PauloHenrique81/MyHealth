@@ -144,7 +144,7 @@ class P_Profissional {
     }
   }
 
-  Future listaDeProfissionaisUser(String idUser) async {
+  Future listaDeProfissionaisUser() async {
     Profissional profissional = new Profissional();
     List<Profissional> profissionais = new List<Profissional>();
 

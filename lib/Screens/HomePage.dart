@@ -127,6 +127,12 @@ class _HomePage extends StatelessWidget {
                     arguments: user),
               ),
               new ListTile(
+                title: new Text("Solicitar Consulta"),
+                trailing: new Icon(Icons.receipt),
+                onTap: () => Navigator.pushNamed(context, 'ListagemDeSolicitacoes',
+                    arguments: user),
+              ),
+              new ListTile(
                 title: new Text("Vacinas"),
                 trailing: new Icon(Icons.receipt),
                 onTap: () => Navigator.pushNamed(

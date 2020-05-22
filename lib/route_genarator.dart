@@ -20,6 +20,7 @@ import 'package:myhealth/Screens/Profissional/ListagemDeProfissional.dart';
 import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
 import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
 import 'package:myhealth/Screens/RecuperarSenhaPaciente.dart';
+import 'package:myhealth/Screens/SolicitarConsulta/ListagemDeSolicitacoes.dart';
 import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
 import 'package:myhealth/Screens/Vacinas/ListagensTiposDeVacinas.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
@@ -260,6 +261,16 @@ class RouteGenarator {
               builder: (_) => HabilitarProfissionalListagem(user: args));
         }
         return _errorRoute();
+      
+      case 'HabilitarProfissional':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => HabilitarProfissionalListagem(
+                    user: args.user,
+                    moduloSolicitarConsulta: args.booleam,
+                  ));
+        }
+        return _errorRoute();
 
       case 'EdicaoDeDoacao':
         if (args is ScreeanArguments) {
@@ -280,6 +291,13 @@ class RouteGenarator {
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => EdicaoDedoacao(user: args.user));
+        }
+        return _errorRoute();
+    
+      case 'ListagemDeSolicitacoes':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => ListagemDeSolicitacoes(user: args));
         }
         return _errorRoute();
 
