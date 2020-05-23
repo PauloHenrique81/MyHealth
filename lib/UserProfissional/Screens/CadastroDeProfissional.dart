@@ -37,7 +37,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/fundoAzul.jpg'),
+        image: AssetImage('Assets/loginProfissional.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -156,7 +156,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
-                              val.isEmpty ? 'Digite seu email' : null,
+                              val.isEmpty ? 'Digite seu e-mail' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -168,7 +168,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email *',
+                              labelText: 'E-mail *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -178,8 +178,8 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) {
-                            if (val != emailC) return 'Emails diferentes ';
-                            if (val.isEmpty) return 'Digite seu Email';
+                            if (val != emailC) return 'E-mail diferentes ';
+                            if (val.isEmpty) return 'Digite seu E-mail';
                             return null;
                           },
                           onChanged: (val) {
@@ -193,7 +193,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Confirmar email *',
+                              labelText: 'Confirmar e-mail *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),

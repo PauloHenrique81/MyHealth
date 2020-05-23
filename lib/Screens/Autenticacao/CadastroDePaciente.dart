@@ -45,7 +45,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/fundoBranco.jpg'),
+        image: AssetImage('Assets/loginPaciente.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -135,7 +135,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
                           validator: (val) =>
-                              val.isEmpty ? 'Digite seu email' : null,
+                              val.isEmpty ? 'Digite seu e-mail' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -148,7 +148,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email *',
+                              labelText: 'E-mail *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -157,8 +157,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
                           validator: (val) {
-                            if (val != emailC) return 'Emails diferentes ';
-                            if (val.isEmpty) return 'Digite seu Email';
+                            if (val != emailC) return 'E-mail diferentes ';
+                            if (val.isEmpty) return 'Digite seu E-mail';
                             return null;
                           },
                           onChanged: (val) {
@@ -173,7 +173,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Confirmar email *',
+                              labelText: 'Confirmar e-mail *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),

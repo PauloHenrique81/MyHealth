@@ -180,7 +180,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
                         ),
                         TextFormField(
                             controller: _emailController,
-                            decoration: InputDecoration(labelText: "email:"),
+                            decoration: InputDecoration(labelText: "E-mail:"),
                             onChanged: (text) {
                               _userEdited = true;
                               _profissional.email = text;

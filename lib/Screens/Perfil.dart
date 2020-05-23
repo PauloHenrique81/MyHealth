@@ -160,7 +160,7 @@ class _PerfilState extends State<Perfil> {
                         ),
                         TextFormField(
                           controller: _emailController,
-                          decoration: InputDecoration(labelText: "email:"),
+                          decoration: InputDecoration(labelText: "E-mail:"),
                           onChanged: (text) {
                             _userEdited = true;
                             _paciente.email = text;

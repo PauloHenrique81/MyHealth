@@ -16,7 +16,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/fundoBranco.jpg'),
+        image: AssetImage('Assets/loginPaciente.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -43,7 +43,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
-                              val.isEmpty ? 'Digite seu email' : null,
+                              val.isEmpty ? 'Digite seu e-mail' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -55,7 +55,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email',
+                              labelText: 'E-mail *',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),

@@ -362,7 +362,7 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                     Padding(
                       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: Text(
-                        "Pós cirurgico",
+                        "Pós cirúrgico",
                         style: TextStyle(fontSize: 22.0),
                       ),
                     ),
