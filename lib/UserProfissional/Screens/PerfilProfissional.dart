@@ -107,7 +107,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
         onWillPop: () => _requestPop(context),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.deepOrange,
+            backgroundColor: Colors.blue,
             title: Text("Perfil"),
             centerTitle: true,
           ),
@@ -134,7 +134,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
               }
             },
             child: Icon(Icons.save),
-            backgroundColor: Colors.deepOrange,
+            backgroundColor: Colors.blue,
           ),
           body: SingleChildScrollView(
               padding: EdgeInsets.all(10.0),

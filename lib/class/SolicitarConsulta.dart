@@ -2,6 +2,7 @@ class SolicitarConsulta {
   String idSolicitacao;
   String nomeDoProfissional;
   String codigoProfissional;
+  String identificacaoProfissional;
   String profissao;
   String nomePaciente;
   String codigoPaciente;
@@ -17,6 +18,7 @@ class SolicitarConsulta {
           this.idSolicitacao,
           this.nomeDoProfissional,
           this.codigoProfissional,
+          this.identificacaoProfissional,
           this.profissao,
           this.nomePaciente,
           this.codigoPaciente,

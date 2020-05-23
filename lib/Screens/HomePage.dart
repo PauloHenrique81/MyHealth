@@ -53,7 +53,7 @@ class _HomePage extends StatelessWidget {
               color: Colors.white,
               onPressed: () async {
                 await _auth.signOut();
-                Navigator.of(context).pushNamed('LoginPaciente');
+                Navigator.of(context).pushReplacementNamed('LoginPaciente');
               },
             ),
           ],

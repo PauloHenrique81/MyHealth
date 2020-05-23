@@ -23,8 +23,17 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
   P_Paciente connectionPaciente = new P_Paciente();
   P_ConsultasAgendadas connectionConsultas = new P_ConsultasAgendadas();
   P_Profissional connectionProfissional = new P_Profissional();
-
+  List<PacienteConsulta> listaConsultaPaciente = new List<PacienteConsulta>();
   
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      listaConsultaPaciente.clear();
+    });
+    
+  }
 
 
   @override
@@ -32,7 +41,7 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Consultas"),
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: Colors.blue,
           centerTitle: true,
           actions: <Widget>[
           IconButton(
@@ -142,12 +151,13 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
 
   Future<List<PacienteConsulta>> buscaConsultas() async {
     Profissional profissional = await connectionProfissional.getProfissionalUser(widget.user.uid);
+    listaConsultaPaciente.clear();
     if(profissional.identificacao == ''){
       return null;
     }else{
       List<Consulta> consultas = await  connectionConsultas.listaDeConsultas(profissional.identificacao);
       PacienteConsulta consultaP;
-      List<PacienteConsulta> consultasA = new List<PacienteConsulta>();
+      
       Paciente paciente;
 
       for (var item in consultas) {
@@ -162,13 +172,13 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
           local: item.local 
         );
 
-        consultasA.add(consultaP);
+        listaConsultaPaciente.add(consultaP);
       }
 
-      if(consultasA.length == 0){
-        return null;
+      if(listaConsultaPaciente.length == 0){
+        return listaConsultaPaciente;
       }else{
-        return _ordenarLista(consultasA, consultasA.length);
+        return _ordenarLista(listaConsultaPaciente, listaConsultaPaciente.length);
       }
       
     }

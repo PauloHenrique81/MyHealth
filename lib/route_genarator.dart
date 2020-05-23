@@ -39,6 +39,8 @@ import 'Screens/Autenticacao/CadastroDePaciente.dart';
 import 'Screens/Exames/ListagemDeExames.dart';
 import 'Screens/Vacinas/ListagemVacinas.dart';
 import 'class/user.dart';
+import 'package:myhealth/UserProfissional/Screens/SolicitacoesDeConsulta/SolicitacoesDeConsulta.dart';
+import 'package:myhealth/UserProfissional/Screens/SolicitacoesDeConsulta/ValidarSolicitacao.dart';
 
 class RouteGenarator {
   static Route<dynamic> genareteRoute(RouteSettings settings) {
@@ -353,6 +355,21 @@ class RouteGenarator {
         if (args is String) {
           return MaterialPageRoute(
               builder: (_) => PerfilProfissional(uid: args));
+        }
+        return _errorRoute();
+
+       case 'SolicitacoesDeConsulta':
+        if (args is User) {
+          return MaterialPageRoute(
+              builder: (_) => SolicitacoesDeConsulta(user: args,));
+        }
+        return _errorRoute();
+
+       case 'ValidarSolicitacao':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => ValidarSolicitacao(
+                  user: args.user, solicitacao: args.solicitarConsulta));
         }
         return _errorRoute();
 

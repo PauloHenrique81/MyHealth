@@ -8,12 +8,14 @@ class P_SolicitarConsulta {
   final CollectionReference solicitarConsultaCollection =
       Firestore.instance.collection("solicitarConsulta");
 
-  List<SolicitarConsulta> solicitarConsultaListFromSnapshot(QuerySnapshot snapshot) {
+  List<SolicitarConsulta> solicitarConsultaListFromSnapshot(
+      QuerySnapshot snapshot) {
     return snapshot.documents.map((d) {
       return SolicitarConsulta(
           nomeDoProfissional: d.data['nomeDoProfissional'] ?? '',
           codigoProfissional: d.data['codigoProfissional'] ?? '',
           profissao: d.data['codigoProfissional'] ?? '',
+          identificacaoProfissional: d.data['identificacaoProfissional'] ?? '',
           nomePaciente: d.data['nomePaciente'] ?? '',
           codigoPaciente: d.data['codigoPaciente'] ?? '',
           cpfPaciente: d.data['cpfPaciente'] ?? '',
@@ -21,8 +23,7 @@ class P_SolicitarConsulta {
           data: d.data['data'] ?? '',
           horario: d.data['horario'] ?? '',
           local: d.data['local'] ?? '',
-          status: d.data['status'] ?? ''
-          );
+          status: d.data['status'] ?? '');
     }).toList();
   }
 
@@ -39,6 +40,7 @@ class P_SolicitarConsulta {
           nomeDoProfissional: d.data['nomeDoProfissional'] ?? '',
           codigoProfissional: d.data['codigoProfissional'] ?? '',
           profissao: d.data['codigoProfissional'] ?? '',
+          identificacaoProfissional: d.data['identificacaoProfissional'] ?? '',
           nomePaciente: d.data['nomePaciente'] ?? '',
           codigoPaciente: d.data['codigoPaciente'] ?? '',
           cpfPaciente: d.data['cpfPaciente'] ?? '',
@@ -53,12 +55,13 @@ class P_SolicitarConsulta {
     return solicitacoes;
   }
 
-    Future listaDeSolicitacoesProfissional(String idUser) async {
+  Future listaDeSolicitacoesProfissional(String idUser) async {
     SolicitarConsulta solicitacao = new SolicitarConsulta();
     List<SolicitarConsulta> solicitacoes = new List<SolicitarConsulta>();
 
     var snapshots = await solicitarConsultaCollection
-        .where("codigoPaciente", isEqualTo: idUser)
+        .where("codigoProfissional", isEqualTo: idUser)
+        .where("status", isEqualTo: "analise")
         .getDocuments();
     snapshots.documents.forEach((d) {
       solicitacao = new SolicitarConsulta(
@@ -66,6 +69,7 @@ class P_SolicitarConsulta {
           nomeDoProfissional: d.data['nomeDoProfissional'] ?? '',
           codigoProfissional: d.data['codigoProfissional'] ?? '',
           profissao: d.data['codigoProfissional'] ?? '',
+          identificacaoProfissional: d.data['identificacaoProfissional'] ?? '',
           nomePaciente: d.data['nomePaciente'] ?? '',
           codigoPaciente: d.data['codigoPaciente'] ?? '',
           cpfPaciente: d.data['cpfPaciente'] ?? '',
@@ -81,13 +85,24 @@ class P_SolicitarConsulta {
   }
 
   Future cadastraSolicitacao(
-      String nomeDoProfissional,String codigoProfissional, String profissao,String nomePaciente, String codigoPaciente, String cpfPaciente,
-       String telefone, String data,String horario, String local, String status) async {
+      String nomeDoProfissional,
+      String codigoProfissional,
+      String identificacaoProfissional,
+      String profissao,
+      String nomePaciente,
+      String codigoPaciente,
+      String cpfPaciente,
+      String telefone,
+      String data,
+      String horario,
+      String local,
+      String status) async {
     try {
       var idSolicitacao = await solicitarConsultaCollection.add({
         'nomeDoProfissional': nomeDoProfissional,
         'codigoProfissional': codigoProfissional,
-        'profissao':codigoProfissional,
+        'profissao': codigoProfissional,
+        'identificacaoProfissional': identificacaoProfissional,
         'nomePaciente': nomePaciente,
         'codigoPaciente': codigoPaciente,
         'cpfPaciente': cpfPaciente,
@@ -120,11 +135,11 @@ class P_SolicitarConsulta {
   }
 
   void atualizarSolicitacao(String idSolicitacao,
-                              {String cpfPaciente,
-                              String telefone,
-                              String data,
-                              String horario,
-                              String local}) {
+      {String cpfPaciente,
+      String telefone,
+      String data,
+      String horario,
+      String local}) {
     try {
       solicitarConsultaCollection.document(idSolicitacao).updateData({
         'cpfPaciente': cpfPaciente,
@@ -139,7 +154,20 @@ class P_SolicitarConsulta {
     }
   }
 
+  void atualizarStatusSolicitacao(String idSolicitacao, String status,
+      {String data, String horario, String local}) {
+    try {
+      solicitarConsultaCollection.document(idSolicitacao).updateData(
+          {'status': status, 'data': data, 'horario': horario, 'local': local});
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Stream<List<SolicitarConsulta>> get allSolicitacoes {
-    return solicitarConsultaCollection.snapshots().map(solicitarConsultaListFromSnapshot);
+    return solicitarConsultaCollection
+        .snapshots()
+        .map(solicitarConsultaListFromSnapshot);
   }
 }

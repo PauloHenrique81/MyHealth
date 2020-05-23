@@ -85,7 +85,6 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
   final _medicamentosController = TextEditingController();
   final _formaDePagamentoController = TextEditingController();
   final _valorController = TextEditingController();
-  final __codProfissionalController = TextEditingController();
 
   @override
   void initState() {
@@ -108,7 +107,6 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
       _formaDePagamentoController.text = _consultaEdicao.formaDePagamento;
       _valorController.text = _consultaEdicao.valor;
       formaDePagamento = _consultaEdicao.formaDePagamento;
-      __codProfissionalController.text = _consultaEdicao.codigoDoProfissional;
       _getUserLocalModulo();
     }
   }
@@ -151,8 +149,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           _dataController.text,
                           _horaController.text,
                           _localController.text,
-                          especialidade: _especialidadeController.text,
-                          codigoDoProfissional: __codProfissionalController.text);
+                          especialidade: _especialidadeController.text);
                     } else {
                       await conectionDB.atualizarConsulta(
                           widget.user.uid,
@@ -166,8 +163,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           exames: _examesController.text,
                           medicamentos: _medicamentosController.text,
                           formaDePagamento: _formaDePagamentoController.text,
-                          valor: _valorController.text,
-                          codigoDoProfissional: __codProfissionalController.text);
+                          valor: _valorController.text);
                     }
                     Navigator.pop(context);
                   }
@@ -224,8 +220,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           _dataController.text,
                           _horaController.text,
                           _localController.text,
-                          especialidade: _especialidadeController.text,
-                          codigoDoProfissional: __codProfissionalController.text);
+                          especialidade: _especialidadeController.text);
                     } else {
                       await conectionDB.atualizarConsulta(
                           widget.user.uid,
@@ -239,8 +234,7 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           exames: _examesController.text,
                           medicamentos: _medicamentosController.text,
                           formaDePagamento: _formaDePagamentoController.text,
-                          valor: _valorController.text,
-                          codigoDoProfissional: __codProfissionalController.text);
+                          valor: _valorController.text);
 
                       _idConsulta = _consultaEdicao.idConsulta;
                     }
@@ -292,15 +286,6 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                       onChanged: (text) {
                         _userEdited = true;
                         _consultaEdicao.especialidade = text;
-                      },
-                    ),
-                    TextField(
-                      controller: __codProfissionalController,
-                      decoration: InputDecoration(
-                          labelText: "Codigo de identificação  do Profissional:"),
-                      onChanged: (text) {
-                        _userEdited = true;
-                        _consultaEdicao.codigoDoProfissional = text;
                       },
                     ),
                     TextFormField(

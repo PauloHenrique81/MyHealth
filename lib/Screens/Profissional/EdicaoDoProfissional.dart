@@ -247,7 +247,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.popAndPushNamed(
+                    Navigator.pushReplacementNamed(
                         context, 'ListagemDeProfissionais',
                         arguments: widget.user);
                   },

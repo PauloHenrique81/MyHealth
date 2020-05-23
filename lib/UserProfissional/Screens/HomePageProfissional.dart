@@ -13,7 +13,7 @@ class HomePageProfissional extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
-          primarySwatch: Colors.deepOrange,
+          primarySwatch: Colors.blue,
           primaryColor: defaultTargetPlatform == TargetPlatform.iOS
               ? Colors.grey[50]
               : null),
@@ -67,13 +67,19 @@ class _HomePage extends StatelessWidget {
             ),
             new ListTile(
               title: new Text("Pacientes Habilitados"),
-              trailing: new Icon(Icons.person_outline),
+              trailing: new Icon(Icons.receipt),
               onTap: () => Navigator.pushNamed(context, 'ListagemDePacientes',
                   arguments: user),
             ),
             new ListTile(
+              title: new Text("Solicitações de consultas"),
+              trailing: new Icon(Icons.receipt),
+              onTap: () => Navigator.pushNamed(context, 'SolicitacoesDeConsulta',
+                  arguments: user),
+            ),
+            new ListTile(
               title: new Text("Consultas agendadas"),
-              trailing: new Icon(Icons.person_outline),
+              trailing: new Icon(Icons.receipt),
               onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultasP',
                   arguments: user),
             ),

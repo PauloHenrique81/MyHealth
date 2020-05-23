@@ -83,7 +83,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.blue,
         title: Text("Informações do Paciente"),
         centerTitle: true,
       ),

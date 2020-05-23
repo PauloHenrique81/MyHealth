@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:myhealth/Persistencia/P_Consulta.dart';
 import 'package:myhealth/Persistencia/P_SolicitarConsulta.dart';
-import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/SolicitarConsulta.dart';
 import 'package:myhealth/class/user.dart';
 
-class SolicitacaoDeConsultaEdicao extends StatefulWidget {
+class ValidarSolicitacao extends StatefulWidget {
   final SolicitarConsulta solicitacao;
-  final Profissional profissional;
   final User user;
-  SolicitacaoDeConsultaEdicao({this.user, this.solicitacao, this.profissional});
+  ValidarSolicitacao({this.user, this.solicitacao});
 
   @override
-  _SolicitacaoDeConsultaEdicaoState createState() =>
-      _SolicitacaoDeConsultaEdicaoState();
+  _ValidarSolicitacaoState createState() => _ValidarSolicitacaoState();
 }
 
-class _SolicitacaoDeConsultaEdicaoState
-    extends State<SolicitacaoDeConsultaEdicao> {
+class _ValidarSolicitacaoState extends State<ValidarSolicitacao> {
   SolicitarConsulta _solicitacaoEdicao;
   bool _userEdited = false;
   bool _novaSolicitacao = false;
@@ -28,18 +24,17 @@ class _SolicitacaoDeConsultaEdicaoState
 
   P_SolicitarConsulta conectionDB = new P_SolicitarConsulta();
 
+  DatabaseService consultaDB = new DatabaseService();
+
   final _nomePacienteController = TextEditingController();
   final _cpfPacienteController = TextEditingController();
   final _telefoneController = TextEditingController();
   final _dataController = TextEditingController();
   final _horarioController = TextEditingController();
   final _localController = TextEditingController();
-  
+
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
-
-  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
-  var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', filter: { "#": RegExp(r'[0-9]') });
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -54,12 +49,13 @@ class _SolicitacaoDeConsultaEdicaoState
       });
     }
   }
-    Future<Null> _selectTime(BuildContext context) async {
+
+  Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked =
         await showTimePicker(context: context, initialTime: _time);
     if (picked != null) {
       setState(() {
-        _horarioController .text = formatTimeOfDay(picked);
+        _horarioController.text = formatTimeOfDay(picked);
       });
     }
   }
@@ -71,7 +67,6 @@ class _SolicitacaoDeConsultaEdicaoState
     return format.format(dt);
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -97,7 +92,7 @@ class _SolicitacaoDeConsultaEdicaoState
         onWillPop: () => _requestPop(context),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.deepPurple,
+            backgroundColor: Colors.blue,
             title: Text("Solicitar consulta"),
             centerTitle: true,
           ),
@@ -107,99 +102,94 @@ class _SolicitacaoDeConsultaEdicaoState
             animatedIconTheme: IconThemeData.fallback(),
             children: [
               SpeedDialChild(
-                child: Icon(Icons.save),
-                backgroundColor: Colors.deepPurple,
-                label: "Salvar",
+                child: Icon(Icons.check),
+                backgroundColor: Colors.green,
+                label: "Aceitar",
                 onTap: () async {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Enviar solicitação ?"),
-                            content: Text(
-                                "Sera enviado uma solicitação de agendamento de consulta ao profissional selecionado"),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Text("Cancelar"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              FlatButton(
-                                child: Text("Sim"),
-                                onPressed: () async {
-                                  if (_formKey.currentState.validate()) {
-                                    if (_novaSolicitacao == true) {
-                                      await conectionDB.cadastraSolicitacao(
-                                          widget.profissional.nome,
-                                          widget.profissional.idUser,
-                                          widget.profissional.identificacao,
-                                          widget.profissional.profissao,
-                                          _nomePacienteController.text,
-                                          widget.user.uid,
-                                          _cpfPacienteController.text,
-                                          _telefoneController.text,
-                                          _dataController.text,
-                                          _horarioController.text,
-                                          _localController.text,
-                                          "analise");
-                                    } else {
-                                       conectionDB.atualizarSolicitacao(
-                                        _solicitacaoEdicao.idSolicitacao,
-                                        cpfPaciente:
-                                            _cpfPacienteController.text,
-                                        telefone: _telefoneController.text,
-                                        data: _dataController.text,
-                                        horario: _horarioController.text,
-                                        local: _localController.text,
-                                      );
-                                    }
-                                   Navigator.pushReplacementNamed(
-                                        context, 'ListagemDeSolicitacoes',
-                                        arguments: widget.user);
-                                  }
-                                },
-                              )
-                            ],
-                          );
-                        });
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Atualizar status ?"),
+                          content: Text(
+                              "O paciente recebera uma atualização do status da solicitação e sera agendado uma consulta para essa data."),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("Cancelar"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            FlatButton(
+                              child: Text("Sim"),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  conectionDB.atualizarStatusSolicitacao(
+                                      _solicitacaoEdicao.idSolicitacao,
+                                      "aprovado",
+                                      data: _dataController.text,
+                                      horario: _horarioController.text,
+                                      local: _localController.text);
+                                  
+                                  consultaDB.cadastraConsulta(_solicitacaoEdicao.codigoPaciente, 
+                                                                _solicitacaoEdicao.nomeDoProfissional,
+                                                                _dataController.text,
+                                                                _horarioController.text,
+                                                                _localController.text,
+                                                                codigoDoProfissional:_solicitacaoEdicao.identificacaoProfissional);
+
+                                  Navigator.pushReplacementNamed(
+                                      context, 'SolicitacoesDeConsulta',
+                                      arguments: widget.user);
+                                }
+                              },
+                            )
+                          ],
+                        );
+                      });
                 },
               ),
               SpeedDialChild(
-                  child: Icon(Icons.cancel),
-                  backgroundColor: Colors.red,
-                  label: "Excluir",
-                  onTap: () {
-                    if (!_novaSolicitacao) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text("Excluir Solicitação ?"),
-                              content: Text(
-                                  "A solicitação sera excluida permanentemente"),
-                              actions: <Widget>[
-                                FlatButton(
-                                  child: Text("Cancelar"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text("Sim"),
-                                  onPressed: () {
-                                    conectionDB.excluirSolicitacao(
-                                        _solicitacaoEdicao.idSolicitacao);
-                                    Navigator.pushReplacementNamed(
-                                        context, 'ListagemDeSolicitacoes',
-                                        arguments: widget.user);
-                                  },
-                                )
-                              ],
-                            );
-                          });
-                    }
-                  })
+                child: Icon(Icons.remove),
+                backgroundColor: Colors.red,
+                label: "Recusar",
+                onTap: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Atualizar status ?"),
+                          content: Text(
+                              "O paciente recebera uma atualização do status da solicitação de consulta"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("Cancelar"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            FlatButton(
+                              child: Text("Sim"),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  conectionDB.atualizarStatusSolicitacao(
+                                      _solicitacaoEdicao.idSolicitacao,
+                                      "reprovado",
+                                      data: _dataController.text,
+                                      horario: _horarioController.text,
+                                      local: _localController.text);
+
+                                  Navigator.pushReplacementNamed(
+                                      context, 'SolicitacoesDeConsulta',
+                                      arguments: widget.user);
+                                }
+                              },
+                            )
+                          ],
+                        );
+                      });
+                },
+              ),
             ],
           ),
           body: SingleChildScrollView(
@@ -212,6 +202,7 @@ class _SolicitacaoDeConsultaEdicaoState
                       keyboardType: TextInputType.text,
                       controller: _nomePacienteController,
                       decoration: InputDecoration(labelText: "Nome: *"),
+                      enabled: false,
                       validator: (val) =>
                           val.isEmpty ? 'Digite seu nome' : null,
                       onChanged: (text) {
@@ -221,10 +212,10 @@ class _SolicitacaoDeConsultaEdicaoState
                     ),
                     TextFormField(
                       keyboardType: TextInputType.number,
-                      controller: _cpfPacienteController ,
-                      inputFormatters: [maskFormatterCPF],
+                      controller: _cpfPacienteController,
                       decoration: InputDecoration(labelText: "CPF: *"),
                       validator: (val) => val.isEmpty ? 'Digite seu CPF' : null,
+                      enabled: false,
                       onChanged: (text) {
                         _userEdited = true;
                         _solicitacaoEdicao.cpfPaciente = text;
@@ -233,7 +224,7 @@ class _SolicitacaoDeConsultaEdicaoState
                     TextFormField(
                         keyboardType: TextInputType.phone,
                         controller: _telefoneController,
-                        inputFormatters: [maskFormatterTelefone],
+                        enabled: false,
                         decoration: InputDecoration(labelText: "Telefone: *"),
                         validator: (val) => val.isEmpty
                             ? 'Digite seu numero de telefone'
@@ -299,8 +290,7 @@ class _SolicitacaoDeConsultaEdicaoState
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, 'ListagemDeSolicitacoes',
+                    Navigator.pushReplacementNamed(context, 'SolicitacoesDeConsulta',
                         arguments: widget.user);
                   },
                 )
@@ -314,3 +304,4 @@ class _SolicitacaoDeConsultaEdicaoState
   }
 }
 
+class MaskedTextInputFormatterShifter {}

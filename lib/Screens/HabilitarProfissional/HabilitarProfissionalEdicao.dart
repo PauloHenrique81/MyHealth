@@ -109,7 +109,7 @@ class _HabilitarProfissionalEdicaoState
                                       widget.profissional.idUser,
                                       habilitado);
 
-                                  Navigator.popAndPushNamed(
+                                  Navigator.pushReplacementNamed(
                                       context, 'HabilitarProfissional',
                                       arguments: widget.user);
                                 },
@@ -121,7 +121,7 @@ class _HabilitarProfissionalEdicaoState
                 } else {
                   conectionDB.atualizarProfissional(
                       habilitarProfissional.idDocumento, habilitado);
-                  Navigator.popAndPushNamed(context, 'HabilitarProfissional',
+                  Navigator.pushReplacementNamed(context, 'HabilitarProfissional',
                       arguments: widget.user);
                 }
               }
@@ -224,7 +224,7 @@ class _HabilitarProfissionalEdicaoState
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, 'HabilitarProfissional',
+                    Navigator.pushReplacementNamed(context, 'HabilitarProfissional',
                         arguments: widget.user);
                   },
                 )
