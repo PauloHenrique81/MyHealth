@@ -1,7 +1,8 @@
 class SolicitarConsulta {
   String idSolicitacao;
-  String nomeDoMedico;
-  String codigoMedico;
+  String nomeDoProfissional;
+  String codigoProfissional;
+  String profissao;
   String nomePaciente;
   String codigoPaciente;
   String cpfPaciente;
@@ -14,8 +15,9 @@ class SolicitarConsulta {
   SolicitarConsulta(
         {
           this.idSolicitacao,
-          this.nomeDoMedico,
-          this.codigoMedico,
+          this.nomeDoProfissional,
+          this.codigoProfissional,
+          this.profissao,
           this.nomePaciente,
           this.codigoPaciente,
           this.cpfPaciente,

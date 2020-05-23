@@ -74,7 +74,7 @@ class _HomePage extends StatelessWidget {
                 title: new Text("Perfil"),
                 trailing: new Icon(Icons.person_outline),
                 onTap: () =>
-                    Navigator.pushNamed(context, 'Perfil', arguments: user.uid),
+                    Navigator.pushNamed(context, 'Perfil', arguments: user),
               ),
               new ListTile(
                 title: new Text("Atestados"),

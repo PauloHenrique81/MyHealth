@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Persistencia/P_Paciente.dart';
 import 'package:myhealth/class/Paciente.dart';
+import 'package:myhealth/class/user.dart';
 
 class Perfil extends StatefulWidget {
-  final String uid;
-  Perfil({this.uid});
+  final User user;
+  Perfil({this.user});
 
   @override
   _PerfilState createState() => _PerfilState();
@@ -17,6 +19,9 @@ class _PerfilState extends State<Perfil> {
 
   DateTime _date = new DateTime.now();
   var _userEdited = false;
+
+  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
+  var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) ####-####', filter: { "#": RegExp(r'[0-9]') });
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -65,7 +70,7 @@ class _PerfilState extends State<Perfil> {
   }
 
   _carregaPaciente() async {
-    _paciente = await buscaPaciente(widget.uid);
+    _paciente = await buscaPaciente(widget.user.uid);
 
     _nomeController.text = _paciente.nome;
     _dataDeNascimentoController.text = _paciente.dataDeNascimento;
@@ -133,6 +138,7 @@ class _PerfilState extends State<Perfil> {
                         TextField(
                           keyboardType: TextInputType.number,
                           controller: _cpfController,
+                          inputFormatters: [maskFormatterCPF],
                           decoration: InputDecoration(labelText: "CPF:"),
                           onChanged: (text) {
                             _userEdited = true;
@@ -161,7 +167,9 @@ class _PerfilState extends State<Perfil> {
                           },
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.number,
                           controller: _telefoneController,
+                          inputFormatters: [maskFormatterTelefone],
                           decoration: InputDecoration(labelText: "Telefone:"),
                           onChanged: (text) {
                             _userEdited = true;
@@ -240,7 +248,7 @@ class _PerfilState extends State<Perfil> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'HomePage');
+                    Navigator.pushReplacementNamed(context, 'HomePage',arguments: widget.user);
                   },
                 )
               ],

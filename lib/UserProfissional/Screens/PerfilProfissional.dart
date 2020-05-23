@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Persistencia/P_Profissional.dart';
 import 'package:myhealth/class/Profissional.dart';
 
@@ -17,6 +18,9 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
 
   DateTime _date = new DateTime.now();
   var _userEdited = false;
+
+  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
+var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', filter: { "#": RegExp(r'[0-9]') });
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -155,6 +159,7 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                         TextField(
                             controller: _cpfController,
                             decoration: InputDecoration(labelText: "CPF:"),
+                            inputFormatters: [maskFormatterCPF],
                             onChanged: (text) {
                               _userEdited = true;
                               _profissional.cpf = text;
@@ -182,13 +187,15 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                             },
                             keyboardType: TextInputType.emailAddress),
                         TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: _telefoneController,
+                            inputFormatters: [maskFormatterTelefone],
                             decoration: InputDecoration(labelText: "Telefone:"),
                             onChanged: (text) {
                               _userEdited = true;
                               _profissional.telefone = text;
                             },
-                            keyboardType: TextInputType.number),
+                          ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
                         child: Row(

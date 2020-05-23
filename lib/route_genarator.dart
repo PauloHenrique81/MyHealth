@@ -21,6 +21,7 @@ import 'package:myhealth/Screens/Receita/EdicaoDaReceita.dart';
 import 'package:myhealth/Screens/Receita/ListagemDeReceita.dart';
 import 'package:myhealth/Screens/RecuperarSenhaPaciente.dart';
 import 'package:myhealth/Screens/SolicitarConsulta/ListagemDeSolicitacoes.dart';
+import 'package:myhealth/Screens/SolicitarConsulta/SolicitarConsultaEdicao.dart';
 import 'package:myhealth/Screens/Vacinas/EdicaoDeVacina.dart';
 import 'package:myhealth/Screens/Vacinas/ListagensTiposDeVacinas.dart';
 import 'package:myhealth/Service/ImageCapture.dart';
@@ -224,8 +225,8 @@ class RouteGenarator {
         }
         return _errorRoute();
       case 'Perfil':
-        if (args is String) {
-          return MaterialPageRoute(builder: (_) => Perfil(uid: args));
+        if (args is User) {
+          return MaterialPageRoute(builder: (_) => Perfil(user: args));
         }
         return _errorRoute();
 
@@ -261,8 +262,8 @@ class RouteGenarator {
               builder: (_) => HabilitarProfissionalListagem(user: args));
         }
         return _errorRoute();
-      
-      case 'HabilitarProfissional':
+
+      case 'HabilitarProfissionalSC':
         if (args is ScreeanArguments) {
           return MaterialPageRoute(
               builder: (_) => HabilitarProfissionalListagem(
@@ -293,11 +294,26 @@ class RouteGenarator {
               builder: (_) => EdicaoDedoacao(user: args.user));
         }
         return _errorRoute();
-    
+
       case 'ListagemDeSolicitacoes':
         if (args is User) {
           return MaterialPageRoute(
               builder: (_) => ListagemDeSolicitacoes(user: args));
+        }
+        return _errorRoute();
+      case 'NovaSolicitacao':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => SolicitacaoDeConsultaEdicao(
+                  user: args.user, profissional: args.profissional));
+        }
+        return _errorRoute();
+
+      case 'EdicaoDeSolicitacao':
+        if (args is ScreeanArguments) {
+          return MaterialPageRoute(
+              builder: (_) => SolicitacaoDeConsultaEdicao(
+                  user: args.user, solicitacao: args.solicitarConsulta));
         }
         return _errorRoute();
 
@@ -311,7 +327,8 @@ class RouteGenarator {
         return MaterialPageRoute(builder: (_) => RecuperarSenhaProfissional());
       case 'InformacoesDoPaciente':
         if (args is String) {
-          return MaterialPageRoute(builder: (_) => InformacoesDoPaciente(uid: args));
+          return MaterialPageRoute(
+              builder: (_) => InformacoesDoPaciente(uid: args));
         }
         return _errorRoute();
       case 'HomePageProfissional':

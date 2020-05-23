@@ -51,7 +51,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
-                              val.isEmpty ? 'Digite seu email' : null,
+                              val.isEmpty ? 'Digite seu e-mail' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -63,7 +63,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email',
+                              labelText: 'E-mail',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -115,7 +115,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                         dynamic result =
                             await _auth.logarComEmailESenha(email, senha);
                         if (result == null) {
-                          setState(() => error = 'Email ou senha incorretos.');
+                          setState(() => error = 'E-mail ou senha incorretos.');
                         } else {
                           Navigator.pushReplacementNamed(context, 'HomePage',
                               arguments: result);
@@ -162,7 +162,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.google),
                         Text(
-                          'Entrar com gmail',
+                          'Entrar com Gmail',
                           style: TextStyle(
                               fontSize: 15, fontFamily: 'SFUIDisplay'),
                         )
@@ -192,7 +192,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
                           ),
                         ),
                         TextSpan(
-                            text: "Criar conta",
+                            text: " Criar conta",
                             style: TextStyle(
                               fontFamily: 'SFUIDisplay',
                               color: Color(0xffff2d55),

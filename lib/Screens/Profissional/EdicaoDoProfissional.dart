@@ -37,7 +37,6 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
   final _identificacaoController = TextEditingController();
   final _localDeAtendimentoController = TextEditingController();
   final _telefoneController = TextEditingController();
-  final _statusController = TextEditingController();
 
   @override
   void initState() {
@@ -56,7 +55,6 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
       _localDeAtendimentoController.text =
           _profissionalEdicao.localDeAtendimento;
       _telefoneController.text = _profissionalEdicao.telefone;
-      _statusController.text = _profissionalEdicao.status;
 
       profissao = _profissionalEdicao.profissao;
     }
@@ -92,7 +90,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           especialidade: _especialidadeController.text,
                           identificacao: _identificacaoController.text,
                           telefone: _telefoneController.text,
-                          status: _statusController.text);
+                          status: "Nao");
                     } else {
                       await conectionDB.atualizarProfissional(
                           widget.user.uid,
@@ -102,8 +100,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           _profissaoController.text,
                           especialidade: _especialidadeController.text,
                           identificacao: _identificacaoController.text,
-                          telefone: _telefoneController.text,
-                          status: _statusController.text);
+                          telefone: _telefoneController.text);
                     }
                     Navigator.pop(context);
                   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Service/auth.dart';
 
 class CadastroDePaciente extends StatefulWidget {
@@ -11,6 +12,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   DateTime _date = new DateTime.now();
+
+  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -116,6 +119,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                             });
                           },
                           keyboardType: TextInputType.number,
+                          inputFormatters: [maskFormatterCPF],
                           style: TextStyle(
                             color: Colors.black,
                           ),

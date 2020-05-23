@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/UserProfissional/Authenticate/AuthProfissional.dart';
 
 class CadastroDeProfissional extends StatefulWidget {
@@ -10,8 +11,10 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
   final AuthProfissional _auth = AuthProfissional();
   final _formKey = GlobalKey<FormState>();
 
+  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
+ 
   String nome = '';
-  String cpf = '';
+  String cpf = '';                                        
   String idProfissao = '';
   String profissao = '';
   String email = '';
@@ -79,10 +82,9 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
                           keyboardType: TextInputType.number,
+                          inputFormatters: [maskFormatterCPF],
                           validator: (val) {
                             if (val.isEmpty) return 'Digite seu CPF';
-                            if (val.length > 11 || val.length < 11)
-                              return 'CPF invalido';
                             return null;
                           },
                           onChanged: (val) {

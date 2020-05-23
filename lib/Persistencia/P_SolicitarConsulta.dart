@@ -11,8 +11,9 @@ class P_SolicitarConsulta {
   List<SolicitarConsulta> solicitarConsultaListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((d) {
       return SolicitarConsulta(
-          nomeDoMedico: d.data['nomeDoMedico'] ?? '',
-          codigoMedico: d.data['codigoMedico'] ?? '',
+          nomeDoProfissional: d.data['nomeDoProfissional'] ?? '',
+          codigoProfissional: d.data['codigoProfissional'] ?? '',
+          profissao: d.data['codigoProfissional'] ?? '',
           nomePaciente: d.data['nomePaciente'] ?? '',
           codigoPaciente: d.data['codigoPaciente'] ?? '',
           cpfPaciente: d.data['cpfPaciente'] ?? '',
@@ -35,8 +36,9 @@ class P_SolicitarConsulta {
     snapshots.documents.forEach((d) {
       solicitacao = new SolicitarConsulta(
           idSolicitacao: d.documentID,
-          nomeDoMedico: d.data['nomeDoMedico'] ?? '',
-          codigoMedico: d.data['codigoMedico'] ?? '',
+          nomeDoProfissional: d.data['nomeDoProfissional'] ?? '',
+          codigoProfissional: d.data['codigoProfissional'] ?? '',
+          profissao: d.data['codigoProfissional'] ?? '',
           nomePaciente: d.data['nomePaciente'] ?? '',
           codigoPaciente: d.data['codigoPaciente'] ?? '',
           cpfPaciente: d.data['cpfPaciente'] ?? '',
@@ -61,8 +63,9 @@ class P_SolicitarConsulta {
     snapshots.documents.forEach((d) {
       solicitacao = new SolicitarConsulta(
           idSolicitacao: d.documentID,
-          nomeDoMedico: d.data['nomeDoMedico'] ?? '',
-          codigoMedico: d.data['codigoMedico'] ?? '',
+          nomeDoProfissional: d.data['nomeDoProfissional'] ?? '',
+          codigoProfissional: d.data['codigoProfissional'] ?? '',
+          profissao: d.data['codigoProfissional'] ?? '',
           nomePaciente: d.data['nomePaciente'] ?? '',
           codigoPaciente: d.data['codigoPaciente'] ?? '',
           cpfPaciente: d.data['cpfPaciente'] ?? '',
@@ -78,12 +81,13 @@ class P_SolicitarConsulta {
   }
 
   Future cadastraSolicitacao(
-      String nomeDoMedico, String nomePaciente,String codigoMedico, String codigoPaciente, String cpfPaciente,
+      String nomeDoProfissional,String codigoProfissional, String profissao,String nomePaciente, String codigoPaciente, String cpfPaciente,
        String telefone, String data,String horario, String local, String status) async {
     try {
       var idSolicitacao = await solicitarConsultaCollection.add({
-        'nomeDoMedico': nomeDoMedico,
-        'codigoMedico': codigoMedico,
+        'nomeDoProfissional': nomeDoProfissional,
+        'codigoProfissional': codigoProfissional,
+        'profissao':codigoProfissional,
         'nomePaciente': nomePaciente,
         'codigoPaciente': codigoPaciente,
         'cpfPaciente': cpfPaciente,
@@ -115,26 +119,19 @@ class P_SolicitarConsulta {
     }
   }
 
-  Future atualizarSolicitacao(String codigoPaciente, String idSolicitacao,
-      String nomeDoMedico, String codigoMedico, String nomePaciente,
-      {String cpfPaciente,
-      String telefone,
-      String data,
-      String horario,
-      String local,
-      String status}) {
+  void atualizarSolicitacao(String idSolicitacao,
+                              {String cpfPaciente,
+                              String telefone,
+                              String data,
+                              String horario,
+                              String local}) {
     try {
       solicitarConsultaCollection.document(idSolicitacao).updateData({
-        'nomeDoMedico': nomeDoMedico,
-        'codigoMedico': codigoMedico,
-        'nomePaciente': nomePaciente,
-        'codigoPaciente': codigoPaciente,
         'cpfPaciente': cpfPaciente,
         'telefone': telefone,
         'data': data,
         'horario': horario,
-        'local': local,
-        'status': status ?? ''
+        'local': local
       });
     } catch (e) {
       print(e.toString());

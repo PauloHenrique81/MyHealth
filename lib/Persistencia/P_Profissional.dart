@@ -33,6 +33,7 @@ class P_Profissional {
 
     var snapshots = await profissionalCollection
         .where("idUser", isEqualTo: idUser)
+        .where("tipoUser", isEqualTo: "Nao")
         .getDocuments();
     snapshots.documents.forEach((d) {
       profissional = new Profissional(

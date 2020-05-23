@@ -51,7 +51,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
-                              val.isEmpty ? 'Digite seu email' : null,
+                              val.isEmpty ? 'Digite seu e-mail' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -63,7 +63,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email',
+                              labelText: 'E-mail',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -113,7 +113,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                         dynamic result =
                             await _auth.logarComEmailESenha(email, senha);
                         if (result == null) {
-                          setState(() => error = 'Email ou senha incorretos.');
+                          setState(() => error = 'E-mail ou senha incorretos.');
                         } else {
                           Navigator.pushReplacementNamed(
                               context, 'HomePageProfissional',
@@ -164,7 +164,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.google),
                         Text(
-                          'Entrar com gmail',
+                          'Entrar com Gmail',
                           style: TextStyle(
                               fontSize: 15, fontFamily: 'SFUIDisplay'),
                         )
@@ -194,7 +194,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                           ),
                         ),
                         TextSpan(
-                            text: "Criar conta",
+                            text: " Criar conta",
                             style: TextStyle(
                               fontFamily: 'SFUIDisplay',
                               color: Color(0xffff2d55),

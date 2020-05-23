@@ -43,7 +43,7 @@ class _RecuperarSenhaProfissionalState extends State<RecuperarSenhaProfissional>
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
-                              val.isEmpty ? 'Digite seu email' : null,
+                              val.isEmpty ? 'Digite seu e-mail' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -55,7 +55,7 @@ class _RecuperarSenhaProfissionalState extends State<RecuperarSenhaProfissional>
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email',
+                              labelText: 'E-mail',
                               labelStyle:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
@@ -74,7 +74,7 @@ class _RecuperarSenhaProfissionalState extends State<RecuperarSenhaProfissional>
                               return AlertDialog(
                                 title: Text("Resetar senha?"),
                                 content: Text(
-                                    "Sera enviado no seu email, um link para recuperar sua senha"),
+                                    "Sera enviado no seu e-mail, um link para recuperar sua senha"),
                                 actions: <Widget>[
                                   FlatButton(
                                     child: Text("Cancelar"),

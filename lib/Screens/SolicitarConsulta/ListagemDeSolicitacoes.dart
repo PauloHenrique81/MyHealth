@@ -10,8 +10,7 @@ class ListagemDeSolicitacoes extends StatefulWidget {
   ListagemDeSolicitacoes({this.user});
 
   @override
-  _ListagemDeSolicitacoesState createState() =>
-      _ListagemDeSolicitacoesState();
+  _ListagemDeSolicitacoesState createState() => _ListagemDeSolicitacoesState();
 }
 
 class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
@@ -76,12 +75,11 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
                             padding: EdgeInsets.all(10.0),
                             child: Container(
                               child: Column(
-                                         children: <Widget>[
+                                children: <Widget>[
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      
                                       Container(
                                         width: 40.0,
                                         height: 40.0,
@@ -89,13 +87,16 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: AssetImage(
-                                                  "Assets/iconeProfissional.png"),
+                                                  "Assets/solicitarConsulta.png"),
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      Text(snapshot.data[index].nomeDoMedico ?? "",
+                                      Text(
+                                          snapshot.data[index]
+                                                  .nomeDoProfissional ??
+                                              "",
                                           style: TextStyle(
-                                              fontSize: 20.0,
+                                              fontSize: 18.0,
                                               fontWeight: FontWeight.bold)),
                                     ],
                                   ),
@@ -104,14 +105,22 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
                                     children: <Widget>[
                                       Text(snapshot.data[index].data ?? "",
                                           style: TextStyle(
-                                            fontSize: 18.0,
+                                            fontSize: 16.0,
                                           )),
-                                      Text(snapshot.data[index].hora ?? "",
+                                      Text(snapshot.data[index].horario ?? "",
                                           style: TextStyle(
-                                            fontSize: 18.0,
+                                            fontSize: 16.0,
                                           )),
                                     ],
-                                  )
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 10.0,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        color: _colorStatus(snapshot.data[index].status),
+                                      ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -133,16 +142,36 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
     return solicitacoes;
   }
 
-  void _mostrarDetalhesDaSolicitacao({SolicitarConsulta solicitacao, User user}) {
+  MaterialColor _colorStatus(String status){
+    switch (status) {
+      case "analise" : {
+          return Colors.yellow;
+      }
+      break;
+      case "aprovado" : {
+          return Colors.green;
+      }
+      break;
+      case "reprovado" : {
+          return Colors.red;
+      }
+      break;
+      default : return Colors.white;
+    }
+  }
+
+  void _mostrarDetalhesDaSolicitacao(
+      {SolicitarConsulta solicitacao, User user}) {
     ScreeanArguments screeanArguments =
         new ScreeanArguments(user: user, solicitarConsulta: solicitacao);
     Navigator.of(context)
-        .pushNamed('EdicaoDeSolicitacaoDeConsulta', arguments: screeanArguments);
+        .pushNamed('EdicaoDeSolicitacao', arguments: screeanArguments);
   }
 
   void _novaSolicitacao(User user) {
-    ScreeanArguments screeanArguments = new ScreeanArguments(user: user, booleam: true);
+    ScreeanArguments screeanArguments =
+        new ScreeanArguments(user: user, booleam: true);
     Navigator.of(context)
-        .pushNamed('HabilitarProfissionalListagem', arguments: screeanArguments);
+        .pushNamed('HabilitarProfissionalSC', arguments: screeanArguments);
   }
 }

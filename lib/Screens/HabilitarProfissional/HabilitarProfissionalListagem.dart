@@ -43,6 +43,11 @@ class HabilitarProfissionalListagemState
   @override
   void initState() {
     super.initState();
+
+    if(widget.moduloSolicitarConsulta == null){
+        widget.moduloSolicitarConsulta = false;
+    }
+
     ServicesHP.getProfissionaisUsers().then((usersProf) {
       setState(() {
         users = usersProf;
@@ -165,13 +170,13 @@ class HabilitarProfissionalListagemState
     if(widget.moduloSolicitarConsulta){
       ScreeanArguments screeanArguments =
         new ScreeanArguments(user: user, profissional: profissional);
+      Navigator.of(context)
+        .pushNamed('NovaSolicitacao', arguments: screeanArguments);
+    }else{
+       ScreeanArguments screeanArguments =
+        new ScreeanArguments(user: user, profissional: profissional);
     Navigator.of(context)
         .pushNamed('HabilitarProfissionalEdicao', arguments: screeanArguments);
-    }else{
-      ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, profissional: profissional);
-      Navigator.of(context)
-        .pushNamed('SolicitarConsultaEdicao', arguments: screeanArguments);
     }
     
   }
