@@ -71,9 +71,7 @@ flutter:
    - Assets/idoso.png
    - Assets/gestante.png
    - Assets/adolescente.png
-   - Assets/vacina.jpg
-   - Assets/cadastro.jpg
-   - Assets/doar-sangue.jpg   
+   - Assets/vacina.jpg  
    - Assets/doar-sangue2.png
    - Assets/iconeAtividade.png  
    - Assets/iconeConsultaProfissional.png
@@ -83,10 +81,10 @@ flutter:
    - Assets/iconeReceita.png
    - Assets/iconeAtestado.png
    - Assets/iconeProfissional.png
-   - Assets/preLogin.jpg
-   - Assets/loginPaciente.jpg
-   - Assets/loginProfissional.jpg
-   - Assets/solicitarConsulta.png
+   - Assets/fundoBranco.jpg
+   - Assets/loginProfissional.png
+   - Assets/loginPaciente.png
+   - Assets/logoPreLogin.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

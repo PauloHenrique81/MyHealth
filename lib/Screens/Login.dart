@@ -24,7 +24,7 @@ class _LoginPacienteState extends State<LoginPaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginPaciente.jpg'),
+        image: AssetImage('Assets/loginPaciente.png'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

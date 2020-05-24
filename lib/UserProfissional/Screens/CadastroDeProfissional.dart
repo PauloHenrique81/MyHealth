@@ -37,7 +37,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginProfissional.jpg'),
+        image: AssetImage('Assets/fundoBranco.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -320,7 +320,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
-                        side: BorderSide(color: Colors.white)),
+                        side: BorderSide(color: Colors.black)),
                   ),
                 ),
               ],

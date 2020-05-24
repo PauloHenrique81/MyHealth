@@ -6,7 +6,7 @@ class PreLogin extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/preLogin.jpg'),
+        image: AssetImage('Assets/logoPreLogin.png'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

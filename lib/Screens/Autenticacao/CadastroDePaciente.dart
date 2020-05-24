@@ -45,7 +45,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginPaciente.jpg'),
+        image: AssetImage('Assets/fundoBranco.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -300,7 +300,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
-                        side: BorderSide(color: Colors.white)),
+                        side: BorderSide(color: Colors.black)),
                   ),
                 ),
               ],
