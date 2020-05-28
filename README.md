@@ -25,6 +25,8 @@ Minha Saúde é um aplicativo movel desenvolvido com o intuito de auxiliar o usu
 - Receitas
 - Solicitar consulta
 - Vacinas
+- Adicionar imagem
+- Adicionar localização no mapa
 
 ## Modulos desenvolvidos (Profissional):
 
