@@ -115,9 +115,8 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                         if (result == null) {
                           setState(() => error = 'E-mail ou senha incorretos.');
                         } else {
-                          Navigator.pushReplacementNamed(
-                              context, 'HomePageProfissional',
-                              arguments: result);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            'HomePageProfissional',(Route<dynamic> route) => false , arguments: result);
                         }
                       }
                     },
@@ -152,9 +151,8 @@ class _LoginProfissionalState extends State<LoginProfissional> {
 
                       await _auth.cadastraUserProfissional(userP).then((userP) {
                         if (userP != null) {
-                          Navigator.pushReplacementNamed(
-                              context, 'HomePageProfissional',
-                              arguments: userP);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            'HomePageProfissional',(Route<dynamic> route) => false , arguments: userP);
                         }
                       });
                     },

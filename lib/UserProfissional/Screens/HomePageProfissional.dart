@@ -34,68 +34,75 @@ class _HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Minha Saúde"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
-            color: Colors.white,
-            onPressed: () async {
-              await _auth.signOut();
-              Navigator.of(context).pushNamedAndRemoveUntil('PreLogin', (Route<dynamic> route) => false);
-            },
-          ),
-        ],
-        elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
-      ),
-      drawer: new Drawer(
-        child: new ListView(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text(user.userName ?? "Profissional"),
-              accountEmail: new Text(user.userEmail),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl ?? ""),
-              ),
+    return WillPopScope(
+        onWillPop: _naoDeixaUsuarioVoltar,
+        child: Scaffold(
+        appBar: new AppBar(
+          title: new Text("Minha Saúde"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
+              color: Colors.white,
+              onPressed: () async {
+                await _auth.signOut();
+                Navigator.of(context).pushNamedAndRemoveUntil('PreLogin', (Route<dynamic> route) => false);
+              },
             ),
-            new ListTile(
-              title: new Text("Perfil"),
-              trailing: new Icon(Icons.person_outline),
-              onTap: () => Navigator.pushNamed(context, 'PerfilProfissional',
-                  arguments: user.uid),
-            ),
-            new ListTile(
-              title: new Text("Pacientes Habilitados"),
-              trailing: new Icon(Icons.receipt),
-              onTap: () => Navigator.pushNamed(context, 'ListagemDePacientes',
-                  arguments: user),
-            ),
-            new ListTile(
-              title: new Text("Solicitações de consulta"),
-              trailing: new Icon(Icons.receipt),
-              onTap: () => Navigator.pushNamed(context, 'SolicitacoesDeConsulta',
-                  arguments: user),
-            ),
-            new ListTile(
-              title: new Text("Consultas agendadas"),
-              trailing: new Icon(Icons.receipt),
-              onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultasP',
-                  arguments: user),
-            ),
-            new ListTile(
-              title: new Text("Fechar"),
-              trailing: new Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(),
-            )
           ],
+          elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
         ),
-      ),
-      body: new Container(
-        child: new Center(
-          child: new Text(""),
+        drawer: new Drawer(
+          child: new ListView(
+            children: <Widget>[
+              new UserAccountsDrawerHeader(
+                accountName: new Text(user.userName ?? "Profissional"),
+                accountEmail: new Text(user.userEmail),
+                currentAccountPicture: new CircleAvatar(
+                  backgroundImage: NetworkImage(user.photoUrl ?? ""),
+                ),
+              ),
+              new ListTile(
+                title: new Text("Perfil"),
+                trailing: new Icon(Icons.person_outline),
+                onTap: () => Navigator.pushNamed(context, 'PerfilProfissional',
+                    arguments: user.uid),
+              ),
+              new ListTile(
+                title: new Text("Pacientes Habilitados"),
+                trailing: new Icon(Icons.receipt),
+                onTap: () => Navigator.pushNamed(context, 'ListagemDePacientes',
+                    arguments: user),
+              ),
+              new ListTile(
+                title: new Text("Solicitações de consulta"),
+                trailing: new Icon(Icons.receipt),
+                onTap: () => Navigator.pushNamed(context, 'SolicitacoesDeConsulta',
+                    arguments: user),
+              ),
+              new ListTile(
+                title: new Text("Consultas agendadas"),
+                trailing: new Icon(Icons.receipt),
+                onTap: () => Navigator.pushNamed(context, 'ListagemDeConsultasP',
+                    arguments: user),
+              ),
+              new ListTile(
+                title: new Text("Fechar"),
+                trailing: new Icon(Icons.close),
+                onTap: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
+        ),
+        body: new Container(
+          child: new Center(
+            child: new Text(""),
+          ),
         ),
       ),
     );
   }
+
+   Future<bool> _naoDeixaUsuarioVoltar() async {
+         return false;
+        }
 }

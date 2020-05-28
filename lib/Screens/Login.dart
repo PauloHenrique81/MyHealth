@@ -117,8 +117,8 @@ class _LoginPacienteState extends State<LoginPaciente> {
                         if (result == null) {
                           setState(() => error = 'E-mail ou senha incorretos.');
                         } else {
-                          Navigator.pushReplacementNamed(context, 'HomePage',
-                              arguments: result);
+                           Navigator.of(context).pushNamedAndRemoveUntil(
+                            'HomePage',(Route<dynamic> route) => false , arguments: result);
                         }
                       }
                     },
@@ -151,8 +151,8 @@ class _LoginPacienteState extends State<LoginPaciente> {
                     onPressed: () async {
                       await _auth.signInWithGmail().then((user) {
                         if (user != null) {
-                          Navigator.pushReplacementNamed(context, 'HomePage',
-                              arguments: user);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            'HomePage',(Route<dynamic> route) => false , arguments: user);
                         }
                       });
                     },
