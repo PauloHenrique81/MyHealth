@@ -23,7 +23,7 @@ class P_Profissional {
           localDeAtendimento: d.data['localDeAtendimento'] ?? '',
           imagemUrl: d.data['imagemUrl'] ?? '',
           status: d.data['status'] ?? '',
-          tipoUser: d.data['status'] ?? 'nao');
+          tipoUser: d.data['tipoUser'] ?? 'Nao');
     }).toList();
   }
 

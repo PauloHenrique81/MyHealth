@@ -42,18 +42,19 @@ class _HomePage extends StatelessWidget {
 
   P_AtividadeDoDia connectionDB = new P_AtividadeDoDia();
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("MinhaSaúde"),
+          title: new Text("Minha Saúde"),
           actions: <Widget>[
             IconButton(
               icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0),
               color: Colors.white,
               onPressed: () async {
                 await _auth.signOut();
-                Navigator.of(context).pushReplacementNamed('LoginPaciente');
+                Navigator.of(context).pushNamedAndRemoveUntil('PreLogin', (Route<dynamic> route) => false);
               },
             ),
           ],

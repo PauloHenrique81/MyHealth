@@ -21,7 +21,7 @@ class _PerfilState extends State<Perfil> {
   var _userEdited = false;
 
   var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
-  var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) ####-####', filter: { "#": RegExp(r'[0-9]') });
+  var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', filter: { "#": RegExp(r'[0-9]') });
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(

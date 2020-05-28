@@ -30,7 +30,7 @@ class _Wrapper extends State<Wrapper> {
     });
   }
 
-  Future _signInAnon(AuthService _auth) async {
+  Future  _signInAnon(AuthService _auth) async {
     final result = await _auth.signInAnon();
     if (result != "" && result != null) user = result;
     return result;

@@ -16,7 +16,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginPaciente.jpg'),
+        image: AssetImage('Assets/fundoBranco.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

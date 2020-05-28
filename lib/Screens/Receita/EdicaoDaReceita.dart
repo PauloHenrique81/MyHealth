@@ -269,7 +269,7 @@ class _EdicaoDeReceitaState extends State<EdicaoDeReceita> {
                       children: <Widget>[
                         Expanded(
                             child: SizedBox(
-                          height: 300.0,
+                          height: 500.0,
                           child: FutureBuilder(
                               future: buscaImagens(widget.user.uid, idReceita),
                               builder: (BuildContext context,

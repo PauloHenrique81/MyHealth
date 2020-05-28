@@ -90,7 +90,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                           especialidade: _especialidadeController.text,
                           identificacao: _identificacaoController.text,
                           telefone: _telefoneController.text,
-                          status: "Nao");
+                          tipoUser: "Nao");
                     } else {
                       await conectionDB.atualizarProfissional(
                           widget.user.uid,

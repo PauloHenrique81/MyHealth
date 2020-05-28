@@ -16,7 +16,7 @@ class _RecuperarSenhaProfissionalState extends State<RecuperarSenhaProfissional>
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('Assets/loginProfissional.jpg'),
+        image: AssetImage('Assets/fundoBranco.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

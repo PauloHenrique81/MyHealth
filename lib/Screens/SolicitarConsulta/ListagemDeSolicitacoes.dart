@@ -107,7 +107,7 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
                                           style: TextStyle(
                                             fontSize: 16.0,
                                           )),
-                                      Text(snapshot.data[index].horario ?? "",
+                                      Text("  " +snapshot.data[index].horario ?? "",
                                           style: TextStyle(
                                             fontSize: 16.0,
                                           )),
