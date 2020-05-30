@@ -232,6 +232,9 @@ class _EdicaoDeExameState extends State<EdicaoDeExame> {
                         _horaController.text,
                         _localController.text,
                       );
+
+                      _exameEdicao.idExame = _idExame;
+                      _novoExame = false;
                     } else {
                       await conectionDB.atualizarExame(
                           widget.user.uid,

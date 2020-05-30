@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:myhealth/Persistencia/P_Profissional.dart';
 import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/UserProfissional/Authenticate/AuthProfissional.dart';
 
@@ -11,6 +12,8 @@ class CadastroDeProfissional extends StatefulWidget {
 
 class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
   final AuthProfissional _auth = AuthProfissional();
+  final P_Profissional  profissionalBD = P_Profissional();
+  
   final _formKey = GlobalKey<FormState>();
 
   var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
@@ -34,6 +37,26 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
     "Dentista"
   ];
 
+
+    _modalInvertido(String texto) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Dado inválido"),
+            content: Text("Este " + texto + " já esta cadastrado no sistema"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("voltar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -267,6 +290,17 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                   child: MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
+
+                         var listaDeEmails =
+                            await profissionalBD.listaDeEmailsCadastrado();
+
+                        if (!Util.verificaSeFoiCadastrado(
+                            email, listaDeEmails)) {
+                          var listaDeCpfs = await profissionalBD.listaDeCpfsCadastrado();
+
+                          if (!Util.verificaSeFoiCadastrado(cpf, listaDeCpfs)) {
+
+
                         dynamic result = await _auth.cadastroPorEmaileSenha(
                             nome, cpf, idProfissao, profissao, email, senha);
                         if (result == null) {
@@ -275,6 +309,12 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                         } else {
                           Navigator.of(context)
                               .pushReplacementNamed('LoginProfissional');
+                        }
+                         } else {
+                            _modalInvertido("CPF");
+                          }
+                        } else {
+                          _modalInvertido("e-mail");
                         }
                       }
                     },

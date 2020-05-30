@@ -27,6 +27,20 @@ class P_Profissional {
     }).toList();
   }
 
+  Future<List<String>> listaDeCpfsCadastrado() async {
+
+      List<String> cpfs = new List<String>();
+
+      var snapshots = await profissionalCollection
+          .where("tipoUser", isEqualTo: "Sim")
+          .getDocuments();
+      snapshots.documents.forEach((d) {
+        if(d.data["cpf"] != '')
+          cpfs.add(d.data["cpf"]);
+      });
+
+      return cpfs;
+    }  
 
    Future<List<String>> listaDeEmailsCadastrado() async {
 

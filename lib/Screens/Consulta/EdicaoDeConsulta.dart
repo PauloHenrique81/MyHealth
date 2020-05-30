@@ -221,6 +221,8 @@ class _EdicaoDeConsultaState extends State<EdicaoDeConsulta> {
                           _horaController.text,
                           _localController.text,
                           especialidade: _especialidadeController.text);
+                         _consultaEdicao.idConsulta = _idConsulta;
+                         _novaConsulta = false;
                     } else {
                       await conectionDB.atualizarConsulta(
                           widget.user.uid,

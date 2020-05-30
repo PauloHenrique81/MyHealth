@@ -95,7 +95,7 @@ class _HomePage extends StatelessWidget {
         ),
         body: new Container(
           child: new Center(
-            child: new Text(""),
+            child: new Text("Senha bem vindo" , style: TextStyle(fontSize: 28, color: Colors.blue) ,),
           ),
         ),
       ),
