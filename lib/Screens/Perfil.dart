@@ -210,7 +210,7 @@ class _PerfilState extends State<Perfil> {
                             _userEdited = true;
                             _paciente.alimentosAlergicos = text;
                           },
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                         ),
                         TextFormField(
                           controller: _intoleranciaController,
@@ -220,7 +220,7 @@ class _PerfilState extends State<Perfil> {
                             _userEdited = true;
                             _paciente.intolerancia = text;
                           },
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                         )
                       ],
                     ),
