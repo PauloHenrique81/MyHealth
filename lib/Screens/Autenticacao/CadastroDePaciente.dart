@@ -1,4 +1,4 @@
-import 'package:cpfcnpj/cpfcnpj.dart';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

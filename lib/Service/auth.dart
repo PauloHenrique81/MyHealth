@@ -39,6 +39,7 @@ class AuthService {
 
   Future<void> resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
+
   }
 
   Future<User> signInWithGmail() async {
@@ -132,5 +133,19 @@ class AuthService {
       print(e.toString());
       return null;
     }
+  }
+
+   Future<List<String>> listaDeEmailsCadastrado() async {
+
+    List<String> emails = new List<String>();
+
+    var snapshots = await pacienteCollection
+        .getDocuments();
+    snapshots.documents.forEach((d) {
+      if(d.data["email"] != '')
+        emails.add(d.data["email"]);
+    });
+
+    return emails;
   }
 }

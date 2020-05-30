@@ -1,4 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/Service/auth.dart';
 
 class RecuperarSenhaPaciente extends StatefulWidget {
@@ -42,8 +44,11 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          validator: (val) =>
-                              val.isEmpty ? 'Digite seu e-mail' : null,
+                          validator: (val)   {
+                            if(val.isEmpty) return 'Digite seu e-mail';
+                             if(!EmailValidator.validate(email)) return "E-mail inválido";
+                            return null;
+                          },
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -68,7 +73,11 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                   child: MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        showDialog(
+                        var listaDeEmails = await _auth.listaDeEmailsCadastrado();
+                        
+                        if(Util.verificaSeEmailFoiCadastrado(email, listaDeEmails)){
+                          
+                            showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
@@ -93,6 +102,29 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                                 ],
                               );
                             });
+
+                        }else{
+                            showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("E-mail inválido"),
+                                content: Text(
+                                    "Este e-mail não esta cadastrado no sistema"),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text("voltar"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                        }
+
+
+                        
                       }
                     },
                     child: Text(

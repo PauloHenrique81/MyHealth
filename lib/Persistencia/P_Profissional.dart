@@ -27,6 +27,23 @@ class P_Profissional {
     }).toList();
   }
 
+
+   Future<List<String>> listaDeEmailsCadastrado() async {
+
+    List<String> emails = new List<String>();
+
+    var snapshots = await profissionalCollection
+        .where("tipoUser", isEqualTo: "Sim")
+        .getDocuments();
+    snapshots.documents.forEach((d) {
+      if(d.data["email"] != '')
+        emails.add(d.data["email"]);
+    });
+
+    return emails;
+  }
+
+
   Future listaDeProfissionais(String idUser) async {
     Profissional profissional = new Profissional();
     List<Profissional> profissionais = new List<Profissional>();

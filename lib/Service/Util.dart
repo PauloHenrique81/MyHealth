@@ -8,6 +8,16 @@ class Util {
     var newDate = new DateTime(dateNow.year, dateNow.month, dateNow.day);
     return newDate.compareTo(dateTime);
   }
+ 
+  static bool verificaSeEmailFoiCadastrado(String email, List<String> listaDeEmails){
+      
+      for (var item in listaDeEmails) {
+        if(item == email)
+          return true;
+      }
+
+      return false;
+  }
 
 
   static String _removeMascaraCpf(String cpf){
