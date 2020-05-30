@@ -191,6 +191,9 @@ class _EdicaoDedoacaoState extends State<EdicaoDedoacao> {
                         _horaController.text,
                         _localController.text,
                       );
+
+                    _doacaoEdicao.idDoacao = _idDoacao;
+                    _novaDoacao = false;
                     } else {
                       await conectionDB.atualizarDocao(
                           widget.user.uid,

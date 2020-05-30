@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:myhealth/Persistencia/P_Paciente.dart';
 import 'package:myhealth/Persistencia/P_SolicitarConsulta.dart';
+import 'package:myhealth/Service/Util.dart';
+import 'package:myhealth/class/Paciente.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/SolicitarConsulta.dart';
 import 'package:myhealth/class/user.dart';
@@ -27,6 +30,8 @@ class _SolicitacaoDeConsultaEdicaoState
   final _formKey = GlobalKey<FormState>();
 
   P_SolicitarConsulta conectionDB = new P_SolicitarConsulta();
+  P_Paciente pacienteDB = new P_Paciente();
+  Paciente paciente;
 
   final _nomePacienteController = TextEditingController();
   final _cpfPacienteController = TextEditingController();
@@ -71,14 +76,23 @@ class _SolicitacaoDeConsultaEdicaoState
     return format.format(dt);
   }
 
+  void _getInformacoesPaciente() async{
+    var paciente = await pacienteDB.getPaciente(widget.user.uid);
+    _nomePacienteController.text = paciente.nome;
+    _cpfPacienteController.text = paciente.cpf;
+    _telefoneController.text = paciente.telefone;
+  }
   
   @override
-  void initState() {
+  void initState()  {
     super.initState();
 
-    if (widget.solicitacao == null) {
+    if (widget.solicitacao == null)  {
       _solicitacaoEdicao = SolicitarConsulta();
       _novaSolicitacao = true;
+
+      _getInformacoesPaciente();
+     
     } else {
       _solicitacaoEdicao = widget.solicitacao;
 
@@ -111,6 +125,7 @@ class _SolicitacaoDeConsultaEdicaoState
                 backgroundColor: Colors.deepPurple,
                 label: "Salvar",
                 onTap: () async {
+                   if (_formKey.currentState.validate()) {
                     showDialog(
                         context: context,
                         builder: (context) {
@@ -163,6 +178,7 @@ class _SolicitacaoDeConsultaEdicaoState
                             ],
                           );
                         });
+                   }
                 },
               ),
               SpeedDialChild(
@@ -212,8 +228,6 @@ class _SolicitacaoDeConsultaEdicaoState
                       keyboardType: TextInputType.text,
                       controller: _nomePacienteController,
                       decoration: InputDecoration(labelText: "Nome: *"),
-                      validator: (val) =>
-                          val.isEmpty ? 'Digite seu nome' : null,
                       onChanged: (text) {
                         _userEdited = true;
                         _solicitacaoEdicao.nomePaciente = text;
@@ -224,7 +238,6 @@ class _SolicitacaoDeConsultaEdicaoState
                       controller: _cpfPacienteController ,
                       inputFormatters: [maskFormatterCPF],
                       decoration: InputDecoration(labelText: "CPF: *"),
-                      validator: (val) => val.isEmpty ? 'Digite seu CPF' : null,
                       onChanged: (text) {
                         _userEdited = true;
                         _solicitacaoEdicao.cpfPaciente = text;
@@ -245,7 +258,11 @@ class _SolicitacaoDeConsultaEdicaoState
                     TextFormField(
                       controller: _dataController,
                       decoration: InputDecoration(labelText: "Data: *"),
-                      validator: (val) => val.isEmpty ? 'Digite a data' : null,
+                      validator: (val){
+                        if(val.isEmpty) return 'Digite a data'; 
+                        if(Util.verificaData(val) > 0) return 'Data inválida'; 
+                        return null;
+                      },
                       onChanged: (text) {
                         _userEdited = true;
                         _solicitacaoEdicao.data = text;

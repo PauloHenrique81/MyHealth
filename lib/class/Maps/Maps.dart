@@ -31,6 +31,7 @@ class _MapsState extends State<Maps> {
   LatLng _lastPosition = _initialPosition;
   final Set<Polyline> _polyLines = {};
   List<Marker> allMarkers = [];
+  Position positionUser;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -293,10 +294,22 @@ class _MapsState extends State<Maps> {
   void _getUserLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    
+    positionUser = position;
     List<Placemark> placemark = await Geolocator()
         .placemarkFromCoordinates(position.latitude, position.longitude);
     setState(() {
       _initialPosition = LatLng(position.latitude, position.longitude);
+      _lastPosition = _initialPosition;
+      locationController.text = placemark[0].name;
+    });
+  }
+
+  void _getUserLocationAfterClean() async {
+    List<Placemark> placemark = await Geolocator()
+        .placemarkFromCoordinates(positionUser.latitude, positionUser.longitude);
+    setState(() {
+      _initialPosition = LatLng(positionUser.latitude, positionUser.longitude);
       _lastPosition = _initialPosition;
       locationController.text = placemark[0].name;
     });
@@ -323,7 +336,7 @@ class _MapsState extends State<Maps> {
   void _restartMap() {
     _polyLines.clear();
     allMarkers.clear();
-    _getUserLocation();
+    _getUserLocationAfterClean();
     destinationController.clear();
     moveCameraToNewPoint(_initialPosition);
   }

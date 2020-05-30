@@ -43,8 +43,8 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: _date,
-        firstDate: new DateTime(2020),
-        lastDate: new DateTime(2023));
+        firstDate: new DateTime(1980),
+        lastDate: new DateTime(2025));
 
     if (picked != null) {
       setState(() {
@@ -249,6 +249,11 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                         _horaController.text,
                         _localController.text,
                       );
+
+                    _cirurgiaEdicao.idCirurgia = _idCirurgia;
+                    _novaCirurgia = false;
+
+
                     } else {
                       await conectionDB.atualizarCirurgia(
                           widget.user.uid,
@@ -318,10 +323,13 @@ class _EdicaoDeCirurgiaState extends State<EdicaoDeCirurgia> {
                         _cirurgiaEdicao.especialidade = text;
                       },
                     ),
-                    TextField(
+                    TextFormField(
                       controller: _tipoDeCirurgiaController,
+                      validator: (val) =>
+                          val.isEmpty ? 'Digite o tipo de cirurgia' : null,
                       decoration:
-                          InputDecoration(labelText: "Tipo de cirurgia:"),
+                          InputDecoration(labelText: "Tipo de cirurgia: *"),
+                      
                       onChanged: (text) {
                         _userEdited = true;
                         _cirurgiaEdicao.tipoDeCirurgia = text;
