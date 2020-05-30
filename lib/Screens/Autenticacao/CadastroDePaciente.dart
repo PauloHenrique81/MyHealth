@@ -1,6 +1,9 @@
+import 'package:cpfcnpj/cpfcnpj.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/Service/auth.dart';
 
 class CadastroDePaciente extends StatefulWidget {
@@ -109,8 +112,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         child: TextFormField(
                           validator: (val) {
                             if (val.isEmpty) return 'Digite seu CPF';
-                            if (val.length > 11 || val.length < 11)
-                              return 'CPF invalido';
+                             if (!Util.verificaCPF(val))
+                              return 'CPF inválido';
                             return null;
                           },
                           onChanged: (val) {
@@ -134,8 +137,11 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
-                          validator: (val) =>
-                              val.isEmpty ? 'Digite seu e-mail' : null,
+                          validator: (val){
+                            if (val.isEmpty) return 'Digite seu E-mail';
+                            if(!EmailValidator.validate(email)) return "E-mail inválido";
+                            return null;
+                          },
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -158,6 +164,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         child: TextFormField(
                           validator: (val) {
                             if (val != emailC) return 'E-mail diferentes ';
+                            if(!EmailValidator.validate(email)) return "E-mail inválido";
                             if (val.isEmpty) return 'Digite seu E-mail';
                             return null;
                           },

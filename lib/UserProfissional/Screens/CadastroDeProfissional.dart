@@ -1,5 +1,7 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/UserProfissional/Authenticate/AuthProfissional.dart';
 
 class CadastroDeProfissional extends StatefulWidget {
@@ -68,7 +70,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -85,6 +87,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           inputFormatters: [maskFormatterCPF],
                           validator: (val) {
                             if (val.isEmpty) return 'Digite seu CPF';
+                             if (!Util.verificaCPF(val)) return 'CPF inválido';
                             return null;
                           },
                           onChanged: (val) {
@@ -93,7 +96,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -115,7 +118,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -155,15 +158,18 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          validator: (val) =>
-                              val.isEmpty ? 'Digite seu e-mail' : null,
+                          validator: (val){
+                            if (val.isEmpty) return 'Digite seu E-mail';
+                            if(!EmailValidator.validate(email)) return "E-mail inválido";
+                            return null;
+                          },
                           onChanged: (val) {
                             setState(() {
                               email = val;
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -179,6 +185,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) {
                             if (val != emailC) return 'E-mail diferentes ';
+                             if(!EmailValidator.validate(email)) return "E-mail inválido";
                             if (val.isEmpty) return 'Digite seu E-mail';
                             return null;
                           },
@@ -188,7 +195,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -215,7 +222,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           },
                           obscureText: true,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -242,7 +249,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                           },
                           obscureText: true,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -317,7 +324,7 @@ class _CadastroDeProfissionalState extends State<CadastroDeProfissional> {
                     elevation: 0,
                     minWidth: 350,
                     height: 60,
-                    textColor: Colors.white,
+                    textColor: Colors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                         side: BorderSide(color: Colors.black)),
