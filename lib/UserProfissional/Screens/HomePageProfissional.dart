@@ -65,7 +65,7 @@ class _HomePage extends StatelessWidget {
                 title: new Text("Perfil"),
                 trailing: new Icon(Icons.person_outline),
                 onTap: () => Navigator.pushNamed(context, 'PerfilProfissional',
-                    arguments: user.uid),
+                    arguments: user),
               ),
               new ListTile(
                 title: new Text("Pacientes Habilitados"),

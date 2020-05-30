@@ -352,9 +352,9 @@ class RouteGenarator {
         }
         return _errorRoute();
       case 'PerfilProfissional':
-        if (args is String) {
+        if (args is User) {
           return MaterialPageRoute(
-              builder: (_) => PerfilProfissional(uid: args));
+              builder: (_) => PerfilProfissional(user: args));
         }
         return _errorRoute();
 

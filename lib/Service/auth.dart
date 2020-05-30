@@ -148,4 +148,19 @@ class AuthService {
 
     return emails;
   }
+
+  Future<List<String>> listaDeCpfsCadastrado() async {
+
+    List<String> cpfs = new List<String>();
+
+    var snapshots = await pacienteCollection
+        .getDocuments();
+    snapshots.documents.forEach((d) {
+      if(d.data["cpf"] != '')
+        cpfs.add(d.data["cpf"]);
+    });
+
+    return cpfs;
+  }  
+  
 }

@@ -59,8 +59,9 @@ class _ListagemDeConsultasPState extends State<ListagemDeConsultasP> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(
+                  Navigator.pushNamedAndRemoveUntil(
                       context, 'HomePageProfissional',
+                      (Route<dynamic> route) => false ,
                       arguments: widget.user);
                 },
               );

@@ -224,53 +224,64 @@ class _HomePage extends StatelessWidget {
         }
       
         Future buscaAtividades() async {
-          Consulta consulta = await connectionDB.getConsulta(user.uid);
-          Cirurgia cirurgia = await connectionDB.getCirurgia(user.uid);
-          Exame exame = await connectionDB.getExame(user.uid);
-          DoarSangue doacao = await connectionDB.getDoacao(user.uid);
+          List<Consulta> consultas = await connectionDB.getConsultas(user.uid);
+          List<Cirurgia> cirurgias = await connectionDB.getCirurgias(user.uid);
+          List<Exame> exames = await connectionDB.getExames(user.uid);
+          List<DoarSangue> doacoes = await connectionDB.getDoacoes(user.uid);
       
           List<AtividadeDoDia> atividades = new List<AtividadeDoDia>();
           AtividadeDoDia atividade;
       
-          if (consulta != null) {
-            atividade = new AtividadeDoDia(
+          if (consultas.length > 0) {
+
+            for (var item in consultas) {
+              atividade = new AtividadeDoDia(
                 modulo: "Consulta",
-                idItem: consulta.idConsulta,
-                data: consulta.data,
-                hora: consulta.horario,
-                local: consulta.local);
+                idItem: item.idConsulta,
+                data: item.data,
+                hora: item.horario,
+                local: item.local);
       
-            atividades.add(atividade);
+              atividades.add(atividade);
+            }
+            
           }
-          if (cirurgia != null) {
-            atividade = new AtividadeDoDia(
+          if (cirurgias.length > 0) {
+            for (var item in cirurgias) {
+               atividade = new AtividadeDoDia(
                 modulo: "Cirurgia",
-                idItem: cirurgia.idCirurgia,
-                data: cirurgia.data,
-                hora: cirurgia.horario,
-                local: cirurgia.local);
+                idItem: item.idCirurgia,
+                data: item.data,
+                hora: item.horario,
+                local: item.local);
       
-            atividades.add(atividade);
+              atividades.add(atividade);
+            }
           }
-          if (exame != null) {
-            atividade = new AtividadeDoDia(
+          if (exames.length > 0) {
+            for (var item in exames) {
+              
+              atividade = new AtividadeDoDia(
                 modulo: "Exame",
-                idItem: exame.idExame,
-                data: exame.data,
-                hora: exame.horario,
-                local: exame.local);
+                idItem: item.idExame,
+                data: item.data,
+                hora: item.horario,
+                local: item.local);
       
-            atividades.add(atividade);
+              atividades.add(atividade);
+            }
           }
-          if (doacao != null) {
-            atividade = new AtividadeDoDia(
+          if (doacoes.length > 0) {
+            for (var item in doacoes) {
+              atividade = new AtividadeDoDia(
                 modulo: "Doação de Sangue",
-                idItem: doacao.idDoacao,
-                data: doacao.data,
-                hora: doacao.horario,
-                local: doacao.local);
+                idItem: item.idDoacao,
+                data: item.data,
+                hora: item.horario,
+                local: item.local);
       
-            atividades.add(atividade);
+              atividades.add(atividade);
+            }
           }
       
           return atividades;

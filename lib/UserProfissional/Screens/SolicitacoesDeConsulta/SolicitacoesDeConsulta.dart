@@ -87,7 +87,7 @@ class _SolicitacoesDeConsultaState extends State<SolicitacoesDeConsulta> {
                                       ),
                                       Text(
                                           snapshot.data[index]
-                                                  .nomeDoProfissional ??
+                                                  .nomePaciente ??
                                               "",
                                           style: TextStyle(
                                               fontSize: 18.0,

@@ -75,7 +75,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                       if (_formKey.currentState.validate()) {
                         var listaDeEmails = await _auth.listaDeEmailsCadastrado();
                         
-                        if(Util.verificaSeEmailFoiCadastrado(email, listaDeEmails)){
+                        if(Util.verificaSeFoiCadastrado(email, listaDeEmails)){
                           
                             showDialog(
                             context: context,
@@ -83,7 +83,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                               return AlertDialog(
                                 title: Text("Resetar senha?"),
                                 content: Text(
-                                    "Sera enviado no seu email, um link para recuperar sua senha"),
+                                    "Sera enviado no seu e-mail, um link para recuperar sua senha"),
                                 actions: <Widget>[
                                   FlatButton(
                                     child: Text("Cancelar"),
@@ -108,7 +108,7 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text("E-mail inválido"),
+                                title: Text("e-mail inválido"),
                                 content: Text(
                                     "Este e-mail não esta cadastrado no sistema"),
                                 actions: <Widget>[

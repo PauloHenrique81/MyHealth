@@ -9,10 +9,30 @@ class Util {
     return newDate.compareTo(dateTime);
   }
  
-  static bool verificaSeEmailFoiCadastrado(String email, List<String> listaDeEmails){
+  static String  getDataAtual(){
+    var dateNow = DateTime.now();
+
+    String retorno = "";
+
+    if(dateNow.day < 10)
+        retorno += '0'+ dateNow.day.toString() + '-';
+    else
+        retorno += dateNow.day.toString() + '-';
+    if(dateNow.month < 10)
+        retorno += '0'+ dateNow.month.toString() + '-';
+    else
+        retorno += dateNow.month.toString() + '-';
+        
+    retorno += dateNow.year.toString();
+
+    return retorno;
+  }
+
+
+  static bool verificaSeFoiCadastrado(String str, List<String> lista){
       
-      for (var item in listaDeEmails) {
-        if(item == email)
+      for (var item in lista) {
+        if(item == str)
           return true;
       }
 

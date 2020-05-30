@@ -3,10 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Persistencia/P_Profissional.dart';
 import 'package:myhealth/class/Profissional.dart';
+import 'package:myhealth/class/user.dart';
 
 class PerfilProfissional extends StatefulWidget {
-  final String uid;
-  PerfilProfissional({this.uid});
+  final User user;
+  PerfilProfissional({this.user});
 
   @override
   _PerfilProfissionalState createState() => _PerfilProfissionalState();
@@ -80,7 +81,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
   }
 
   _carregaPaciente() async {
-    _profissional = await buscaProfissional(widget.uid);
+    _profissional = await buscaProfissional(widget.user.uid);
 
     _nomeController.text = _profissional.nome;
     _dataDeNascimentoController.text = _profissional.dataDeNascimento;
@@ -115,7 +116,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 await conectionDB.atualizarProfissional(
-                  widget.uid,
+                  widget.user.uid,
                   _profissional.idProfissional,
                   _nomeController.text,
                   _localDeAtendimentoController.text,
@@ -287,8 +288,10 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, 'HomePageProfissional');
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'HomePageProfissional',
+                      (Route<dynamic> route) => false ,
+                      arguments: widget.user);
                   },
                 )
               ],

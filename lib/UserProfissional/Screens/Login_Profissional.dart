@@ -58,7 +58,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                             });
                           },
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -78,7 +78,7 @@ class _LoginProfissionalState extends State<LoginProfissional> {
                         },
                         obscureText: true,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(

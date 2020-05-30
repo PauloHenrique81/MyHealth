@@ -78,7 +78,7 @@ class _RecuperarSenhaProfissionalState extends State<RecuperarSenhaProfissional>
                         
                         var listaDeEmails = await profissionalBD.listaDeEmailsCadastrado();
                         
-                        if(Util.verificaSeEmailFoiCadastrado(email, listaDeEmails)){
+                        if(Util.verificaSeFoiCadastrado(email, listaDeEmails)){
                              showDialog(
                             context: context,
                             builder: (context) {

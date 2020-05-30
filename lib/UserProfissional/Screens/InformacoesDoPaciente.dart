@@ -96,6 +96,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      enabled: false,
                       controller: _nomeController,
                       decoration: InputDecoration(labelText: "Nome:"),
                       validator: (val) =>
@@ -108,6 +109,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextField(
+                      enabled: false,
                       keyboardType: TextInputType.number,
                       controller: _cpfController,
                       decoration: InputDecoration(labelText: "CPF:"),
@@ -117,6 +119,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _dataDeNascimentoController,
                       decoration:
                           InputDecoration(labelText: "Data de nascimento:"),
@@ -129,6 +132,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       keyboardType: TextInputType.datetime,
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _emailController,
                       decoration: InputDecoration(labelText: "email:"),
                       onChanged: (text) {
@@ -137,6 +141,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _telefoneController,
                       decoration: InputDecoration(labelText: "Telefone:"),
                       onChanged: (text) {
@@ -145,6 +150,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _cidadeController,
                       decoration: InputDecoration(labelText: "Cidade:"),
                       onChanged: (text) {
@@ -153,6 +159,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _tipoSanguineoController,
                       decoration: InputDecoration(labelText: "Tipo sanquineo:"),
                       onChanged: (text) {
@@ -161,6 +168,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _medicamentosAlergicosController,
                       decoration:
                           InputDecoration(labelText: "Medicamentos Alérgicos:"),
@@ -170,6 +178,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       },
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _alimentosAlergicosController,
                       decoration:
                           InputDecoration(labelText: "Alimentos Alérgicos:"),
@@ -180,6 +189,7 @@ class _InformacoesDoPacienteState extends State<InformacoesDoPaciente> {
                       keyboardType: TextInputType.number,
                     ),
                     TextFormField(
+                      enabled: false,
                       controller: _intoleranciaController,
                       decoration: InputDecoration(labelText: "Intolerância:"),
                       onChanged: (text) {

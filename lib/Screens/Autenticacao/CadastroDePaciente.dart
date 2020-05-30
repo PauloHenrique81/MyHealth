@@ -1,4 +1,3 @@
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +15,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
   final _formKey = GlobalKey<FormState>();
   DateTime _date = new DateTime.now();
 
-  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
+  var maskFormatterCPF = new MaskTextInputFormatter(
+      mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')});
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -42,6 +42,25 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
   final _dataController = TextEditingController();
 
   String error = '';
+
+  _modalInvertido(String texto) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Dado inválido"),
+            content: Text("Este " + texto + " já esta cadastrado no sistema"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("voltar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +131,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         child: TextFormField(
                           validator: (val) {
                             if (val.isEmpty) return 'Digite seu CPF';
-                             if (!Util.verificaCPF(val))
-                              return 'CPF inválido';
+                            if (!Util.verificaCPF(val)) return 'CPF inválido';
                             return null;
                           },
                           onChanged: (val) {
@@ -137,9 +155,10 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: TextFormField(
-                          validator: (val){
+                          validator: (val) {
                             if (val.isEmpty) return 'Digite seu E-mail';
-                            if(!EmailValidator.validate(email)) return "E-mail inválido";
+                            if (!EmailValidator.validate(email))
+                              return "E-mail inválido";
                             return null;
                           },
                           onChanged: (val) {
@@ -164,7 +183,8 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                         child: TextFormField(
                           validator: (val) {
                             if (val != emailC) return 'E-mail diferentes ';
-                            if(!EmailValidator.validate(email)) return "E-mail inválido";
+                            if (!EmailValidator.validate(email))
+                              return "E-mail inválido";
                             if (val.isEmpty) return 'Digite seu E-mail';
                             return null;
                           },
@@ -246,15 +266,29 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
                   child: MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        dynamic result = await _auth.registrarPaciente(
-                            nome, cpf, email, senha,
-                            dataDeNascimento: _dataController.text);
-                        if (result == null) {
-                          setState(
-                              () => error = 'Erro ao realizar o cadastro.');
+                        var listaDeEmails =
+                            await _auth.listaDeEmailsCadastrado();
+
+                        if (!Util.verificaSeFoiCadastrado(
+                            email, listaDeEmails)) {
+                          var listaDeCpfs = await _auth.listaDeCpfsCadastrado();
+
+                          if (!Util.verificaSeFoiCadastrado(cpf, listaDeCpfs)) {
+                            dynamic result = await _auth.registrarPaciente(
+                                nome, cpf, email, senha,
+                                dataDeNascimento: _dataController.text);
+                            if (result == null) {
+                              setState(
+                                  () => error = 'Erro ao realizar o cadastro.');
+                            } else {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('LoginPaciente');
+                            }
+                          } else {
+                            _modalInvertido("CPF");
+                          }
                         } else {
-                          Navigator.of(context)
-                              .pushReplacementNamed('LoginPaciente');
+                          _modalInvertido("e-mail");
                         }
                       }
                     },
