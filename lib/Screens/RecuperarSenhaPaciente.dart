@@ -108,12 +108,12 @@ class _RecuperarSenhaPacienteState extends State<RecuperarSenhaPaciente> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text("e-mail inválido"),
+                                title: Text("E-mail inválido"),
                                 content: Text(
-                                    "Este e-mail não esta cadastrado no sistema"),
+                                    "Este e-mail não está cadastrado no sistema"),
                                 actions: <Widget>[
                                   FlatButton(
-                                    child: Text("voltar"),
+                                    child: Text("Voltar"),
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },

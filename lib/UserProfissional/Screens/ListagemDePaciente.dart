@@ -104,7 +104,7 @@ class _ListagemDePacientesState extends State<ListagemDePacientes> {
                           ),
                         ),
                         onTap: () {
-                          _mostrarDetalhes(uid: widget.user.uid);
+                          _mostrarDetalhes(uid: snapshot.data[index].uid);
                         },
                       );
                     });

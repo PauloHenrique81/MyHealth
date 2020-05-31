@@ -93,6 +93,8 @@ class P_Cirurgia {
       cirurgiaCollection
           .document(idCirurgia.documentID)
           .updateData({'idCirurgia': idCirurgia.documentID});
+      
+      return idCirurgia.documentID;
     } catch (e) {
       print(e.toString());
       return null;

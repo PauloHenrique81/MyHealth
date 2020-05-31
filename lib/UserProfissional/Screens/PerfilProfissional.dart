@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Persistencia/P_Profissional.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -20,8 +21,10 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
   DateTime _date = new DateTime.now();
   var _userEdited = false;
 
-  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
-var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', filter: { "#": RegExp(r'[0-9]') });
+  var maskFormatterCPF = new MaskTextInputFormatter(
+      mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')});
+  var maskFormatterTelefone = new MaskTextInputFormatter(
+      mask: '(##) #####-####', filter: {"#": RegExp(r'[0-9]')});
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -62,8 +65,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
   final _localDeAtendimentoController = TextEditingController();
   final _profissaoController = TextEditingController();
 
-
-    var profissionais = [
+  var profissionais = [
     "Médico",
     "Fisioterapeuta",
     "Psicólogo",
@@ -71,7 +73,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
     "Dentista"
   ];
 
-    String profissao = '';
+  String profissao = '';
 
   @override
   void initState() {
@@ -96,10 +98,7 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
 
     setState(() {
       profissao = _profissional.profissao;
-
     });
-    
-
   }
 
   @override
@@ -116,20 +115,19 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 await conectionDB.atualizarProfissional(
-                  widget.user.uid,
-                  _profissional.idProfissional,
-                  _nomeController.text,
-                  _localDeAtendimentoController.text,
-                  _profissaoController.text,
-                  especialidade: _especialidadeController.text,
-                  identificacao: _identificacaoController.text,
-                  telefone: _telefoneController.text,
-                  cpf: _cpfController.text,
-                  dataDeNascimento: _dataDeNascimentoController.text,
-                  sexo: _sexoController.text,
-                  email: _emailController.text,
-                  tipoUser: "Sim"
-                );
+                    widget.user.uid,
+                    _profissional.idProfissional,
+                    _nomeController.text,
+                    _localDeAtendimentoController.text,
+                    _profissaoController.text,
+                    especialidade: _especialidadeController.text,
+                    identificacao: _identificacaoController.text,
+                    telefone: _telefoneController.text,
+                    cpf: _cpfController.text,
+                    dataDeNascimento: _dataDeNascimentoController.text,
+                    sexo: _sexoController.text,
+                    email: _emailController.text,
+                    tipoUser: "Sim");
 
                 Navigator.pop(context);
               }
@@ -157,9 +155,14 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
                             });
                           },
                         ),
-                        TextField(
+                        TextFormField(
                             controller: _cpfController,
                             decoration: InputDecoration(labelText: "CPF:"),
+                            validator: (val) {
+                              if (val.isEmpty) return 'Digite seu CPF';
+                              if (!Util.verificaCPF(val)) return 'CPF inválido';
+                              return null;
+                            },
                             inputFormatters: [maskFormatterCPF],
                             onChanged: (text) {
                               _userEdited = true;
@@ -188,47 +191,59 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
                             },
                             keyboardType: TextInputType.emailAddress),
                         TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: _telefoneController,
-                            inputFormatters: [maskFormatterTelefone],
-                            decoration: InputDecoration(labelText: "Telefone:"),
-                            onChanged: (text) {
-                              _userEdited = true;
-                              _profissional.telefone = text;
-                            },
-                          ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                        child: Row(
-                          children: <Widget>[
-                            Text("Profissão : ", style:TextStyle( color: Colors.black)),
-                            Expanded(
-                              child: DropdownButton(
-                                hint: Text(profissao,style: TextStyle(color: Colors.black),),
-                                items: profissionais
-                                    .map((String progissaoEscolhida) {
-                                  return DropdownMenuItem<String>(
-                                    value: progissaoEscolhida,
-                                    child: Text(progissaoEscolhida),
-                                  );
-                                }).toList(),
-                                onChanged: (text) {
-                                  _profissaoController.text = text;
-
-                                  setState(() {
-                                    profissao = text;
-                                  });
-                                },
-                                isExpanded: true,
-                              ),
-                            )
-                          ],
+                          keyboardType: TextInputType.number,
+                          controller: _telefoneController,
+                          inputFormatters: [maskFormatterTelefone],
+                          decoration: InputDecoration(labelText: "Telefone:"),
+                          validator: (val){
+                            if(val.isEmpty) return "Digite seu telefone";
+                            return null;
+                          },
+                          onChanged: (text) {
+                            _userEdited = true;
+                            _profissional.telefone = text;
+                          },
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                          child: Row(
+                            children: <Widget>[
+                              Text("Profissão : ",
+                                  style: TextStyle(color: Colors.black)),
+                              Expanded(
+                                child: DropdownButton(
+                                  hint: Text(
+                                    profissao,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  items: profissionais
+                                      .map((String progissaoEscolhida) {
+                                    return DropdownMenuItem<String>(
+                                      value: progissaoEscolhida,
+                                      child: Text(progissaoEscolhida),
+                                    );
+                                  }).toList(),
+                                  onChanged: (text) {
+                                    _profissaoController.text = text;
+
+                                    setState(() {
+                                      profissao = text;
+                                    });
+                                  },
+                                  isExpanded: true,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         TextFormField(
                           controller: _identificacaoController,
                           decoration: InputDecoration(
                               labelText: "Identificação da profissão:"),
+                          validator: (val){
+                            if(val.isEmpty) return "Digite o codigo de ifentificação";
+                            return null;
+                          },
                           onChanged: (text) {
                             _userEdited = true;
                             _profissional.identificacao = text;
@@ -288,10 +303,9 @@ var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', 
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, 'HomePageProfissional',
-                      (Route<dynamic> route) => false ,
-                      arguments: widget.user);
+                    Navigator.pushNamedAndRemoveUntil(context,
+                        'HomePageProfissional', (Route<dynamic> route) => false,
+                        arguments: widget.user);
                   },
                 )
               ],

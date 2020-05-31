@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Persistencia/P_Paciente.dart';
+import 'package:myhealth/Service/Util.dart';
 import 'package:myhealth/class/Paciente.dart';
 import 'package:myhealth/class/user.dart';
 
@@ -20,8 +21,10 @@ class _PerfilState extends State<Perfil> {
   DateTime _date = new DateTime.now();
   var _userEdited = false;
 
-  var maskFormatterCPF = new MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
-  var maskFormatterTelefone = new MaskTextInputFormatter(mask: '(##) #####-####', filter: { "#": RegExp(r'[0-9]') });
+  var maskFormatterCPF = new MaskTextInputFormatter(
+      mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')});
+  var maskFormatterTelefone = new MaskTextInputFormatter(
+      mask: '(##) #####-####', filter: {"#": RegExp(r'[0-9]')});
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -135,11 +138,16 @@ class _PerfilState extends State<Perfil> {
                             });
                           },
                         ),
-                        TextField(
+                        TextFormField(
                           keyboardType: TextInputType.number,
                           controller: _cpfController,
                           inputFormatters: [maskFormatterCPF],
                           decoration: InputDecoration(labelText: "CPF:"),
+                          validator: (val) {
+                            if (val.isEmpty) return 'Digite seu CPF';
+                            if (!Util.verificaCPF(val)) return 'CPF inválido';
+                            return null;
+                          },
                           onChanged: (text) {
                             _userEdited = true;
                             _paciente.cpf = text;
@@ -171,6 +179,10 @@ class _PerfilState extends State<Perfil> {
                           controller: _telefoneController,
                           inputFormatters: [maskFormatterTelefone],
                           decoration: InputDecoration(labelText: "Telefone:"),
+                          validator: (val){
+                            if(val.isEmpty) return "Digite seu telefone";
+                            return null;
+                          },
                           onChanged: (text) {
                             _userEdited = true;
                             _paciente.telefone = text;
@@ -248,7 +260,8 @@ class _PerfilState extends State<Perfil> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'HomePage',arguments: widget.user);
+                    Navigator.pushReplacementNamed(context, 'HomePage',
+                        arguments: widget.user);
                   },
                 )
               ],

@@ -70,6 +70,7 @@ class P_Exame {
       exameCollection
           .document(idExame.documentID)
           .updateData({'idExame': idExame.documentID});
+      return idExame.documentID;
     } catch (e) {
       print(e.toString());
       return null;

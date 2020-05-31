@@ -102,6 +102,8 @@ class DatabaseService {
       consultaCollection
           .document(idConsulta.documentID)
           .updateData({'idConsulta': idConsulta.documentID});
+
+      return idConsulta.documentID;
     } catch (e) {
       print(e.toString());
       return null;

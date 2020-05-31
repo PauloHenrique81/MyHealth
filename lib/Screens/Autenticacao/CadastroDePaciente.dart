@@ -48,7 +48,7 @@ class _CadastroDePacienteState extends State<CadastroDePaciente> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Dado inválido"),
+            title: Text("Informação inválido"),
             content: Text("Este " + texto + " já esta cadastrado no sistema"),
             actions: <Widget>[
               FlatButton(
