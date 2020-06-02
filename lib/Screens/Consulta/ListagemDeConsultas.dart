@@ -41,7 +41,8 @@ class _ListagemDeConsultasState extends State<ListagemDeConsultas> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'HomePage',
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'HomePage', (Route<dynamic> route) => false,
                       arguments: widget.user);
                 },
               );

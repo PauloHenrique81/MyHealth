@@ -41,8 +41,7 @@ class _SolicitacoesDeConsultaState extends State<SolicitacoesDeConsulta> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'HomePageProfissional',
-                      arguments: widget.user);
+                  Navigator.of(context).pushNamedAndRemoveUntil('HomePageProfissional', (Route<dynamic> route) => false, arguments: widget.user);
                 },
               );
             },

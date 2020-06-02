@@ -260,7 +260,10 @@ class _PerfilState extends State<Perfil> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'HomePage',
+                    // Navigator.pushReplacementNamed(context, 'HomePage',
+                    //     arguments: widget.user);
+                    Navigator.pushNamedAndRemoveUntil(context,
+                        'HomePage', (Route<dynamic> route) => false,
                         arguments: widget.user);
                   },
                 )

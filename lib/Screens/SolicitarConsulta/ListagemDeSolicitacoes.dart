@@ -40,7 +40,8 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'HomePage',
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'HomePage', (Route<dynamic> route) => false,
                       arguments: widget.user);
                 },
               );
@@ -107,7 +108,9 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
                                           style: TextStyle(
                                             fontSize: 16.0,
                                           )),
-                                      Text("  " +snapshot.data[index].horario ?? "",
+                                      Text(
+                                          "  " + snapshot.data[index].horario ??
+                                              "",
                                           style: TextStyle(
                                             fontSize: 16.0,
                                           )),
@@ -117,9 +120,10 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
                                     alignment: Alignment.center,
                                     height: 10.0,
                                     decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        color: _colorStatus(snapshot.data[index].status),
-                                      ),
+                                      shape: BoxShape.rectangle,
+                                      color: _colorStatus(
+                                          snapshot.data[index].status),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -142,21 +146,25 @@ class _ListagemDeSolicitacoesState extends State<ListagemDeSolicitacoes> {
     return solicitacoes;
   }
 
-  MaterialColor _colorStatus(String status){
+  MaterialColor _colorStatus(String status) {
     switch (status) {
-      case "analise" : {
+      case "analise":
+        {
           return Colors.yellow;
-      }
-      break;
-      case "aprovado" : {
+        }
+        break;
+      case "aprovado":
+        {
           return Colors.green;
-      }
-      break;
-      case "reprovado" : {
+        }
+        break;
+      case "reprovado":
+        {
           return Colors.red;
-      }
-      break;
-      default : return Colors.white;
+        }
+        break;
+      default:
+        return Colors.white;
     }
   }
 

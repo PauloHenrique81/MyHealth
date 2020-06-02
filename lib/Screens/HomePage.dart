@@ -55,8 +55,7 @@ class _HomePage extends StatelessWidget {
                       color: Colors.white,
                       onPressed: () async {
                         await _auth.signOut();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            'PreLogin', (Route<dynamic> route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil('PreLogin', (Route<dynamic> route) => false);
                       },
                     ),
                   ],

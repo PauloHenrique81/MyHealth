@@ -42,7 +42,8 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'HomePage',
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'HomePage', (Route<dynamic> route) => false,
                       arguments: widget.user);
                 },
               );
@@ -72,7 +73,7 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                        child:  Card(
+                        child: Card(
                           child: Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Container(
@@ -83,32 +84,27 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
-                                    width: 40.0,
-                                    height: 40.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "Assets/doar-sangue.jpg"),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                      Text(
-                                          snapshot.data[index].local ??
-                                              "",
+                                        width: 40.0,
+                                        height: 40.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "Assets/doar-sangue.jpg"),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      Text(snapshot.data[index].local ?? "",
                                           style: TextStyle(fontSize: 18.0)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-
-
                                       Text(snapshot.data[index].data ?? "",
                                           style: TextStyle(fontSize: 18.0)),
                                       Text("    ",
                                           style: TextStyle(fontSize: 18.0)),
-                                     
                                       Container(
                                         alignment: Alignment.center,
                                         width: 10.0,
@@ -128,7 +124,6 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
                             ),
                           ),
                         ),
-                       
                         onTap: () {
                           _mostrarDetalhesDaConsulta(
                               doacao: doacoes[index], user: widget.user);
@@ -136,8 +131,7 @@ class _ListagemDeDoacoesState extends State<ListagemDeDoacoes> {
                       );
                     });
               }
-            })
-          );
+            }));
   }
 
   Future buscaDoacoes(String idUser) async {

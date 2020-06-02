@@ -9,7 +9,8 @@ import 'package:myhealth/class/user.dart';
 class HabilitarProfissionalListagem extends StatefulWidget {
   User user;
   bool moduloSolicitarConsulta = false;
-  HabilitarProfissionalListagem({this.user, this.moduloSolicitarConsulta}) : super();
+  HabilitarProfissionalListagem({this.user, this.moduloSolicitarConsulta})
+      : super();
 
   final String title = "Lista de Profissionais";
 
@@ -44,8 +45,8 @@ class HabilitarProfissionalListagemState
   void initState() {
     super.initState();
 
-    if(widget.moduloSolicitarConsulta == null){
-        widget.moduloSolicitarConsulta = false;
+    if (widget.moduloSolicitarConsulta == null) {
+      widget.moduloSolicitarConsulta = false;
     }
 
     ServicesHP.getProfissionaisUsers().then((usersProf) {
@@ -79,7 +80,8 @@ class HabilitarProfissionalListagemState
             return IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, 'HomePage',
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'HomePage', (Route<dynamic> route) => false,
                     arguments: widget.user);
               },
             );
@@ -166,18 +168,16 @@ class HabilitarProfissionalListagemState
   }
 
   void _mostrarDetalhes({Profissional profissional, User user}) {
-
-    if(widget.moduloSolicitarConsulta){
+    if (widget.moduloSolicitarConsulta) {
       ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, profissional: profissional);
+          new ScreeanArguments(user: user, profissional: profissional);
       Navigator.of(context)
-        .pushNamed('NovaSolicitacao', arguments: screeanArguments);
-    }else{
-       ScreeanArguments screeanArguments =
-        new ScreeanArguments(user: user, profissional: profissional);
-    Navigator.of(context)
-        .pushNamed('HabilitarProfissionalEdicao', arguments: screeanArguments);
+          .pushNamed('NovaSolicitacao', arguments: screeanArguments);
+    } else {
+      ScreeanArguments screeanArguments =
+          new ScreeanArguments(user: user, profissional: profissional);
+      Navigator.of(context).pushNamed('HabilitarProfissionalEdicao',
+          arguments: screeanArguments);
     }
-    
   }
 }

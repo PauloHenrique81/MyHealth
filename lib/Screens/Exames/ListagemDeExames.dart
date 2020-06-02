@@ -42,7 +42,8 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'HomePage',
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'HomePage', (Route<dynamic> route) => false,
                       arguments: widget.user);
                 },
               );
@@ -77,7 +78,7 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
                             padding: EdgeInsets.all(10.0),
                             child: Container(
                               child: Column(
-                             children: <Widget>[
+                                children: <Widget>[
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -93,9 +94,7 @@ class _ListagemDeExamesState extends State<ListagemDeExames> {
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      Text(
-                                          snapshot.data[index].tipoExame ??
-                                              "",
+                                      Text(snapshot.data[index].tipoExame ?? "",
                                           style: TextStyle(
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
