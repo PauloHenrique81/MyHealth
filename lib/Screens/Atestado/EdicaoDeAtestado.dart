@@ -228,7 +228,7 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
                       keyboardType: TextInputType.datetime,
                     ),
                     TextFormField(
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         controller: _quantidadeDeDiasController,
                         decoration:
                             InputDecoration(labelText: "Quantidade de dias: *"),

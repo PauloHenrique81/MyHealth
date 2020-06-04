@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myhealth/Persistencia/P_Profissional.dart';
 import 'package:myhealth/class/Profissional.dart';
 import 'package:myhealth/class/user.dart';
@@ -19,6 +20,9 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
   bool _novoProfissional = false;
 
   String profissao = "";
+
+    var maskFormatterTelefone = new MaskTextInputFormatter(
+      mask: '(##) #####-####', filter: {"#": RegExp(r'[0-9]')});
 
   var profissionais = [
     "Médico",
@@ -218,6 +222,7 @@ class _EdicaoDeProfissionalState extends State<EdicaoDeProfissional> {
                     TextFormField(
                         keyboardType: TextInputType.phone,
                         controller: _telefoneController,
+                        inputFormatters: [maskFormatterTelefone],
                         decoration: InputDecoration(labelText: "Telefone:"),
                         onChanged: (text) {
                           _userEdited = true;
