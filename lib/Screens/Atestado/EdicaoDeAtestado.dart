@@ -240,7 +240,7 @@ class _EdicaoDeAtestadoState extends State<EdicaoDeAtestado> {
                     TextFormField(
                         keyboardType: TextInputType.text,
                         controller: _motivoController,
-                        decoration: InputDecoration(labelText: "Motivo:"),
+                        decoration: InputDecoration(labelText: "CID:"),
                         onChanged: (text) {
                           _userEdited = true;
                           _atestadoEdicao.motivo = text;
